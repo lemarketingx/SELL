@@ -26,6 +26,7 @@
         <a href="#process">תהליך</a>
         <a href="#about">אודות</a>
         <a href="#reviews">לקוחות מרוצים</a>
+        <a href="#wizard">בדקו זכאות</a>
         <a href="#faq">שאלות נפוצות</a>
       </nav>
 
@@ -77,6 +78,12 @@
       </div>
     </div>
   </section>
+
+  <!-- ============ LIVE PROOF TICKER ============ -->
+  <div class="proof-ticker" id="proofTicker" aria-live="polite">
+    <span class="proof-dot"></span>
+    <span class="proof-text" id="proofText"></span>
+  </div>
 
   <!-- ============ BANKS MARQUEE ============ -->
   <div class="marquee-band">
@@ -136,7 +143,7 @@
             <span class="note-icon">◆</span> בהתאם לניסיוננו, לקוחות משיגים בממוצע שיפור של כ־<b>0.75%</b> בריבית.
           </div>
         </div>
-        <div class="calc-result">
+        <div class="calc-result spotlight">
           <div>
             <span class="result-label">חיסכון חודשי משוער בהחזר</span>
             <span class="result-value" id="saveMonthlyOut">₪0</span>
@@ -145,6 +152,16 @@
           <div>
             <span class="result-label">חיסכון מצטבר לאורך חיי ההלוואה</span>
             <span class="result-value result-value-lg" id="saveTotalOut">₪0</span>
+          </div>
+          <div class="compare-chart" aria-hidden="true">
+            <div class="compare-bar-group">
+              <div class="compare-bar-track"><div class="compare-bar compare-bar-current" id="barCurrent"></div></div>
+              <span class="compare-bar-label">ריבית בתנאים הנוכחיים<br><b id="interestCurrentOut">₪0</b></span>
+            </div>
+            <div class="compare-bar-group">
+              <div class="compare-bar-track"><div class="compare-bar compare-bar-ours" id="barOurs"></div></div>
+              <span class="compare-bar-label">ריבית בתנאים שנשיג לכם<br><b id="interestOursOut">₪0</b></span>
+            </div>
           </div>
           <a href="#contact" class="btn btn-gold-solid">קבלו הערכה מדויקת ←</a>
         </div>
@@ -181,7 +198,7 @@
             <input class="mf-range" type="range" min="3" max="7" step="0.1" value="5.2" id="rate2">
           </div>
         </div>
-        <div class="calc-result">
+        <div class="calc-result spotlight">
           <div>
             <span class="result-label">סכום המשכנתא הנדרש</span>
             <span class="result-value" id="loanAmountOut">₪0</span>
@@ -195,6 +212,19 @@
           <div>
             <span class="result-label">סך הריבית לאורך ההלוואה</span>
             <span class="result-value" id="mortgageInterestOut">₪0</span>
+          </div>
+          <div class="amort-chart">
+            <svg id="amortSvg" viewBox="0 0 400 140" preserveAspectRatio="none" aria-hidden="true">
+              <line x1="0" y1="35" x2="400" y2="35" class="amort-grid"></line>
+              <line x1="0" y1="70" x2="400" y2="70" class="amort-grid"></line>
+              <line x1="0" y1="105" x2="400" y2="105" class="amort-grid"></line>
+              <polyline id="amortBalanceLine" class="amort-line amort-line-balance" points=""></polyline>
+              <polyline id="amortInterestLine" class="amort-line amort-line-interest" points=""></polyline>
+            </svg>
+            <div class="amort-legend">
+              <span><i class="amort-dot amort-dot-balance"></i> יתרת קרן שנותרה</span>
+              <span><i class="amort-dot amort-dot-interest"></i> ריבית שנצברה במצטבר</span>
+            </div>
           </div>
           <a href="#contact" class="btn btn-gold-solid">קבלו הערכה מדויקת ←</a>
         </div>
@@ -305,7 +335,7 @@
 
     <!-- MASORAVIM SPECIALIZATION -->
     <div class="container">
-      <div class="specialization-card reveal">
+      <div class="specialization-card spotlight reveal">
         <div>
           <span class="eyebrow eyebrow-light">תחום התמחות</span>
           <h3>התמחות במסורבי משכנתא</h3>
@@ -323,7 +353,7 @@
   </section>
 
   <!-- ============ PROCESS ============ -->
-  <section class="process" id="process">
+  <section class="process spotlight" id="process">
     <div class="container">
       <div class="section-head reveal center light">
         <span class="eyebrow eyebrow-light">תהליך העבודה שלנו</span>
@@ -495,10 +525,78 @@
     </div>
   </section>
 
+  <!-- ============ ELIGIBILITY WIZARD ============ -->
+  <section class="wizard" id="wizard">
+    <div class="container">
+      <div class="section-head reveal center">
+        <span class="eyebrow">בדיקת התאמה</span>
+        <h2>בדקו תוך דקה אם יש לכם פוטנציאל חיסכון</h2>
+        <p>ארבע שאלות קצרות — ואנחנו נגיד לכם אם יש טעם להיפגש.</p>
+      </div>
+
+      <div class="wizard-card reveal">
+        <div class="wizard-progress"><div class="wizard-progress-fill" id="wizardProgressFill"></div></div>
+        <div class="wizard-steps" id="wizardSteps">
+
+          <div class="wizard-step is-active" data-step="1">
+            <h3>מה מטרת הפנייה?</h3>
+            <div class="wizard-options">
+              <button type="button" class="wizard-option" data-answer="משכנתא חדשה">משכנתא חדשה</button>
+              <button type="button" class="wizard-option" data-answer="מחזור משכנתא">מחזור משכנתא קיימת</button>
+              <button type="button" class="wizard-option" data-answer="איחוד הלוואות">איחוד הלוואות</button>
+              <button type="button" class="wizard-option" data-answer="נדחיתי בעבר">נדחיתי בעבר בבנק</button>
+            </div>
+          </div>
+
+          <div class="wizard-step" data-step="2">
+            <h3>מה גובה המשכנתא המבוקש?</h3>
+            <div class="wizard-options">
+              <button type="button" class="wizard-option" data-answer="עד ₪800,000">עד ₪800,000</button>
+              <button type="button" class="wizard-option" data-answer="₪800,000–1,500,000">₪800,000–1,500,000</button>
+              <button type="button" class="wizard-option" data-answer="₪1,500,000–3,000,000">₪1,500,000–3,000,000</button>
+              <button type="button" class="wizard-option" data-answer="מעל ₪3,000,000">מעל ₪3,000,000</button>
+            </div>
+          </div>
+
+          <div class="wizard-step" data-step="3">
+            <h3>כמה הון עצמי יש לכם?</h3>
+            <div class="wizard-options">
+              <button type="button" class="wizard-option" data-answer="עד 10%">עד 10%</button>
+              <button type="button" class="wizard-option" data-answer="10%–25%">10%–25%</button>
+              <button type="button" class="wizard-option" data-answer="25%–50%">25%–50%</button>
+              <button type="button" class="wizard-option" data-answer="מעל 50%">מעל 50%</button>
+            </div>
+          </div>
+
+          <div class="wizard-step" data-step="4">
+            <h3>מתי הייתם רוצים לפעול?</h3>
+            <div class="wizard-options">
+              <button type="button" class="wizard-option" data-answer="באופן מיידי">באופן מיידי</button>
+              <button type="button" class="wizard-option" data-answer="בחודש הקרוב">בחודש הקרוב</button>
+              <button type="button" class="wizard-option" data-answer="בחודשים הקרובים">בחודשים הקרובים</button>
+              <button type="button" class="wizard-option" data-answer="בודקים אפשרויות">רק בודקים אפשרויות</button>
+            </div>
+          </div>
+
+          <div class="wizard-step wizard-result" data-step="5">
+            <div class="wizard-result-icon">✓</div>
+            <h3>מעולה, יש לכם התאמה גבוהה!</h3>
+            <p>בהתאם למה שסימנתם, נראה שנוכל לעזור לכם באופן משמעותי. נשמח לקבוע איתכם שיחת ייעוץ קצרה — ללא עלות וללא התחייבות.</p>
+            <a href="#contact" class="btn btn-gold-solid" id="wizardCta">לקביעת שיחת ייעוץ ←</a>
+          </div>
+
+        </div>
+        <div class="wizard-back-row">
+          <button type="button" class="wizard-back" id="wizardBack" hidden>← חזרה לשאלה הקודמת</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ CONTACT ============ -->
   <section class="contact" id="contact">
     <div class="container contact-grid">
-      <div class="contact-info reveal">
+      <div class="contact-info spotlight reveal">
         <span class="eyebrow eyebrow-light">צרו קשר</span>
         <h2>רשת הביטחון שלך בעולם המשכנתאות</h2>
         <p>השאירו פרטים ונחזור אליכם לייעוץ ראשוני — ללא עלות וללא התחייבות.</p>

@@ -8,6 +8,37 @@ document.addEventListener('DOMContentLoaded', () => {
     return principal * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
   };
 
+  // Live proof ticker
+  const proofText = document.getElementById('proofText');
+  if (proofText) {
+    const proofMessages = [
+      'לקוח מבאר שבע חסך ₪190,000 השבוע',
+      'משפחה מחיפה קיבלה אישור עקרוני תוך 48 שעות',
+      'לקוחה מדימונה מיחזרה משכנתא וחסכה ₪1,450 בחודש',
+      'לקוח שנדחה בעבר קיבל אישור משכנתא החודש',
+      'זוג מבאר יעקב חתם על משכנתא ראשונה השבוע',
+    ];
+    let proofIdx = 0;
+    proofText.textContent = proofMessages[0];
+    setInterval(() => {
+      proofText.classList.add('is-fading');
+      setTimeout(() => {
+        proofIdx = (proofIdx + 1) % proofMessages.length;
+        proofText.textContent = proofMessages[proofIdx];
+        proofText.classList.remove('is-fading');
+      }, 350);
+    }, 4200);
+  }
+
+  // Spotlight glow that follows the cursor on dark panels
+  document.querySelectorAll('.spotlight').forEach((panel) => {
+    panel.addEventListener('mousemove', (e) => {
+      const rect = panel.getBoundingClientRect();
+      panel.style.setProperty('--spot-x', ((e.clientX - rect.left) / rect.width * 100) + '%');
+      panel.style.setProperty('--spot-y', ((e.clientY - rect.top) / rect.height * 100) + '%');
+    });
+  });
+
   // FAQ accordion
   document.querySelectorAll('.faq-item').forEach(item => {
     const btn = item.querySelector('.faq-q');
@@ -103,20 +134,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const rateOut = document.getElementById('rateOut');
     const saveMonthlyOut = document.getElementById('saveMonthlyOut');
     const saveTotalOut = document.getElementById('saveTotalOut');
+    const interestCurrentOut = document.getElementById('interestCurrentOut');
+    const interestOursOut = document.getElementById('interestOursOut');
+    const barCurrent = document.getElementById('barCurrent');
+    const barOurs = document.getElementById('barOurs');
 
     const updateSavings = () => {
       const a = +amount.value;
       const y = +years.value;
       const r = +rate.value;
       const ourRate = Math.max(r - 0.75, 1.5);
-      const saveMonthly = Math.max(monthly(a, r, y) - monthly(a, ourRate, y), 0);
+      const monthlyCurrent = monthly(a, r, y);
+      const monthlyOurs = monthly(a, ourRate, y);
+      const saveMonthly = Math.max(monthlyCurrent - monthlyOurs, 0);
       const saveTotal = saveMonthly * y * 12;
+      const interestCurrent = Math.max(monthlyCurrent * y * 12 - a, 0);
+      const interestOurs = Math.max(monthlyOurs * y * 12 - a, 0);
 
       amountOut.textContent = fmtILS(a);
       yearsOut.textContent = y + ' שנים';
       rateOut.textContent = r.toFixed(1) + '%';
       saveMonthlyOut.textContent = fmtILS(saveMonthly);
       saveTotalOut.textContent = fmtILS(saveTotal);
+
+      interestCurrentOut.textContent = fmtILS(interestCurrent);
+      interestOursOut.textContent = fmtILS(interestOurs);
+      const maxInterest = Math.max(interestCurrent, interestOurs, 1);
+      barCurrent.style.height = Math.max(interestCurrent / maxInterest * 100, 4) + '%';
+      barOurs.style.height = Math.max(interestOurs / maxInterest * 100, 4) + '%';
     };
     [amount, years, rate].forEach(el => el.addEventListener('input', updateSavings));
     updateSavings();
@@ -135,6 +180,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const loanAmountOut = document.getElementById('loanAmountOut');
     const mortgageMonthlyOut = document.getElementById('mortgageMonthlyOut');
     const mortgageInterestOut = document.getElementById('mortgageInterestOut');
+    const amortBalanceLine = document.getElementById('amortBalanceLine');
+    const amortInterestLine = document.getElementById('amortInterestLine');
+
+    // Yearly amortization series: balance remaining (% of loan) vs cumulative interest (% of total interest)
+    const amortizationSeries = (principal, annualPct, years, payment) => {
+      const r = annualPct / 100 / 12;
+      const n = years * 12;
+      let balance = principal;
+      let cumInterest = 0;
+      const points = [{ balance, cumInterest: 0 }];
+      for (let m = 1; m <= n; m++) {
+        const interest = balance * r;
+        const principalPaid = Math.min(payment - interest, balance);
+        balance = Math.max(balance - principalPaid, 0);
+        cumInterest += interest;
+        if (m % 12 === 0 || m === n) points.push({ balance, cumInterest });
+      }
+      return points;
+    };
 
     const updateMortgage = () => {
       const p = +price.value;
@@ -153,9 +217,60 @@ document.addEventListener('DOMContentLoaded', () => {
       loanAmountOut.textContent = fmtILS(loanAmount);
       mortgageMonthlyOut.textContent = fmtILS(mortgageMonthly);
       mortgageInterestOut.textContent = fmtILS(mortgageInterest);
+
+      if (amortBalanceLine && amortInterestLine) {
+        const series = amortizationSeries(loanAmount, r, y, mortgageMonthly);
+        const maxInterest = Math.max(mortgageInterest, 1);
+        const w = 400, h = 140, pad = 6;
+        const step = (w - pad * 2) / (series.length - 1);
+        const balancePts = series.map((pt, i) => {
+          const x = pad + i * step;
+          const yVal = pad + (1 - pt.balance / loanAmount) * (h - pad * 2);
+          return x + ',' + yVal;
+        }).join(' ');
+        const interestPts = series.map((pt, i) => {
+          const x = pad + i * step;
+          const yVal = h - pad - (pt.cumInterest / maxInterest) * (h - pad * 2);
+          return x + ',' + yVal;
+        }).join(' ');
+        amortBalanceLine.setAttribute('points', balancePts);
+        amortInterestLine.setAttribute('points', interestPts);
+      }
     };
     [price, downPct, years2, rate2].forEach(el => el.addEventListener('input', updateMortgage));
     updateMortgage();
+  }
+
+  // Eligibility wizard
+  const wizardSteps = document.querySelectorAll('.wizard-step');
+  const wizardProgressFill = document.getElementById('wizardProgressFill');
+  const wizardBack = document.getElementById('wizardBack');
+  if (wizardSteps.length) {
+    const totalSteps = wizardSteps.length;
+    let currentStep = 1;
+
+    const goToStep = (stepNum) => {
+      wizardSteps.forEach((step) => {
+        step.classList.toggle('is-active', +step.dataset.step === stepNum);
+      });
+      wizardProgressFill.style.width = (stepNum / totalSteps * 100) + '%';
+      wizardBack.hidden = stepNum <= 1;
+      currentStep = stepNum;
+    };
+
+    wizardSteps.forEach((step) => {
+      step.querySelectorAll('.wizard-option').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          step.querySelectorAll('.wizard-option').forEach((b) => b.classList.remove('is-selected'));
+          btn.classList.add('is-selected');
+          setTimeout(() => goToStep(currentStep + 1), 250);
+        });
+      });
+    });
+
+    wizardBack.addEventListener('click', () => {
+      if (currentStep > 1) goToStep(currentStep - 1);
+    });
   }
 
   // Contact form (front-end validation + friendly confirmation)
