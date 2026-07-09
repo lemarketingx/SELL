@@ -7,47 +7,34 @@
 <meta name="description" content="מאי פיננסים - חברת בוטיק לייעוץ משכנתאות פרטי. משכנתא חדשה, מחזור משכנתא, איחוד הלוואות, משכנתא הפוכה ופתרונות מימון מותאמים אישית.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=Frank+Ruhl+Libre:wght@500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;600;700;900&family=Assistant:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-<!-- decorative background -->
-<div class="bg-decor" aria-hidden="true"></div>
 
 <!-- ============ HEADER ============ -->
 <header class="site-header" id="header">
   <div class="container header-inner">
     <a href="#top" class="brand">
-      <span class="brand-mark">MF</span>
-      <span class="brand-text">
-        <strong>מאי פיננסים</strong>
-        <small>ייעוץ משכנתאות פרטי</small>
-      </span>
+      <img src="https://mayfn.co.il/wp-content/uploads/2023/12/LOGO-FIX-M.png" alt="מאי פיננסים" class="brand-logo">
     </a>
 
     <div class="nav-wrap" id="navWrap">
       <nav class="main-nav" id="mainNav">
-        <a href="#about">אודות</a>
         <a href="#services">שירותים</a>
-        <a href="#process">איך זה עובד</a>
-        <a href="#testimonials">לקוחות מרוצים</a>
+        <a href="#calc">מחשבונים</a>
+        <a href="#process">תהליך</a>
+        <a href="#about">אודות</a>
+        <a href="#reviews">לקוחות מרוצים</a>
         <a href="#faq">שאלות נפוצות</a>
-        <a href="#contact">צור קשר</a>
       </nav>
 
       <div class="header-cta">
-        <a href="tel:*6629" class="btn btn-ghost">
-          <svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M6.6 10.8c1.4 2.8 3.7 5.1 6.5 6.5l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1L6.6 10.8z"/></svg>
-          6629*
+        <a href="tel:*6629" class="btn btn-dark">
+          <span class="btn-icon">☎</span> ייעוץ חינם · 6629*
         </a>
-        <a href="#contact" class="btn btn-primary">ייעוץ ראשוני חינם</a>
       </div>
     </div>
-
-    <button class="nav-toggle" id="navToggle" aria-label="פתח תפריט" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
   </div>
 </header>
 
@@ -57,53 +44,223 @@
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy reveal">
-        <span class="eyebrow">בוטיק ייעוץ משכנתאות • מאז 2021</span>
-        <h1>המשכנתא שלכם <span class="text-accent">מגיעה עם יועץ</span>, לא רק עם ריבית</h1>
+        <span class="eyebrow eyebrow-badge"><span class="dot"></span> חברת בוטיק לייעוץ משכנתאות</span>
+        <h1>המשכנתא שלך יכולה<br>להיות הרבה יותר<br><span class="text-accent">משתלמת.</span></h1>
         <p class="hero-lead">
-          מאי פיננסים היא חברת בוטיק לייעוץ משכנתאות, שבונה עבורכם תמהיל מימון בטוח ומשתלם,
-          מנהלת מו"מ מול הבנקים, ומלווה אתכם מהפגישה הראשונה ועד החתימה על המשכנתא.
+          ייעוץ משכנתאות שקוף שיודע לחסוך לך מאות אלפי שקלים. תהליך מהיר וברור, תמהיל בטוח ומשתלם, ומשא ומתן אגרסיבי מול הבנקים — עד לתנאים הטובים ביותר בשוק.
         </p>
         <div class="hero-actions">
-          <a href="#contact" class="btn btn-primary btn-lg">קביעת פגישת ייעוץ חינם</a>
-          <a href="tel:*6629" class="btn btn-outline btn-lg">חייגו 6629*</a>
+          <a href="#contact" class="btn btn-gold btn-lg">לייעוץ ראשוני ללא עלות ←</a>
+          <a href="#calc" class="btn btn-outline btn-lg">כמה תוכלו לחסוך?</a>
         </div>
         <div class="hero-trust">
-          <div class="trust-item"><strong>4+</strong><span>שנות ניסיון</span></div>
-          <div class="trust-item"><strong>500+</strong><span>תיקי משכנתא</span></div>
-          <div class="trust-item"><strong>100%</strong><span>ליווי אישי</span></div>
+          <div class="trust-item"><strong>מאות אלף ₪</strong><span>חיסכון ללקוח לאורך ההלוואה</span></div>
+          <div class="trust-item"><strong>4+ שנים</strong><span>של מומחיות פיננסית</span></div>
+          <div class="trust-item"><strong>★ 5.0</strong><span>דירוג לקוחות מרוצים</span></div>
         </div>
       </div>
 
-      <div class="hero-visual reveal" aria-hidden="true">
-        <div class="hero-card card-main">
-          <div class="hc-row">
-            <span class="hc-label">תמהיל מומלץ</span>
-            <span class="hc-badge">מותאם אישית</span>
-          </div>
-          <div class="hc-bars">
-            <div class="hc-bar" style="--w:38%"><span>פריים</span></div>
-            <div class="hc-bar" style="--w:32%"><span>קבועה לא צמודה</span></div>
-            <div class="hc-bar" style="--w:30%"><span>משתנה כל 5</span></div>
+      <div class="hero-visual reveal">
+        <div class="hero-photo-frame" aria-hidden="true"></div>
+        <div class="hero-photo">
+          <img src="https://mayfn.co.il/wp-content/uploads/2024/09/Shai-1024x1024.jpg" alt="שי אשטמקר, יועץ משכנתאות">
+          <div class="hero-photo-overlay"></div>
+          <div class="hero-photo-caption">
+            <strong>שי אשטמקר</strong>
+            <span>יועץ מוסמך · חבר איגוד יועצי המשכנתאות</span>
           </div>
         </div>
-        <div class="hero-card card-float-1">
-          <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 2 2 7v2h20V7L12 2zm-8 9v8H2v2h20v-2h-2v-8h-2v8h-3v-8h-2v8h-3v-8H8v8H5v-8H4z"/></svg>
-          <div><strong>מו"מ מול הבנקים</strong><span>ההצעה הכי משתלמת</span></div>
-        </div>
-        <div class="hero-card card-float-2">
-          <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>
-          <div><strong>אישור עקרוני</strong><span>בהליך מהיר</span></div>
+        <div class="hero-float-card">
+          <span class="hf-label">חיסכון ממוצע ללקוח</span>
+          <span class="hf-value">₪180,000+</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ LOGOS STRIP ============ -->
-  <section class="logos-strip reveal">
+  <!-- ============ BANKS MARQUEE ============ -->
+  <div class="marquee-band">
+    <div class="container marquee-head">
+      <span class="marquee-title">מנהלים עבורכם משא ומתן מול כל הבנקים והגופים המממנים</span>
+      <span class="marquee-sep">•</span>
+      <span class="marquee-rating">
+        <span class="stars">★★★★★</span>
+        <b>5.0</b> · 65 ביקורות
+        <span class="google-g"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span>
+      </span>
+    </div>
+    <div class="marquee-track" aria-hidden="true">
+      <span>לאומי</span><span>הפועלים</span><span>מזרחי טפחות</span><span>דיסקונט</span><span>בנק ירושלים</span><span>מרכנתיל</span><span>אגוד</span>
+      <span>לאומי</span><span>הפועלים</span><span>מזרחי טפחות</span><span>דיסקונט</span><span>בנק ירושלים</span><span>מרכנתיל</span><span>אגוד</span>
+    </div>
+  </div>
+
+  <!-- ============ CALCULATOR ============ -->
+  <section class="calc-section" id="calc">
     <div class="container">
-      <p class="logos-title">בשיתוף פעולה עם מובילי המערכת הפיננסית</p>
-      <div class="logos-row">
-        <span>בנק לאומי</span><span>בנק הפועלים</span><span>בנק מזרחי טפחות</span><span>בנק דיסקונט</span><span>איגוד יועצי המשכנתאות</span>
+      <div class="section-head reveal center">
+        <span class="eyebrow">מחשבונים</span>
+        <h2>בדקו את המספרים שלכם</h2>
+        <p>הערכה מהירה — לחיסכון פוטנציאלי במחזור, או לתשלום החודשי במשכנתא חדשה. הערכה בלבד — התוצאה המדויקת נקבעת בפגישה.</p>
+      </div>
+
+      <div class="calc-tabs reveal" role="tablist">
+        <button type="button" class="calc-tab is-active" id="tabSavings" role="tab" aria-selected="true">מחשבון חיסכון במחזור</button>
+        <button type="button" class="calc-tab" id="tabMortgage" role="tab" aria-selected="false">מחשבון משכנתא חדשה</button>
+      </div>
+
+      <div class="calc-card reveal" id="calcSavings" role="tabpanel">
+        <div class="calc-inputs">
+          <div class="slider-field">
+            <div class="slider-head">
+              <span>גובה המשכנתא</span>
+              <span class="slider-value" id="amountOut">₪1,200,000</span>
+            </div>
+            <input class="mf-range" type="range" min="300000" max="3000000" step="50000" value="1200000" id="amount">
+          </div>
+          <div class="slider-field">
+            <div class="slider-head">
+              <span>תקופת ההחזר</span>
+              <span class="slider-value" id="yearsOut">25 שנים</span>
+            </div>
+            <input class="mf-range" type="range" min="10" max="30" step="1" value="25" id="years">
+          </div>
+          <div class="slider-field">
+            <div class="slider-head">
+              <span>הריבית הנוכחית שלכם</span>
+              <span class="slider-value" id="rateOut">5.0%</span>
+            </div>
+            <input class="mf-range" type="range" min="3" max="7" step="0.1" value="5" id="rate">
+          </div>
+          <div class="calc-note">
+            <span class="note-icon">◆</span> בהתאם לניסיוננו, לקוחות משיגים בממוצע שיפור של כ־<b>0.75%</b> בריבית.
+          </div>
+        </div>
+        <div class="calc-result">
+          <div>
+            <span class="result-label">חיסכון חודשי משוער בהחזר</span>
+            <span class="result-value" id="saveMonthlyOut">₪0</span>
+          </div>
+          <div class="result-divider"></div>
+          <div>
+            <span class="result-label">חיסכון מצטבר לאורך חיי ההלוואה</span>
+            <span class="result-value result-value-lg" id="saveTotalOut">₪0</span>
+          </div>
+          <a href="#contact" class="btn btn-gold-solid">קבלו הערכה מדויקת ←</a>
+        </div>
+      </div>
+
+      <div class="calc-card is-hidden" id="calcMortgage" role="tabpanel">
+        <div class="calc-inputs">
+          <div class="slider-field">
+            <div class="slider-head">
+              <span>שווי הנכס</span>
+              <span class="slider-value" id="priceOut">₪1,800,000</span>
+            </div>
+            <input class="mf-range" type="range" min="500000" max="6000000" step="50000" value="1800000" id="price">
+          </div>
+          <div class="slider-field">
+            <div class="slider-head">
+              <span>הון עצמי</span>
+              <span class="slider-value" id="downPctOut">25%</span>
+            </div>
+            <input class="mf-range" type="range" min="10" max="75" step="5" value="25" id="downPct">
+          </div>
+          <div class="slider-field">
+            <div class="slider-head">
+              <span>תקופת ההחזר</span>
+              <span class="slider-value" id="years2Out">25 שנים</span>
+            </div>
+            <input class="mf-range" type="range" min="10" max="30" step="1" value="25" id="years2">
+          </div>
+          <div class="slider-field">
+            <div class="slider-head">
+              <span>ריבית משוערת</span>
+              <span class="slider-value" id="rate2Out">5.2%</span>
+            </div>
+            <input class="mf-range" type="range" min="3" max="7" step="0.1" value="5.2" id="rate2">
+          </div>
+        </div>
+        <div class="calc-result">
+          <div>
+            <span class="result-label">סכום המשכנתא הנדרש</span>
+            <span class="result-value" id="loanAmountOut">₪0</span>
+          </div>
+          <div class="result-divider"></div>
+          <div>
+            <span class="result-label">החזר חודשי משוער</span>
+            <span class="result-value result-value-lg" id="mortgageMonthlyOut">₪0</span>
+          </div>
+          <div class="result-divider"></div>
+          <div>
+            <span class="result-label">סך הריבית לאורך ההלוואה</span>
+            <span class="result-value" id="mortgageInterestOut">₪0</span>
+          </div>
+          <a href="#contact" class="btn btn-gold-solid">קבלו הערכה מדויקת ←</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-head reveal split">
+        <div>
+          <span class="eyebrow">שירותי החברה</span>
+          <h2>פתרון מותאם לכל צורך פיננסי</h2>
+        </div>
+        <p>מייעוץ משכנתא קלאסי ועד מוצרים מורכבים המבוססים על עיקרון המשכנתא — הכל תחת קורת גג אחת.</p>
+      </div>
+
+      <div class="services-grid">
+        <a href="#contact" class="service-card reveal">
+          <div class="sc-digit">01</div>
+          <div class="sc-icon">01</div>
+          <h3>משכנתא חדשה</h3>
+          <p>הלוואת המשכנתא הקלאסית לרכישת נכס — תמהיל בטוח ומשתלם שנבנה בדיוק לצרכים שלכם.</p>
+          <span class="sc-link">מידע נוסף ←</span>
+        </a>
+
+        <a href="#contact" class="service-card reveal">
+          <div class="sc-digit">02</div>
+          <div class="sc-icon">02</div>
+          <h3>מחזור משכנתא</h3>
+          <p>בחינה מחדש של המשכנתא הקיימת כדי להוזיל החזרים חודשיים ולחסוך עשרות אלפי שקלים.</p>
+          <span class="sc-link">מידע נוסף ←</span>
+        </a>
+
+        <a href="#contact" class="service-card reveal">
+          <div class="sc-digit">03</div>
+          <div class="sc-icon">03</div>
+          <h3>משכנתא למסורבים</h3>
+          <p>פתרונות מימון יצירתיים למי שנדחה בבנק — בעזרת ייעוץ מקצועי ודרכים חלופיות.</p>
+          <span class="sc-link">מידע נוסף ←</span>
+        </a>
+
+        <a href="#contact" class="service-card reveal">
+          <div class="sc-digit">04</div>
+          <div class="sc-icon">04</div>
+          <h3>איחוד הלוואות</h3>
+          <p>איסוף כלל החובות להלוואה אחת מסודרת ומשתלמת — עושים סדר וחוסכים בעמלות.</p>
+          <span class="sc-link">מידע נוסף ←</span>
+        </a>
+
+        <a href="#contact" class="service-card reveal">
+          <div class="sc-digit">05</div>
+          <div class="sc-icon">05</div>
+          <h3>משכנתא הפוכה</h3>
+          <p>הכנסה חודשית או סכום חד-פעמי כנגד שווי הנכס, מבלי למכור או לעזוב את הבית.</p>
+          <span class="sc-link">מידע נוסף ←</span>
+        </a>
+
+        <a href="#contact" class="service-card reveal">
+          <div class="sc-digit">06</div>
+          <div class="sc-icon">06</div>
+          <h3>הלוואה לכל מטרה</h3>
+          <p>חתונה, שיפוץ, הוצאה רפואית או כל צורך — מימון גמיש בתנאים אטרקטיביים.</p>
+          <span class="sc-link">מידע נוסף ←</span>
+        </a>
       </div>
     </div>
   </section>
@@ -113,102 +270,54 @@
     <div class="container about-grid">
       <div class="about-visual reveal">
         <div class="about-frame">
-          <div class="about-frame-inner">
-            <span class="quote-mark">”</span>
-            <p>לא תיתכן מקצוענות בלי תודעת שירות, ואין דרך לספק שירות מעולה בלי להיות מקצוען בתחום.</p>
-            <div class="about-sign">
-              <strong>שי אשטמקר</strong>
-              <span>מייסד ויועץ משכנתאות פרטי מוסמך</span>
-            </div>
-          </div>
+          <img src="img/reviews/ormichael.png" alt="פגישת ייעוץ וחתימה על משכנתא">
+        </div>
+        <div class="about-badge-years">
+          <strong>4+</strong>
+          <span>שנות מומחיות</span>
+        </div>
+        <div class="about-badge-member">
+          <span class="check">✓</span>
+          <span>חברים באיגוד יועצי המשכנתאות</span>
         </div>
       </div>
 
       <div class="about-copy reveal">
-        <span class="eyebrow">מי אנחנו</span>
-        <h2>יועץ משכנתאות פרטי שלוקח אתכם ברצינות</h2>
+        <span class="eyebrow">אודות מאי פיננסים</span>
+        <h2>יועץ משכנתאות שלוקח אתכם ברצינות</h2>
         <p>
-          מאי פיננסים הוקמה על ידי <strong>שי אשטמקר</strong>, יועץ משכנתאות פרטי מוסמך, בעל תואר ראשון בכלכלה
-          וחבר באיגוד יועצי המשכנתאות. לצד ייעוץ משכנתאות קלאסי לרכישת דירה, אנחנו מתמחים גם במוצרים
-          פיננסיים מורכבים המבוססים על עיקרון המשכנתא — משכנתאות עסקיות, איחודי הלוואות, משכנתא הפוכה ועוד.
+          מאי פיננסים היא חברת בוטיק ייחודית לייעוץ משכנתאות, שיודעת להציע ללקוחותיה פתרונות מגוונים ומשוכללים של הלוואות משכנתא והלוואות לכל מטרה. החברה נוסדה לפני 4 שנים על ידי <strong>שי אשטמקר</strong> — יועץ משכנתאות מוסמך, בעל תואר ראשון בכלכלה וחבר באיגוד יועצי המשכנתאות.
         </p>
-
-        <div class="about-feature">
-          <div class="af-icon">
-            <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 2 2 7l10 5 8-4v6h2V7L12 2zM4 10.2V15c0 2.8 3.6 5 8 5s8-2.2 8-5v-4.8l-8 4-8-4z"/></svg>
-          </div>
-          <div>
-            <h3>One Stop Shop למשכנתא שלכם</h3>
-            <p>ממיפוי הצורך, דרך אנליזה פיננסית והרכבת תמהיל, ועד ניהול מו"מ מול הבנקים, תיאום שמאות והשגת ביטוחי המשכנתא המשתלמים — כל התהליך תחת קורת גג אחת.</p>
-          </div>
+        <p>
+          ה-DNA של מאי פיננסים מושתת על שני אדנים: מקצוענות חסרת פשרות ותודעת שירות מפותחת. מרגע שהמשכנתא עומדת על הפרק — אנחנו נותנים לכם מעטפת מלאה לכל התהליך.
+        </p>
+        <p class="muted">
+          מבינים את הצורך, מבצעים אנליזה פיננסית, מרכיבים את התמהיל הבטוח והמשתלם ביותר, מנהלים משא ומתן מול הבנקים, ומטפלים בכל הבירוקרטיה — כולל שמאות וביטוח משכנתא — עד החתימה.
+        </p>
+        <div class="pillars-grid">
+          <div class="pillar-card"><span class="pillar-icon">◆</span><span>מקצוענות חסרת פשרות</span></div>
+          <div class="pillar-card"><span class="pillar-icon">◆</span><span>תודעת שירות מפותחת</span></div>
+          <div class="pillar-card"><span class="pillar-icon">◆</span><span>שקיפות מלאה בעמלות</span></div>
+          <div class="pillar-card"><span class="pillar-icon">◆</span><span>ליווי אישי עד החתימה</span></div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- ============ SERVICES ============ -->
-  <section class="services" id="services">
+    <!-- MASORAVIM SPECIALIZATION -->
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">שירותי החברה</span>
-        <h2>פתרונות משכנתא לכל מצב</h2>
-        <p>מרכישת דירה ראשונה ועד מצבים פיננסיים מורכבים — נמצא לכם את הפתרון המדויק.</p>
-      </div>
-
-      <div class="services-grid">
-        <article class="service-card reveal">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg>
-          </div>
-          <h3>משכנתא חדשה</h3>
-          <p>הלוואת המשכנתא הקלאסית לרכישת נכס נדל"ן, בתמהיל הבטוח והמשתלם ביותר עבורכם.</p>
-          <a href="#contact" class="sc-link">בדקו זכאות <span>&larr;</span></a>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M17.65 6.35A8 8 0 1 0 20 12h-2a6 6 0 1 1-1.76-4.24L13 11h7V4l-2.35 2.35z"/></svg>
-          </div>
-          <h3>מחזור משכנתא</h3>
-          <p>ניצול תנאי השוק העדכניים לשיפור הריבית ותנאי המשכנתא הקיימת שלכם, בהתאמה אישית מלאה.</p>
-          <a href="#contact" class="sc-link">בדקו כדאיות <span>&larr;</span></a>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M4 4h7v7H4V4zm0 9h7v7H4v-7zM13 4h7v7h-7V4zm0 9h7v7h-7v-7z"/></svg>
-          </div>
-          <h3>איחוד הלוואות</h3>
-          <p>איחוד כלל החובות למערכת הפיננסית להלוואה אחת, תוך ניצול יתרונות המשכנתא להוזלת ההחזר החודשי.</p>
-          <a href="#contact" class="sc-link">למידע נוסף <span>&larr;</span></a>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M12 2 2 7v2h20V7L12 2zM4 11v8H2v2h20v-2h-2v-8h-2v8h-3v-8h-2v8h-3v-8H8v8H5v-8H4z"/></svg>
-          </div>
-          <h3>משכנתא למסורבים</h3>
-          <p>נדחיתם ע"י הבנק? קיימות דרכים חלופיות ויצירתיות להשגת מימון בעזרת ליווי מקצועי.</p>
-          <a href="#contact" class="sc-link">בואו נבדוק פתרון <span>&larr;</span></a>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M12 21s-6.7-4.3-9.3-8.4C1 9.6 2 6 5.4 5 7.6 4.4 9.8 5.3 11 7c.9-1.6 3.1-2.5 5.3-2 3.4 1 4.4 4.6 2.7 7.6C16.4 16.7 12 21 12 21z"/></svg>
-          </div>
-          <h3>משכנתא הפוכה</h3>
-          <p>הכנסה חודשית או סכום חד-פעמי לבעלי בתים מגיל 62+, כנגד שווי הנכס — מבלי למכור או לעזוב אותו.</p>
-          <a href="#contact" class="sc-link">בדקו התאמה <span>&larr;</span></a>
-        </article>
-
-        <article class="service-card reveal">
-          <div class="sc-icon">
-            <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h12v2H3v-2z"/></svg>
-          </div>
-          <h3>הלוואה לכל מטרה</h3>
-          <p>חתונה, שיפוץ או הוצאה בלתי צפויה — מימון גמיש כנגד נכס, בתנאים עדיפים על הלוואה רגילה.</p>
-          <a href="#contact" class="sc-link">גלו את האפשרויות <span>&larr;</span></a>
-        </article>
+      <div class="specialization-card reveal">
+        <div>
+          <span class="eyebrow eyebrow-light">תחום התמחות</span>
+          <h3>התמחות במסורבי משכנתא</h3>
+        </div>
+        <div>
+          <p>
+            מסורב משכנתא הוא מי שהמערכת הפיננסית רואה בו לווה בסיכון — לרוב בעקבות היסטוריה כלכלית בעייתית. אבל סימון כ"מסורב" לא בהכרח סוף הסיפור: אנחנו יודעים לתפור פתרונות שמאפשרים גם למסורבי משכנתא להשתמש במכשיר הכלכלי הזה.
+          </p>
+          <p>
+            אנחנו מאמינים שלכל אחד יש זכות ליהנות מהאפשרויות שהלוואת המשכנתא פותחת — ונלחמים עבור כל לקוח כדי למצוא לו פתרון מימון, גם במקרים המורכבים ביותר.
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -216,99 +325,116 @@
   <!-- ============ PROCESS ============ -->
   <section class="process" id="process">
     <div class="container">
-      <div class="section-head reveal light">
-        <span class="eyebrow">תהליך העבודה שלנו</span>
-        <h2>מהפגישה הראשונה ועד המפתח בדלת</h2>
-        <p>תהליך מובנה, שקוף ומלווה אישית — כדי שתדעו בדיוק מה קורה בכל שלב.</p>
+      <div class="section-head reveal center light">
+        <span class="eyebrow eyebrow-light">תהליך העבודה שלנו</span>
+        <h2>שבעה צעדים בדרך למשכנתא שלכם</h2>
       </div>
 
-      <ol class="timeline">
-        <li class="reveal">
-          <span class="tl-num">01</span>
-          <h3>פגישת איפיון</h3>
-          <p>מכירים ומבינים את הצרכים שלכם — בזום, בטלפון או פנים אל פנים.</p>
-        </li>
-        <li class="reveal">
-          <span class="tl-num">02</span>
-          <h3>תכנון פיננסי ראשוני</h3>
-          <p>בונים אסטרטגיה ראשונית המותאמת בדיוק לתיק ולמטרות שלכם.</p>
-        </li>
-        <li class="reveal">
-          <span class="tl-num">03</span>
-          <h3>איסוף מסמכים</h3>
-          <p>מרכזים את החומרים הדרושים כדי להציג אתכם לבנק בצורה הטובה ביותר.</p>
-        </li>
-        <li class="reveal">
-          <span class="tl-num">04</span>
-          <h3>הכנת תיק משכנתא</h3>
-          <p>בונים סדר ומכינים תיק מוקפד לפני הגשתו לבנקים וחברות המימון.</p>
-        </li>
-        <li class="reveal">
-          <span class="tl-num">05</span>
-          <h3>משא ומתן</h3>
-          <p>פונים למספר בנקים ומנהלים מו"מ לתנאים הטובים ביותר הקיימים בשוק.</p>
-        </li>
-        <li class="reveal">
-          <span class="tl-num">06</span>
-          <h3>שמאות וביטוחים</h3>
-          <p>מתאמים ביקור שמאי ומשיגים את ביטוחי המשכנתא המשתלמים ביותר.</p>
-        </li>
-        <li class="reveal">
-          <span class="tl-num">07</span>
-          <h3>חתימה וביצוע</h3>
-          <p>נפגשים יחד בבנק לחתימה על המשכנתא החדשה — תתחדשו!</p>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <!-- ============ WHY US / STATS ============ -->
-  <section class="why-us">
-    <div class="container why-grid">
-      <div class="why-copy reveal">
-        <span class="eyebrow">מדוע לעבוד איתנו</span>
-        <h2>רשת הביטחון שלכם בעולם המשכנתאות</h2>
-        <ul class="why-list">
-          <li><span class="wl-check">✓</span> חוסכים לכם משמעותית בעלויות המימון</li>
-          <li><span class="wl-check">✓</span> תהליך שקוף — אתם שותפים בכל שלב</li>
-          <li><span class="wl-check">✓</span> תנאים מעולים בזכות מו"מ מקצועי</li>
-          <li><span class="wl-check">✓</span> אישור עקרוני בהליך מהיר</li>
-          <li><span class="wl-check">✓</span> חברים באיגודים המקצועיים בענף</li>
-        </ul>
-        <a href="#contact" class="btn btn-primary">בואו נתחיל</a>
+      <div class="timeline-wrap">
+        <div class="timeline-line" aria-hidden="true"></div>
+        <ol class="timeline">
+          <li class="reveal">
+            <span class="tl-num">1</span>
+            <div class="tl-card"><h3>פגישת איפיון</h3><p>הבנת הצרכים והמטרות שלכם — בזום, בטלפון או פרונטלית.</p></div>
+          </li>
+          <li class="reveal">
+            <span class="tl-num">2</span>
+            <div class="tl-card"><h3>תכנון פיננסי ראשוני</h3><p>בניית אסטרטגיה נכונה בהתאם לצרכי התיק שלכם.</p></div>
+          </li>
+          <li class="reveal">
+            <span class="tl-num">3</span>
+            <div class="tl-card"><h3>קבלת מסמכים</h3><p>איסוף החומרים שיעזרו להציג אתכם לבנק בצורה הטובה ביותר.</p></div>
+          </li>
+          <li class="reveal">
+            <span class="tl-num">4</span>
+            <div class="tl-card"><h3>הכנת תיק משכנתא</h3><p>עושים סדר ומכינים תיק מנצח טרם ההגשה לבנקים.</p></div>
+          </li>
+          <li class="reveal">
+            <span class="tl-num">5</span>
+            <div class="tl-card"><h3>משא ומתן</h3><p>פונים למספר בנקים ומשיגים את התנאים הטובים ביותר בשוק.</p></div>
+          </li>
+          <li class="reveal">
+            <span class="tl-num">6</span>
+            <div class="tl-card"><h3>בטחונות ושמאות</h3><p>טיפול בבטחונות, תיאום שמאי והשגת ביטוחי המשכנתא הדרושים.</p></div>
+          </li>
+          <li class="reveal">
+            <span class="tl-num">7</span>
+            <div class="tl-card"><h3>ביצוע המשכנתא</h3><p>נפגשים בבנק לחתימה על המשכנתא החדשה שלכם.</p></div>
+          </li>
+        </ol>
       </div>
-      <div class="why-stats reveal">
-        <div class="stat-card"><strong>4</strong><span>שנות פעילות</span></div>
-        <div class="stat-card"><strong>500+</strong><span>לקוחות מרוצים</span></div>
-        <div class="stat-card"><strong>₪50M+</strong><span>היקף משכנתאות</span></div>
-        <div class="stat-card"><strong>4.9/5</strong><span>דירוג לקוחות</span></div>
+
+      <div class="process-banner reveal">
+        <div>
+          <div class="banner-title">בשעה טובה! 🎉</div>
+          <p>נפגשים בבנק לחתימה על המשכנתא החדשה שלכם — בתנאים הטובים ביותר.</p>
+        </div>
+        <a href="#contact" class="btn btn-white">בואו נתחיל ←</a>
       </div>
     </div>
   </section>
 
-  <!-- ============ TESTIMONIALS ============ -->
-  <section class="testimonials" id="testimonials">
+  <!-- ============ RESULTS COUNTERS ============ -->
+  <section class="counters">
+    <div class="container counters-grid reveal">
+      <div class="counter-card">
+        <div class="mf-count" data-count-to="350" data-count-suffix="+">0</div>
+        <span>משפחות שליווינו</span>
+      </div>
+      <div class="counter-card">
+        <div class="mf-count" data-count-to="180" data-count-prefix="₪" data-count-suffix="K+">₪0</div>
+        <span>חיסכון ממוצע ללקוח</span>
+      </div>
+      <div class="counter-card">
+        <div class="mf-count" data-count-to="7">0</div>
+        <span>בנקים במשא ומתן</span>
+      </div>
+      <div class="counter-card">
+        <div class="mf-count" data-count-to="100" data-count-suffix="%">0%</div>
+        <span>ליווי אישי עד החתימה</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ REVIEWS ============ -->
+  <section class="testimonials" id="reviews">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">לקוחות מרוצים</span>
-        <h2>מה אומרים עלינו</h2>
+      <div class="section-head reveal split">
+        <div>
+          <span class="eyebrow">לקוחות ממליצים</span>
+          <h2>מה שמספרים עלינו הלקוחות</h2>
+        </div>
       </div>
 
       <div class="testi-grid">
         <figure class="testi-card reveal">
+          <span class="quote-mark">"</span>
           <div class="stars">★★★★★</div>
-          <blockquote>"שי ליווה אותנו לאורך כל התהליך, הסביר כל שלב וסגר לנו ריבית שלא האמנו שנקבל. תהליך שקוף ומקצועי מהתחלה ועד הסוף."</blockquote>
-          <figcaption>— משפחת כהן, רוכשי דירה ראשונה</figcaption>
+          <blockquote>מהרגע הראשון ראינו שאתה לא סתם עושה עבודה - אתה באמת מחויב להצלחה של הלקוח. הסבלנות, הידע המקצועי והתשומת לב לפרטים היו מעל ומעבר לכל המצופה.</blockquote>
+          <figcaption>
+            <img src="img/reviews/meital.png" alt="מיטל אהרון">
+            <div><strong>מיטל אהרון</strong><span>משכנתא לרכישת דירה</span></div>
+          </figcaption>
         </figure>
+
         <figure class="testi-card reveal">
+          <span class="quote-mark">"</span>
           <div class="stars">★★★★★</div>
-          <blockquote>"מיחזרנו איתם משכנתא וחסכנו אלפי שקלים בחודש. שירות אישי, זמין תמיד, ומקצועי ברמה גבוהה."</blockquote>
-          <figcaption>— דנה ל., מחזור משכנתא</figcaption>
+          <blockquote>הגענו לשי, בנאדם אדיב ונעים שמההתחלה הרגיע אותנו, נתן את כל המידע הרלוונטי והלך יד ביד לאורך כל הדרך. חוויית קניית הבית הראשון הפכה לפתוחה ולא מלחיצה.</blockquote>
+          <figcaption>
+            <img src="img/reviews/lior.png" alt="ליאור אלמליח">
+            <div><strong>ליאור אלמליח</strong><span>משכנתא לדירה ראשונה</span></div>
+          </figcaption>
         </figure>
+
         <figure class="testi-card reveal">
+          <span class="quote-mark">"</span>
           <div class="stars">★★★★★</div>
-          <blockquote>"נדחינו בבנק ולא ידענו לאן לפנות. מאי פיננסים מצאו לנו פתרון יצירתי ומדויק. ממליצים בחום."</blockquote>
-          <figcaption>— אבי ר., משכנתא למסורבים</figcaption>
+          <blockquote>כשמרוצים חוזרים ומזמינים! זו הפעם השנייה שאנו בוחרים במאי פיננסים. תודה על הפתרון הכולל, השירות המסור והמקצועיות ללא דופי.</blockquote>
+          <figcaption>
+            <img src="img/reviews/ravit.png" alt="רוית ועידן">
+            <div><strong>רוית ועידן</strong><span>לקוחות חוזרים</span></div>
+          </figcaption>
         </figure>
       </div>
     </div>
@@ -316,48 +442,54 @@
 
   <!-- ============ FAQ ============ -->
   <section class="faq" id="faq">
-    <div class="container faq-grid">
-      <div class="faq-intro reveal">
+    <div class="container faq-container">
+      <div class="section-head reveal center">
         <span class="eyebrow">שאלות נפוצות</span>
-        <h2>כל מה שרציתם לדעת על ייעוץ משכנתאות</h2>
-        <p>בעולם שבו כל החלטה פיננסית משפיעה על העתיד שלכם, ייעוץ משכנתאות הוא כמו מפה וצ'ק ליסט ביחד — ניווט מקצועי, חיסכון כספי, והתאמה אישית שתשתלב בדיוק בתמונה הפיננסית שלכם.</p>
+        <h2>כל מה שרציתם לדעת</h2>
       </div>
 
       <div class="faq-list">
         <div class="faq-item reveal">
           <button class="faq-q">
-            <span>מה ההבדל בין ייעוץ משכנתאות פרטי לייעוץ מטעם הבנק?</span>
+            <span>למה כדאי לפנות ליועץ משכנתאות פרטי?</span>
             <span class="faq-icon">+</span>
           </button>
-          <div class="faq-a"><p>יועץ הבנק מייצג את האינטרס של הבנק. יועץ פרטי, לעומת זאת, עובד אך ורק עבורכם — מנהל מו"מ מול מספר בנקים במקביל ומביא לכם את ההצעה המשתלמת ביותר בשוק.</p></div>
+          <div class="faq-a"><p>יועץ פרטי מונע טעויות יקרות, מכיר את כל האופציות בשוק, חוסך לכם זמן וריצות בין בנקים, ומנהל עבורכם משא ומתן שמביא לתנאים טובים משמעותית — עם שקט נפשי לאורך כל הדרך.</p></div>
         </div>
         <div class="faq-item reveal">
           <button class="faq-q">
-            <span>האם יועץ משכנתאות יכול לעזור גם במקרה של סירוב משכנתא?</span>
+            <span>מה ההבדל בין ייעוץ פרטי לייעוץ מטעם הבנק?</span>
             <span class="faq-icon">+</span>
           </button>
-          <div class="faq-a"><p>בהחלט. במקרים רבים סירוב נובע מהצגה לא מיטבית של התיק הפיננסי. יועץ מנוסה יודע לאתר פתרונות חלופיים ולבנות תיק מחדש בצורה שתשנה את התמונה.</p></div>
+          <div class="faq-a"><p>יועץ הבנק מחויב למדיניות הבנק ולרווחיו, בעוד יועץ פרטי מחויב אך ורק אליכם. הוא משווה בין בנקים ומסלולים, שומר על אובייקטיביות מלאה, ומעניק יחס אישי שמותאם בדיוק לצרכים שלכם.</p></div>
         </div>
         <div class="faq-item reveal">
           <button class="faq-q">
-            <span>איך בוחרים יועץ משכנתאות מומלץ?</span>
+            <span>האם יועץ יכול לעזור גם במקרה של סירוב משכנתא?</span>
             <span class="faq-icon">+</span>
           </button>
-          <div class="faq-a"><p>חשוב לבדוק הסמכה מקצועית, חברות באיגוד יועצי המשכנתאות, ניסיון מוכח והמלצות מלקוחות קודמים — ובעיקר, תחושת אמון אישית.</p></div>
+          <div class="faq-a"><p>בהחלט — זה בדיוק הזמן שבו יועץ טוב עושה את ההבדל. אנחנו מנתחים את סיבת הסירוב, מוצאים פתרונות יצירתיים, משפרים את הפרופיל הפיננסי ופונים לגופים שבהם הסיכוי לאישור גבוה יותר.</p></div>
         </div>
         <div class="faq-item reveal">
           <button class="faq-q">
-            <span>האם באמת צריך יועץ משכנתאות בעידן הדיגיטלי?</span>
+            <span>איך מזהים יועץ משכנתאות מקצועי?</span>
             <span class="faq-icon">+</span>
           </button>
-          <div class="faq-a"><p>כן — למרות שפע המידע המקוון, תמהיל משכנתא נכון דורש ניתוח מקצועי של הנתונים האישיים שלכם, ומעקב שוטף אחר תנאי השוק המשתנים כל הזמן.</p></div>
+          <div class="faq-a"><p>ותק וניסיון (מינימום 5 שנים), המלצות אותנטיות ומוניטין, היכרות עם מגוון רחב של פתרונות מימון כולל מקרים מורכבים, שקיפות מלאה בעמלות ובתהליך, וזמינות ושירות אישי — גם אחרי החתימה.</p></div>
         </div>
         <div class="faq-item reveal">
           <button class="faq-q">
-            <span>מה באמת עושה יועץ משכנתאות פרטי?</span>
+            <span>מה כולל תהליך ייעוץ המשכנתאות?</span>
             <span class="faq-icon">+</span>
           </button>
-          <div class="faq-a"><p>בונה עבורכם תמהיל מימון מותאם, מנהל מו"מ מול הבנקים, מטפל בבירוקרטיה, מתאם שמאות וביטוחים, ומלווה אתכם עד לחתימה הסופית — One Stop Shop אמיתי.</p></div>
+          <div class="faq-a"><p>פגישת היכרות והבנת צרכים, ניתוח מצב פיננסי מלא, בחינת כל המסלולים האפשריים, הצגת התוכנית המשתלמת ביותר, וליווי צמוד בבירוקרטיה ובמשא ומתן — עד לביצוע בבנק.</p></div>
+        </div>
+        <div class="faq-item reveal">
+          <button class="faq-q">
+            <span>האם באמת צריך יועץ בעידן הדיגיטלי?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><p>כן. שוק המשכנתאות מורכב, דינמי ומשתנה תדיר. יועץ מנוסה מביא ניסיון של מאות עסקאות, מזהה הזדמנויות בשוק, מנהל משא ומתן מול הבנקים וחוסך לכם מאות אלפי שקלים לאורך חיי ההלוואה.</p></div>
         </div>
       </div>
     </div>
@@ -367,67 +499,61 @@
   <section class="contact" id="contact">
     <div class="container contact-grid">
       <div class="contact-info reveal">
-        <span class="eyebrow">צור קשר</span>
-        <h2>בואו נבנה יחד את המשכנתא הבטוחה עבורכם</h2>
-        <p>השאירו פרטים ונחזור אליכם עם ייעוץ ראשוני ללא עלות וללא התחייבות.</p>
+        <span class="eyebrow eyebrow-light">צרו קשר</span>
+        <h2>רשת הביטחון שלך בעולם המשכנתאות</h2>
+        <p>השאירו פרטים ונחזור אליכם לייעוץ ראשוני — ללא עלות וללא התחייבות.</p>
 
-        <ul class="contact-details">
-          <li>
-            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M6.6 10.8c1.4 2.8 3.7 5.1 6.5 6.5l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.5.1.4 0 .8-.2 1L6.6 10.8z"/></svg>
-            <span>חייגו 6629* לייעוץ ראשוני חינם</span>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            <span>Mayfn2021@gmail.com</span>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
-            <span>שדרות אריאל שרון 1, דימונה</span>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 1a11 11 0 1 0 11 11A11 11 0 0 0 12 1zm1 11.6 4.2 2.5-.8 1.3L11 13V6h1.5z"/></svg>
-            <span>זמינים א'–ה' 8:30–16:00</span>
-          </li>
-        </ul>
+        <div class="contact-methods">
+          <a href="tel:*6629">
+            <span class="cm-icon">☎</span>
+            <span><small>חייגו עכשיו</small><strong>6629*</strong></span>
+          </a>
+          <a href="https://wa.link/162hp2">
+            <span class="cm-icon">✆</span>
+            <span><small>וואטסאפ</small><strong>שליחת הודעה מהירה</strong></span>
+          </a>
+          <a href="mailto:mayfn2021@gmail.com">
+            <span class="cm-icon">✉</span>
+            <span><small>אימייל</small><strong>mayfn2021@gmail.com</strong></span>
+          </a>
+        </div>
       </div>
 
-      <form class="contact-form reveal" id="contactForm">
-        <div class="form-row">
-          <div class="field">
-            <label for="fname">שם מלא</label>
-            <input type="text" id="fname" name="fname" placeholder="שם פרטי ושם משפחה" required>
+      <div class="contact-form-wrap reveal">
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <label>שם מלא
+              <input required type="text" name="fname" placeholder="ישראל ישראלי">
+            </label>
+            <label>טלפון
+              <input required type="tel" name="phone" placeholder="050-0000000">
+            </label>
           </div>
-          <div class="field">
-            <label for="phone">טלפון</label>
-            <input type="tel" id="phone" name="phone" placeholder="טלפון או מובייל" required>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="field">
-            <label for="email">דוא"ל</label>
-            <input type="email" id="email" name="email" placeholder="דואר אלקטרוני" required>
-          </div>
-          <div class="field">
-            <label for="topic">באיזה נושא תרצו ליצור קשר</label>
-            <select id="topic" name="topic">
+          <label>דוא"ל
+            <input type="email" name="email" placeholder="name@email.com">
+          </label>
+          <label>באיזה נושא נוכל לעזור?
+            <select name="topic">
               <option>משכנתא חדשה</option>
-              <option>מחזור משכנתא</option>
-              <option>איחוד הלוואות</option>
-              <option>משכנתא למסורבים</option>
+              <option>מיחזור משכנתא</option>
+              <option>משכנתא לאיחוד הלוואות</option>
               <option>משכנתא הפוכה</option>
+              <option>משכנתא למסורבים</option>
               <option>הלוואה לכל מטרה</option>
             </select>
-          </div>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" name="privacy" required>
+            אני מאשר/ת קבלת דיוור וקראתי את מדיניות הפרטיות
+          </label>
+          <button type="submit" class="btn btn-gold-solid btn-block">שליחת פרטים לייעוץ חינם</button>
+        </form>
+        <div class="contact-success" id="contactSuccess" hidden>
+          <div class="success-icon">✓</div>
+          <h3>תודה רבה!</h3>
+          <p>קיבלנו את הפרטים ונחזור אליכם בהקדם. בשעה טובה!</p>
         </div>
-        <div class="field">
-          <label for="message">הודעה</label>
-          <textarea id="message" name="message" rows="4" placeholder="השאירו הודעה"></textarea>
-        </div>
-        <label class="checkbox"><input type="checkbox" name="marketing"> אני מאשר/ת להירשם לקבלת דיוור וחומר פרסומי</label>
-        <label class="checkbox"><input type="checkbox" name="privacy" required> אני מאשר/ת שקראתי את <a href="#">מדיניות הפרטיות</a> באתר</label>
-        <button type="submit" class="btn btn-primary btn-lg btn-block">שליחת הודעה</button>
-        <p class="form-note" id="formNote" role="status"></p>
-      </form>
+      </div>
     </div>
   </section>
 
@@ -437,41 +563,43 @@
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
-      <a href="#top" class="brand">
-        <span class="brand-mark">MF</span>
-        <span class="brand-text"><strong>מאי פיננסים</strong><small>ייעוץ משכנתאות פרטי</small></span>
-      </a>
-      <p>רשת הביטחון שלכם בעולם המשכנתאות. ליווי מקצועי, שקוף ואישי מהפגישה הראשונה ועד החתימה.</p>
+      <div class="footer-map">
+        <iframe src="https://maps.google.com/maps?q=%D7%A9%D7%93%D7%A8%D7%95%D7%AA%20%D7%90%D7%A8%D7%99%D7%90%D7%9C%20%D7%A9%D7%A8%D7%95%D7%9F%201%2C%20%D7%93%D7%99%D7%9E%D7%95%D7%A0%D7%94&t=m&z=12&output=embed" loading="lazy" title="מיקום המשרד על המפה"></iframe>
+      </div>
+      <img src="https://mayfn.co.il/wp-content/uploads/2023/12/LOGO-FIX-M.png" alt="מאי פיננסים" class="footer-logo">
+      <p>חברת בוטיק לייעוץ משכנתאות ואיחוד הלוואות. מקצוענות ותודעת שירות — שלובות יחד.</p>
     </div>
     <div class="footer-col">
-      <h4>ניווט</h4>
-      <a href="#about">אודות</a>
+      <h4>ניווט מהיר</h4>
       <a href="#services">שירותי החברה</a>
-      <a href="#testimonials">לקוחות מרוצים</a>
+      <a href="#about">אודות</a>
+      <a href="#reviews">לקוחות מרוצים</a>
       <a href="#contact">צור קשר</a>
     </div>
     <div class="footer-col">
-      <h4>שירותים</h4>
-      <a href="#services">משכנתא חדשה</a>
-      <a href="#services">מחזור משכנתא</a>
-      <a href="#services">איחוד הלוואות</a>
-      <a href="#services">משכנתא הפוכה</a>
-      <a href="#services">הלוואה לכל מטרה</a>
-    </div>
-    <div class="footer-col">
-      <h4>יצירת קשר</h4>
-      <a href="tel:*6629">6629*</a>
-      <a href="mailto:Mayfn2021@gmail.com">Mayfn2021@gmail.com</a>
-      <span>שדרות אריאל שרון 1, דימונה</span>
+      <h4>דרכי התקשרות</h4>
+      <a href="tel:*6629"><span class="cm-icon-sm">☎</span> ייעוץ ראשוני חינם · חייגו 6629*</a>
+      <a href="https://wa.link/162hp2"><span class="cm-icon-sm">✆</span> זמינים גם ב-WhatsApp</a>
+      <a href="mailto:mayfn2021@gmail.com"><span class="cm-icon-sm">✉</span> mayfn2021@gmail.com</a>
+      <span><span class="cm-icon-sm">◆</span> זמני פעילות א'–ה' 8:30–16:00</span>
+      <span><span class="cm-icon-sm">◆</span> שדרות אריאל שרון 1, דימונה</span>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/Mayfn2021" aria-label="פייסבוק">f</a>
+        <a href="https://wa.link/162hp2" aria-label="וואטסאפ">✆</a>
+        <a href="mailto:mayfn2021@gmail.com" aria-label="אימייל">✉</a>
+        <a href="tel:*6629" aria-label="טלפון">☎</a>
+      </div>
     </div>
   </div>
   <div class="footer-bottom container">
-    <span>© <span id="year"></span> מאי פיננסים. כל הזכויות שמורות.</span>
-    <a href="#">מדיניות פרטיות</a>
+    <span>© <span id="year"></span> מאי פיננסים · כל הזכויות שמורות</span>
+    <span>אין באמור ייעוץ או שיווק פיננסי · בכפוף לתנאי החברה</span>
   </div>
 </footer>
 
-<a href="tel:*6629" class="mobile-cta">התקשרו עכשיו לייעוץ חינם 6629*</a>
+<a href="https://wa.link/162hp2" class="whatsapp-float">
+  <span class="wf-icon">✆</span> ייעוץ מהיר בוואטסאפ
+</a>
 
 <script src="js/main.js"></script>
 </body>
