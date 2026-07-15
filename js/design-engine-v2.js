@@ -164,6 +164,8 @@
   }
 
   function reorderSections(order) {
+    const current = $$(".block-slot[data-block]", canvas).map((slot) => slot.dataset.block);
+    if (current.join("|") === order.join("|")) return;
     const footer = directChildren(canvas).find((item) => !item.classList.contains("block-slot") && !item.classList.contains("design-proof-rail") && item.querySelector("footer"));
     const anchor = footer || null;
     for (const type of order) {
@@ -199,8 +201,12 @@
       rail.className = "design-proof-rail studio-added-section";
       rail.dataset.designGenerated = "proof";
     }
-    rail.innerHTML = `<div class="design-proof-rail-inner">${items.map((text) => `<div class="design-proof-item">${escapeHtml(text)}</div>`).join("")}</div>`;
-    heroSlot.after(rail);
+    const signature = items.join("|");
+    if (rail.dataset.signature !== signature) {
+      rail.dataset.signature = signature;
+      rail.innerHTML = `<div class="design-proof-rail-inner">${items.map((text) => `<div class="design-proof-item">${escapeHtml(text)}</div>`).join("")}</div>`;
+    }
+    if (heroSlot.nextElementSibling !== rail) heroSlot.after(rail);
   }
 
   function markGallery() {
