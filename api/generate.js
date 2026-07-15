@@ -1,6 +1,12 @@
 "use strict";
 
-const { callClaude, blockSchema, VIBE_HINTS, GOAL_HINTS } = require("./_shared");
+const {
+  callOpenAI,
+  blockSchema,
+  pageJsonSchema,
+  VIBE_HINTS,
+  GOAL_HINTS,
+} = require("./_shared");
 const { validateGenerateInput, validateGeneratedPage } = require("./_validation");
 const { checkRateLimit } = require("./_rateLimit");
 const { methodNotAllowed, requestId, sendError, sendRateLimit } = require("./_http");
@@ -46,12 +52,14 @@ module.exports = async function handler(req, res) {
 - testimonials.items: בדיוק 3 עדויות בדויות אך אמינות, עם שמות ותפקידים ישראליים.
 - אל תחזיר שום דבר מלבד JSON.`;
 
-    const page = await callClaude({
+    const page = await callOpenAI({
       system,
       user,
       maxTokens: 4096,
       validate: validateGeneratedPage,
       requestId: id,
+      schema: pageJsonSchema(),
+      schemaName: "landing_page",
     });
     return res.status(200).json(page);
   } catch (err) {
