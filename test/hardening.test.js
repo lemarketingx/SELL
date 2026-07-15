@@ -90,8 +90,8 @@ test("uses endpoint scope in rate-limit key", () => {
 });
 
 test("returns blocked state after the rate limit", async () => {
-  process.env.UPSTASH_REDIS_REST_URL = "https://redis.example";
-  process.env.UPSTASH_REDIS_REST_TOKEN = "token";
+  process.env.UPSTASH_REDIS_REST_KV_REST_API_URL = "https://redis.example";
+  process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN = "token";
   const fetchImpl = async () => ({
     ok: true,
     json: async () => [{ result: 6 }, { result: 1 }, { result: 120 }],
