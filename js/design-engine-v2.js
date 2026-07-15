@@ -1,6 +1,16 @@
 (() => {
   "use strict";
 
+  const exportStyles = document.createElement("link");
+  exportStyles.rel = "stylesheet";
+  exportStyles.href = "css/studio-design-v2-export.css";
+  document.head.appendChild(exportStyles);
+
+  const exportRuntime = document.createElement("script");
+  exportRuntime.src = "js/design-engine-v2-export.js";
+  exportRuntime.defer = true;
+  document.head.appendChild(exportRuntime);
+
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const canvas = $("#result-canvas");
