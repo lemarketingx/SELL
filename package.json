@@ -1,6 +1,15 @@
 {
   "name": "dafdaf",
   "private": true,
-  "version": "1.0.0",
-  "description": "דפדף — בונה דפי נחיתה עם AI לעסקים קטנים ועצמאים"
+  "version": "1.1.0",
+  "description": "דפדף — בונה דפי נחיתה עם AI לעסקים קטנים ועצמאים",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "lint": "node scripts/lint.js",
+    "format:check": "node scripts/format-check.js",
+    "check": "npm run lint && npm run format:check && npm test"
+  }
 }
