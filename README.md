@@ -6,14 +6,15 @@
 
 - Node.js 20 ומעלה
 - פרויקט Vercel
-- מפתח Anthropic
+- מפתח OpenAI API
 - בסיס Upstash Redis להגבלת שימוש משותפת בין פונקציות Serverless
 
 ## משתני סביבה
 
 העתיקו את `.env.example` והגדירו:
 
-- `ANTHROPIC_API_KEY` — מפתח Anthropic בצד השרת בלבד.
+- `OPENAI_API_KEY` — מפתח OpenAI בצד השרת בלבד.
+- `OPENAI_MODEL` — אופציונלי. ברירת המחדל היא `gpt-5.6-luna`.
 - `UPSTASH_REDIS_REST_KV_REST_API_URL` — כתובת REST שנוצרת אוטומטית בחיבור Upstash for Redis דרך Vercel.
 - `UPSTASH_REDIS_REST_KV_REST_API_TOKEN` — token לכתיבה שנוצר אוטומטית בחיבור Upstash for Redis דרך Vercel.
 - `RATE_LIMIT_SALT` — ערך אקראי המשמש לגיבוב כתובות IP במפתחות ההגבלה.
@@ -21,6 +22,10 @@
 אין להשתמש ב־`UPSTASH_REDIS_REST_KV_REST_API_READ_ONLY_TOKEN`, מפני שמנגנון הגבלת השימוש צריך לכתוב מונים למסד.
 
 אם משתני Upstash אינם מוגדרים, נקודות הקצה של ה-AI מחזירות 503 במקום לפעול ללא הגנה.
+
+## ספק AI
+
+המערכת משתמשת ב־OpenAI Responses API עם Structured Outputs מסוג JSON Schema. הפלט עדיין עובר validation בצד השרת לפני שהוא נשלח לדפדפן. אפשר להחליף מודל דרך `OPENAI_MODEL` בלי שינוי קוד.
 
 ## הרצה ובדיקות
 
@@ -40,7 +45,7 @@ npm run check
 - לכל endpoint יש scope נפרד.
 - בקשות חורגות מקבלות HTTP 429 ו-`Retry-After`.
 - קלט ותשובות AI עוברים validation והגבלת גודל.
-- לכל קריאת AI יש timeout של 30 שניות ו-retry יחיד רק כאשר הפלט אינו JSON תקין.
+- לכל קריאת AI יש timeout של 30 שניות ו-retry יחיד רק כאשר הפלט אינו תקין.
 
 ## ייצוא ולידים
 
