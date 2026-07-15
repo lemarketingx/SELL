@@ -11,6 +11,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/builder.css">
 <link rel="stylesheet" href="css/studio.css">
+<link rel="stylesheet" href="css/plus.css">
 </head>
 <body class="vibe-trust">
 <div class="builder-shell">
@@ -99,7 +100,7 @@
 
   <div id="result" style="display:none;">
     <div class="result-toolbar">
-      <div class="result-hint">✨ הדף מוכן — ערכו טקסטים, החליפו מבנה ובדקו את ציון ההמרה</div>
+      <div class="result-hint">✨ הדף מוכן — ערכו טקסטים, הדליקו בוסטרים וקבלו ערכת קמפיין מוכנה</div>
       <div class="actions studio-tools">
         <button type="button" class="btn btn-ghost btn-sm active" id="studio-desktop">🖥️ מחשב</button>
         <button type="button" class="btn btn-ghost btn-sm" id="studio-mobile">📱 מובייל</button>
@@ -109,6 +110,8 @@
         <button type="button" class="btn btn-ghost btn-sm" data-studio-variant="editorial">מערכתי</button>
         <span class="studio-divider"></span>
         <button type="button" class="btn btn-ghost btn-sm" id="studio-add-section">＋ מקטע</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="plus-boosters">⚡ בוסטרים</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="plus-campaign">🎯 ערכת קמפיין</button>
         <button type="button" class="btn btn-ghost btn-sm" id="studio-audit">🧪 מבקר המרות <span class="studio-score"><b id="studio-score">—</b></span></button>
         <button type="button" class="btn btn-ghost btn-sm" id="studio-save">💾 שמירה</button>
         <button type="button" class="btn btn-ghost btn-sm" id="studio-load">↺ טעינה</button>
@@ -126,5 +129,6 @@
 <aside id="studio-panel" class="studio-panel" aria-live="polite"></aside>
 <script src="js/builder.js"></script>
 <script src="js/studio.js"></script>
+<script src="js/plus.js"></script>
 </body>
 </html>
