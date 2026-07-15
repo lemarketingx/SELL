@@ -1,0 +1,150 @@
+/* Export compatibility for Design Engine v2.
+   The live canvas stores plan data on the canvas; exported HTML stores it on sections. */
+
+.design-hero[data-hero-layout="split"] {
+  grid-template-columns: minmax(0, 1fr) minmax(350px, .9fr);
+  column-gap: clamp(42px, 7vw, 96px);
+  text-align: start !important;
+}
+.design-hero[data-hero-layout="split"] > :not(.studio-hero-media):not(.block-toolbar) { grid-column: 1; }
+.design-hero[data-hero-layout="split"] .studio-hero-media {
+  grid-column: 2;
+  grid-row: 1 / span 8;
+  align-self: stretch;
+  width: 100%;
+  min-height: 470px;
+  margin: 0 !important;
+  border-radius: 28px 28px 90px 28px !important;
+}
+.design-hero[data-hero-layout="split"] .studio-logo { margin-inline: 0 !important; }
+.design-hero[data-hero-layout="split"] .design-hero-actions,
+.design-hero[data-hero-layout="split"] .design-hero-trust { justify-content: flex-start !important; }
+
+.design-hero[data-hero-layout="collage"] {
+  grid-template-columns: minmax(0, .95fr) minmax(380px, 1.05fr);
+  gap: 62px;
+  text-align: start !important;
+}
+.design-hero[data-hero-layout="collage"] > :not(.studio-hero-media):not(.block-toolbar) { grid-column: 1; }
+.design-hero[data-hero-layout="collage"] .studio-hero-media {
+  grid-column: 2;
+  grid-row: 1 / span 8;
+  width: 88%;
+  min-height: 470px;
+  margin: 18px auto 0 !important;
+  border-radius: 42% 58% 46% 54% / 34% 40% 60% 66% !important;
+  transform: rotate(2deg);
+  box-shadow: 34px 30px 0 var(--accent-tint), 0 45px 90px -55px rgba(15,23,42,.72) !important;
+}
+
+.design-hero[data-hero-layout="editorial"] {
+  min-height: 680px;
+  align-content: end;
+  padding-top: 160px !important;
+  text-align: start !important;
+  background: #f8f6f1;
+}
+.design-hero[data-hero-layout="editorial"] .design-hero-title {
+  max-width: 1040px;
+  font-size: clamp(54px, 8.5vw, 104px) !important;
+  line-height: .94 !important;
+  letter-spacing: -4px !important;
+}
+.design-hero[data-hero-layout="editorial"] .studio-hero-media {
+  width: min(480px, 42vw);
+  height: 360px;
+  position: absolute;
+  inset-inline-end: max(45px, calc((100% - 1180px) / 2));
+  top: 84px;
+  opacity: .17;
+  filter: grayscale(.25) contrast(1.05);
+  border-radius: 30px !important;
+  transform: rotate(-3deg);
+}
+
+.design-hero[data-hero-layout="immersive"] {
+  min-height: 760px;
+  text-align: start !important;
+  color: #fff;
+  background: #111827;
+}
+.design-hero[data-hero-layout="immersive"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(8,13,25,.94), rgba(8,13,25,.74) 52%, rgba(8,13,25,.2));
+}
+.design-hero[data-hero-layout="immersive"] .studio-hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  opacity: .88;
+}
+.design-hero[data-hero-layout="immersive"] .design-hero-title,
+.design-hero[data-hero-layout="immersive"] .design-hero-copy,
+.design-hero[data-hero-layout="immersive"] .design-hero-trust { max-width: 690px !important; color: #fff !important; }
+.design-hero[data-hero-layout="immersive"] .design-hero-copy,
+.design-hero[data-hero-layout="immersive"] .design-hero-trust { color: rgba(255,255,255,.78) !important; }
+
+.de-archetype-authority.design-features .design-section-head,
+.de-archetype-authority.design-process .design-section-head,
+.de-archetype-authority.design-testimonials .design-section-head { text-align: start !important; margin-inline: 0 !important; }
+.de-archetype-authority .design-card { border-top: 3px solid color-mix(in srgb, var(--accent) 58%, #fff) !important; }
+.de-archetype-personal.design-hero,
+.de-archetype-personal.design-cta { background-color: #fffaf6 !important; }
+.de-archetype-personal .design-card { border-radius: 34px 14px 34px 14px !important; }
+.de-archetype-commerce.design-features .design-card:first-child {
+  grid-column: span 2;
+  background: linear-gradient(145deg, var(--accent), color-mix(in srgb, var(--accent) 66%, #111827)) !important;
+  color: #fff !important;
+}
+.de-archetype-commerce.design-features .design-card:first-child p { color: rgba(255,255,255,.8) !important; }
+.de-archetype-showcase.studio-gallery .studio-gallery-grid {
+  grid-template-columns: 1.25fr .75fr .75fr !important;
+  grid-auto-rows: 180px;
+}
+.de-archetype-showcase.studio-gallery img { height: 100% !important; border-radius: 24px !important; }
+.de-archetype-showcase.studio-gallery img:first-child { grid-row: span 2; }
+
+.de-variant-bold.design-features .design-card-grid { grid-template-columns: repeat(6, minmax(0, 1fr)) !important; }
+.de-variant-bold.design-features .design-card { grid-column: span 3; }
+.de-variant-bold.design-features .design-card:first-child,
+.de-variant-bold.design-features .design-card:last-child { grid-column: span 4; }
+.de-variant-bold.design-features .design-card:nth-child(2) { grid-column: span 2; }
+.de-variant-bold .design-section-title { font-size: clamp(42px, 6vw, 70px) !important; }
+.de-variant-editorial .design-card {
+  border-width: 0 0 1px !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+.de-variant-editorial.design-features .design-section-head,
+.de-variant-editorial.design-process .design-section-head,
+.de-variant-editorial.design-testimonials .design-section-head { text-align: start !important; margin-inline: 0 !important; }
+
+@media (max-width: 900px) {
+  .design-hero[data-hero-layout="split"],
+  .design-hero[data-hero-layout="collage"] { grid-template-columns: 1fr; gap: 36px; }
+  .design-hero[data-hero-layout="split"] > :not(.studio-hero-media):not(.block-toolbar),
+  .design-hero[data-hero-layout="collage"] > :not(.studio-hero-media):not(.block-toolbar) { grid-column: 1; }
+  .design-hero[data-hero-layout="split"] .studio-hero-media,
+  .design-hero[data-hero-layout="collage"] .studio-hero-media {
+    grid-column: 1;
+    grid-row: auto;
+    width: 100%;
+    min-height: 360px;
+    transform: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .de-variant-bold.design-features .design-card-grid { grid-template-columns: 1fr !important; }
+  .de-variant-bold.design-features .design-card { grid-column: auto !important; }
+  .de-archetype-showcase.studio-gallery .studio-gallery-grid { grid-template-columns: 1fr !important; grid-auto-rows: auto; }
+  .de-archetype-showcase.studio-gallery img:first-child { grid-row: auto; }
+}
