@@ -263,7 +263,7 @@
   function runAudit() {
     const canvas = $("#result-canvas");
     if (!canvas?.querySelector(".ai-block")) return;
-    const checks = [];
+    const checks = window.dafdafPlus?.auditChecks?.() || [];
     const headline = $("h1", canvas)?.textContent.trim() || "";
     checks.push({ ok: headline.length >= 20 && headline.length <= 95, text: "כותרת ראשית ממוקדת וברורה" });
     checks.push({ ok: Boolean(canvas.querySelector("a[href]:not([href='#'])")), text: "קיים CTA פעיל" });
@@ -324,9 +324,11 @@
     const clone = canvas.cloneNode(true);
     $$(".no-export,.block-toolbar,[data-export-remove='true'],.skeleton-block", clone).forEach((element) => element.remove());
     $$('[contenteditable]', clone).forEach((element) => { element.removeAttribute("contenteditable"); element.removeAttribute("data-path"); });
-    const css = [...document.styleSheets].filter((sheet) => sheet.href?.includes("studio.css")).map((sheet) => { try { return [...sheet.cssRules].map((rule) => rule.cssText).join("\n"); } catch { return ""; } }).join("\n");
+    const css = [...document.styleSheets].filter((sheet) => /(?:studio|plus)\.css/.test(sheet.href || "")).map((sheet) => { try { return [...sheet.cssRules].map((rule) => rule.cssText).join("\n"); } catch { return ""; } }).join("\n");
     const business = $("#f-name")?.value.trim() || "דף נחיתה";
-    const html = `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(business)}</title><link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet"><style>*{box-sizing:border-box}body{margin:0;font-family:Heebo,sans-serif;line-height:1.5;background:var(--paper,#fff);color:var(--ink,#222)}a{color:inherit}${css}</style></head><body><main class="result-canvas" data-studio-variant="${studio.variant}" style="${canvas.getAttribute("style") || ""}">${clone.innerHTML}</main></body></html>`;
+    const plusExport = window.dafdafPlus?.exportAssets?.() || { meta: "", html: "", script: "" };
+    const plusScript = plusExport.script ? `<script>${plusExport.script}</script>` : "";
+    const html = `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(business)}</title>${plusExport.meta}<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet"><style>*{box-sizing:border-box}body{margin:0;font-family:Heebo,sans-serif;line-height:1.5;background:var(--paper,#fff);color:var(--ink,#222)}a{color:inherit}${css}</style></head><body><main class="result-canvas" data-studio-variant="${studio.variant}" style="${canvas.getAttribute("style") || ""}">${clone.innerHTML}</main>${plusExport.html}${plusScript}</body></html>`;
     const blob = new Blob([html], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a"); anchor.href = url; anchor.download = `${slugify(business)}.html`; anchor.click(); URL.revokeObjectURL(url);
