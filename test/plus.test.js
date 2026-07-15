@@ -28,7 +28,7 @@ test("plus layer ships Israel-specific boosters", () => {
   assert.match(plusCss, /plus-proof/);
 });
 
-test("accessibility booster covers the Israeli regulation basics", () => {
+test("accessibility booster includes the available helper controls", () => {
   assert.match(plusJs, /plus-a11y-statement/);
   assert.match(plusCss, /plus-a11y-font/);
   assert.match(plusCss, /plus-a11y-contrast/);
@@ -52,9 +52,11 @@ test("export embeds plus runtime, metadata and audit checks", () => {
   assert.match(studioJs, /\(\?:studio\|plus\)\\\.css/);
 });
 
-test("home page markets the plus boosters", () => {
-  assert.match(homeHtml, /id="plus"/);
-  assert.match(homeHtml, /מצב שבת/);
-  assert.match(homeHtml, /נגישות מובנית/);
-  assert.match(homeHtml, /ערכת קמפיין אוטומטית/);
+test("home page explains the Israel-focused tools without unsupported claims", () => {
+  assert.match(homeHtml, /id="israel"/);
+  assert.match(homeHtml, /הודעת שעות שבת/);
+  assert.match(homeHtml, /כלי עזר לנגישות/);
+  assert.match(homeHtml, /ערכת קמפיין/);
+  assert.doesNotMatch(homeHtml, /ראשון בעולם/);
+  assert.doesNotMatch(homeHtml, /דרישת חוק/);
 });
