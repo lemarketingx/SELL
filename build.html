@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <title>בנו דף נחיתה עם AI — דפדף</title>
-<meta name="description" content="עונים על ארבע שאלות קצרות — וה-AI של דפדף כותב ומעצב עבורכם דף נחיתה שלם בעברית.">
+<meta name="description" content="עונים על כמה שאלות, מעלים את חומרי העסק — וה-AI של דפדף כותב ומעצב דף נחיתה שלם בעברית.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%238b5cf6'/%3E%3Cstop%20offset='.55'%20stop-color='%23ec4899'/%3E%3Cstop%20offset='1'%20stop-color='%23f59e0b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='url(%23g)'/%3E%3Ctext%20x='32'%20y='45'%20font-family='Arial'%20font-size='36'%20font-weight='bold'%20text-anchor='middle'%20fill='white'%3E%D7%93%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/builder.css">
+<link rel="stylesheet" href="css/studio.css">
 </head>
 <body class="vibe-trust">
 <div class="builder-shell">
@@ -39,13 +40,28 @@
 
     <section class="wizard-step" data-step="2">
       <h2>ספרו לנו על העסק במילים שלכם</h2>
-      <p class="hint">מה אתם עושים, למי, ומה מייחד אתכם מהמתחרים? כמה משפטים מספיקים — ה-AI יעשה מהם דף שלם.</p>
+      <p class="hint">מה אתם עושים, למי, ומה מייחד אתכם מהמתחרים? כמה משפטים מספיקים.</p>
       <textarea id="f-description" class="field-textarea" minlength="10" maxlength="2000" placeholder="לדוגמה: אני מעצבת שיער עם 10 שנות ניסיון, מתמחה בצבע וטיפולי החלקה..."></textarea>
+      <fieldset class="studio-fieldset">
+        <legend>Page DNA — חומרי העסק</legend>
+        <p class="hint" style="margin-top:0">העלו לוגו ותמונות. דפדף יחלץ צבעים, יבחר תמונת Hero ויבנה גלריה שמרגישה שייכת לעסק.</p>
+        <div class="studio-grid">
+          <label class="studio-upload"><span>🪪 העלאת לוגו<small>PNG, JPG או WebP</small></span><input id="studio-logo" type="file" accept="image/*"></label>
+          <label class="studio-upload"><span>🖼️ תמונת Hero<small>התמונה הראשית של הדף</small></span><input id="studio-hero" type="file" accept="image/*"></label>
+          <label class="studio-upload wide"><span>📸 גלריית עבודות<small>עד 8 תמונות, נבחר ונמקם אותן אוטומטית</small></span><input id="studio-gallery" type="file" accept="image/*" multiple></label>
+        </div>
+        <div class="studio-previews" data-preview-for="studio-logo"></div>
+        <div class="studio-previews" data-preview-for="studio-hero"></div>
+        <div class="studio-previews" data-preview-for="studio-gallery"></div>
+        <textarea id="studio-ad-message" class="field-textarea" maxlength="600" style="min-height:110px;margin-top:16px" placeholder="אופציונלי: הדביקו כאן טקסט של מודעת Facebook או Google. הדף ימשיך בדיוק את ההבטחה של המודעה."></textarea>
+        <button type="button" class="btn btn-ghost btn-sm" id="studio-analyze" style="margin-top:14px">✨ נתחו את ה־Page DNA</button>
+        <div id="studio-dna" class="studio-dna"></div>
+      </fieldset>
     </section>
 
     <section class="wizard-step" data-step="3">
       <h2>איזה סגנון מתאים לכם?</h2>
-      <p class="hint">הבחירה קובעת את הצבעים, הטון והשפה של הדף כולו.</p>
+      <p class="hint">הבחירה קובעת את הצבעים, הטון והשפה של הדף כולו. לאחר היצירה תוכלו לעבור בין שלוש גרסאות עיצוב.</p>
       <div class="vibe-grid" id="vibe-grid">
         <div class="vibe-card" data-value="trust" style="--vibe-hue:230;" role="button" tabindex="0"><div class="vibe-swatch"></div><div class="name">אמין ומקצועי</div><div class="desc">רגוע, בוטח, ברור</div></div>
         <div class="vibe-card" data-value="energetic" style="--vibe-hue:25;" role="button" tabindex="0"><div class="vibe-swatch"></div><div class="name">אנרגטי וצעיר</div><div class="desc">נמרץ, חיובי, קליל</div></div>
@@ -63,7 +79,7 @@
         <button type="button" class="chip" data-value="signup">הרשמה לאירוע/קורס</button>
       </div>
       <div style="margin-top:28px;display:grid;gap:12px;">
-        <p class="hint" style="margin:0;">לאן הכפתור יוביל? השדות אופציונליים. בלי יעד פעיל, כפתור וטופס לא ייכללו בקובץ המיוצא.</p>
+        <p class="hint" style="margin:0;">לאן הכפתור יוביל? בלי יעד פעיל, כפתור וטופס לא ייכללו בקובץ המיוצא.</p>
         <input id="f-whatsapp" class="field-input" type="tel" maxlength="30" autocomplete="tel" placeholder="מספר WhatsApp, לדוגמה 050-1234567">
         <input id="f-email" class="field-input" type="email" maxlength="254" autocomplete="email" placeholder="אימייל לקבלת לידים">
         <input id="f-cta-url" class="field-input" type="url" maxlength="500" inputmode="url" placeholder="קישור חיצוני, לדוגמה https://example.com/order">
@@ -83,18 +99,32 @@
 
   <div id="result" style="display:none;">
     <div class="result-toolbar">
-      <div class="result-hint">✨ הדף מוכן — לחצו על כל טקסט כדי לערוך, רחפו על מקטע לפעולות AI</div>
-      <div class="actions">
+      <div class="result-hint">✨ הדף מוכן — ערכו טקסטים, החליפו מבנה ובדקו את ציון ההמרה</div>
+      <div class="actions studio-tools">
+        <button type="button" class="btn btn-ghost btn-sm active" id="studio-desktop">🖥️ מחשב</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="studio-mobile">📱 מובייל</button>
+        <span class="studio-divider"></span>
+        <button type="button" class="btn btn-ghost btn-sm active" data-studio-variant="classic">נקי</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-studio-variant="bold">נועז</button>
+        <button type="button" class="btn btn-ghost btn-sm" data-studio-variant="editorial">מערכתי</button>
+        <span class="studio-divider"></span>
+        <button type="button" class="btn btn-ghost btn-sm" id="studio-add-section">＋ מקטע</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="studio-audit">🧪 מבקר המרות <span class="studio-score"><b id="studio-score">—</b></span></button>
+        <button type="button" class="btn btn-ghost btn-sm" id="studio-save">💾 שמירה</button>
+        <button type="button" class="btn btn-ghost btn-sm" id="studio-load">↺ טעינה</button>
         <button type="button" class="btn btn-ghost btn-sm" id="btn-restart">התחלה מחדש</button>
         <button type="button" class="btn btn-accent btn-sm" id="btn-download">⬇ הורדת HTML</button>
       </div>
     </div>
     <div class="canvas-frame">
       <div class="canvas-bar" aria-hidden="true"><span class="canvas-dot d1"></span><span class="canvas-dot d2"></span><span class="canvas-dot d3"></span><span class="canvas-url">dafdaf.co.il/your-page</span></div>
-      <div class="result-canvas" id="result-canvas"></div>
+      <div class="result-canvas" id="result-canvas" data-studio-variant="classic"></div>
     </div>
   </div>
 </div>
+<div id="studio-backdrop" class="studio-panel-backdrop"></div>
+<aside id="studio-panel" class="studio-panel" aria-live="polite"></aside>
 <script src="js/builder.js"></script>
+<script src="js/studio.js"></script>
 </body>
 </html>
