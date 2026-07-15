@@ -2,321 +2,366 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<title>דפדף — בונים דף נחיתה מקצועי עם AI, תוך דקות</title>
-<meta name="description" content="דפדף — כלי AI שבונה עבורכם דף נחיתה מלא בעברית: מספרים לו על העסק, והוא כותב, מעצב ומפרסם דף שממיר. לעסקים קטנים ועצמאים בישראל.">
+<title>דפדף — דפי נחיתה שכותבים את עצמם</title>
+<meta name="description" content="דפדף הוא בונה דפי הנחיתה הראשון שכותב עבורכם את כל הדף בעברית — כותרות, יתרונות, המלצות וטופס לידים — עם AI. מתארים את העסק, מקבלים דף שמוכר.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="דפדף — דפי נחיתה שכותבים את עצמם">
+<meta property="og:description" content="מתארים את העסק במשפט. ה-AI כותב, מעצב ומפרסם דף נחיתה שלם בעברית.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%238b5cf6'/%3E%3Cstop%20offset='.55'%20stop-color='%23ec4899'/%3E%3Cstop%20offset='1'%20stop-color='%23f59e0b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='url(%23g)'/%3E%3Ctext%20x='32'%20y='45'%20font-family='Arial'%20font-size='36'%20font-weight='bold'%20text-anchor='middle'%20fill='white'%3E%D7%93%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-  * { box-sizing: border-box; }
-  body { margin: 0; }
-  ::selection { background: oklch(0.55 0.14 290 / 0.25); }
-</style>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/home.css">
 </head>
 <body>
 
-<div dir="rtl" style="font-family: 'Heebo', sans-serif; background: oklch(0.985 0.006 80); color: oklch(0.22 0.01 80); line-height: 1.5; overflow-x: hidden;">
+<a class="skip" href="#main">דלגו לתוכן</a>
+<div class="noise" aria-hidden="true"></div>
 
-  <!-- NAV -->
-  <nav style="display: flex; align-items: center; justify-content: space-between; padding: 22px 64px; position: sticky; top: 0; background: oklch(0.985 0.006 80 / 0.85); backdrop-filter: blur(10px); z-index: 50; border-bottom: 1px solid oklch(0.9 0.01 80);">
-    <div style="display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 20px;">
-      <div style="width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg, oklch(0.6 0.16 290), oklch(0.65 0.16 340)); display: flex; align-items: center; justify-content: center; color: white; font-size: 16px;">ד</div>
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">ד</span>
       דפדף
-    </div>
-    <div style="display: flex; gap: 36px; font-size: 15px; font-weight: 500; color: oklch(0.4 0.01 80);">
-      <a href="#features" style="color: inherit; text-decoration: none;">יכולות</a>
-      <a href="#showcase" style="color: inherit; text-decoration: none;">הדגמה</a>
-      <a href="#pricing" style="color: inherit; text-decoration: none;">מחירים</a>
-      <a href="#testimonials" style="color: inherit; text-decoration: none;">לקוחות</a>
-    </div>
-    <div style="display: flex; gap: 12px; align-items: center;">
-      <a href="#" style="color: oklch(0.3 0.01 80); text-decoration: none; font-weight: 600; font-size: 15px;">כניסה</a>
-      <a href="build.html" style="background: oklch(0.22 0.01 80); color: white; text-decoration: none; padding: 10px 20px; border-radius: 10px; font-weight: 600; font-size: 15px;">התחילו בחינם</a>
-    </div>
-  </nav>
+    </a>
+    <nav class="nav-links" aria-label="ניווט ראשי">
+      <a href="#how">איך זה עובד</a>
+      <a href="#features">יכולות</a>
+      <a href="#pricing">מחירים</a>
+      <a href="#faq">שאלות</a>
+    </nav>
+    <a href="build.html" class="nav-cta">בנו דף עכשיו</a>
+  </div>
+</header>
 
-  <!-- HERO -->
-  <section style="padding: 96px 64px 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; max-width: 1360px; margin: 0 auto;">
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+      <div class="grid-overlay"></div>
+    </div>
+
+    <div class="wrap hero-inner">
+      <div>
+        <div class="hero-badge">
+          <span class="pulse" aria-hidden="true"></span>
+          מנוע ה-AI של דפדף — כותב, מעצב ומפרסם
+        </div>
+        <h1>
+          מספרים על העסק במשפט.<br>
+          <span class="grad-text">ה-AI בונה דף שמוכר.</span>
+        </h1>
+        <p class="hero-sub">
+          דפדף הוא בונה דפי הנחיתה הראשון שחושב בעברית: הוא כותב עבורכם את הכותרות, היתרונות, ההמלצות וטופס הלידים — בעיצוב שמותאם לאופי העסק, מוכן לפרסום. בלי תבניות גנריות, בלי מעצב, בלי קוד.
+        </p>
+        <div class="hero-ctas">
+          <a href="build.html" class="btn-hero">בנו דף עכשיו — חינם ✨</a>
+          <a href="#how" class="btn-quiet">איך זה עובד ↓</a>
+        </div>
+        <div class="hero-trust">
+          <span><b class="tick">✓</b> ללא כרטיס אשראי</span>
+          <span><b class="tick">✓</b> עברית ו-RTL מלאים</span>
+          <span><b class="tick">✓</b> מוכן תוך דקות</span>
+        </div>
+      </div>
+
+      <div>
+        <!-- self-building landing page demo -->
+        <div class="demo-frame" id="demo" aria-label="הדגמה: דף נחיתה שנבנה על ידי AI">
+          <div class="demo-bar">
+            <span class="demo-dot r"></span>
+            <span class="demo-dot y"></span>
+            <span class="demo-dot g"></span>
+            <span class="demo-url">dafdaf.co.il/<b id="demo-slug"></b></span>
+          </div>
+          <div class="demo-prompt">
+            <span class="demo-spark" aria-hidden="true">✦</span>
+            <span><span id="demo-prompt-text"></span><span class="caret" aria-hidden="true"></span></span>
+          </div>
+          <div class="demo-page">
+            <div class="dp-badge" id="dp-badge"></div>
+            <h3 class="dp-headline"><span id="dp-headline"></span><span class="caret caret-h" id="dp-caret" aria-hidden="true"></span></h3>
+            <p class="dp-sub" id="dp-sub"></p>
+            <div class="dp-chips" id="dp-chips"></div>
+            <div class="dp-media" id="dp-media">תמונת אווירה</div>
+            <span class="dp-cta" id="dp-cta"></span>
+          </div>
+          <div class="demo-toast" id="demo-toast">✓ הדף פורסם</div>
+        </div>
+        <p class="demo-caption">↑ ככה זה נראה בזמן אמת — ה-AI בונה דף חדש לכל עסק</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MARQUEE ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>מסעדות <i class="sep">✦</i> קליניקות <i class="sep">✦</i> עורכי דין <i class="sep">✦</i> מאמנים אישיים <i class="sep">✦</i> סטודיו ליוגה <i class="sep">✦</i> צלמים <i class="sep">✦</i> מעצבות <i class="sep">✦</i> נדל״ן <i class="sep">✦</i> חנויות <i class="sep">✦</i> יועצים עסקיים <i class="sep">✦</i> קוסמטיקאיות <i class="sep">✦</i> מוזיקאים <i class="sep">✦</i></span>
+      <span>מסעדות <i class="sep">✦</i> קליניקות <i class="sep">✦</i> עורכי דין <i class="sep">✦</i> מאמנים אישיים <i class="sep">✦</i> סטודיו ליוגה <i class="sep">✦</i> צלמים <i class="sep">✦</i> מעצבות <i class="sep">✦</i> נדל״ן <i class="sep">✦</i> חנויות <i class="sep">✦</i> יועצים עסקיים <i class="sep">✦</i> קוסמטיקאיות <i class="sep">✦</i> מוזיקאים <i class="sep">✦</i></span>
+    </div>
+  </div>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section class="block" id="how">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <div class="eyebrow grad-text">איך זה עובד</div>
+        <h2>מרעיון לדף מפורסם, בשלושה צעדים</h2>
+        <p>אין ממשק עריכה מסובך ללמוד. יש שיחה קצרה — ודף מוכן.</p>
+      </div>
+      <div class="how-grid">
+        <div class="how-card" data-reveal style="--d:0">
+          <div class="how-num" aria-hidden="true">01</div>
+          <h3>מספרים על העסק</h3>
+          <p>ארבע שאלות קצרות: מי אתם, מה אתם מציעים, באיזה סגנון ומה מטרת הדף.</p>
+          <div class="how-viz" aria-hidden="true">
+            <div class="viz-bar w40"></div>
+            <div class="viz-bar w85"></div>
+            <div class="viz-bar w65"></div>
+          </div>
+        </div>
+        <div class="how-card" data-reveal style="--d:1">
+          <div class="how-num" aria-hidden="true">02</div>
+          <h3>ה-AI כותב ומעצב</h3>
+          <p>דפדף מנסח כותרות, יתרונות והמלצות בעברית טבעית, ובוחר פלטה שמתאימה לאופי העסק.</p>
+          <div class="how-viz" aria-hidden="true">
+            <div class="viz-typing">שעה אחת ביום שהיא רק שלך…</div>
+            <div class="viz-bar hot w65"></div>
+            <div class="viz-pill"><span>🔄 נסח מחדש</span><span>✂ קצר</span></div>
+          </div>
+        </div>
+        <div class="how-card" data-reveal style="--d:2">
+          <div class="how-num" aria-hidden="true">03</div>
+          <h3>עורכים ומפרסמים</h3>
+          <p>כל מילה ניתנת לעריכה בקליק, כל מקטע ניתן לשכתוב — ואז מורידים דף מוכן לאוויר.</p>
+          <div class="how-viz" style="justify-content: center;" aria-hidden="true">
+            <div class="viz-link">dafdaf.co.il/your-page <span class="ok">✓ LIVE</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURES / BENTO ============ -->
+  <section class="block" id="features" style="padding-top: 40px;">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <div class="eyebrow grad-text">למה דפדף</div>
+        <h2>לא עוד בונה אתרים.<br>שותף שכותב איתכם.</h2>
+        <p>כלים אחרים נותנים לכם תבנית ריקה. דפדף מגיע עם הטקסט, העיצוב והרעיון.</p>
+      </div>
+
+      <div class="bento-grid">
+        <div class="b-cell span-4" data-reveal style="--d:0">
+          <div class="b-regen-viz" aria-hidden="true">
+            <div class="regen-quotes">
+              <span>"מרגישים שינוי כבר מהשיעור הראשון — גוף חזק, ראש שקט."</span>
+              <span>"שעה אחת ביום שכולה שלך: תנועה, נשימה ושקט."</span>
+            </div>
+            <div class="regen-toolbar">
+              <b>🔄 נסח מחדש</b><b>✂ קצר</b><b>🔥 מכירתי</b>
+            </div>
+          </div>
+          <h3>שכתוב חכם, לכל מקטע בנפרד</h3>
+          <p>לא אהבתם ניסוח? מבקשים מה-AI לנסח מחדש, לקצר או לחדד את המסר — רק במקטע הזה, בלי להתחיל מהתחלה. הוא ממשיך מהגרסה שערכתם, לא מאפס.</p>
+        </div>
+
+        <div class="b-cell span-2" data-reveal style="--d:1">
+          <div class="b-alef" aria-hidden="true">א</div>
+          <h3>עברית היא שפת האם</h3>
+          <p>לא תרגום של תבנית אמריקאית: כיווניות, טיפוגרפיה וניסוח שנולדו בעברית.</p>
+        </div>
+
+        <div class="b-cell span-2" data-reveal style="--d:0">
+          <div class="b-edit-viz" aria-hidden="true">
+            הטיפול <mark>שמחזיר אתכם לתנועה</mark> בלי כאבים.
+          </div>
+          <h3>עריכה בקליק אחד</h3>
+          <p>לוחצים על כל טקסט בדף ומקלידים. מה שרואים זה מה שמפרסמים.</p>
+        </div>
+
+        <div class="b-cell span-2" data-reveal style="--d:1">
+          <div class="b-vibes" aria-hidden="true">
+            <div class="b-vibe v1"></div>
+            <div class="b-vibe v2"></div>
+            <div class="b-vibe v3"></div>
+          </div>
+          <h3>סגנון שמתאים לעסק</h3>
+          <p>אמין, אנרגטי או יוקרתי — הבחירה משנה את הצבעים, הטון והשפה של כל הדף.</p>
+        </div>
+
+        <div class="b-cell span-2" data-reveal style="--d:2">
+          <div class="b-code" aria-hidden="true">&lt;/&gt;</div>
+          <h3>הדף שלכם, באמת שלכם</h3>
+          <p>מורידים קובץ HTML נקי ועצמאי. בלי נעילה לפלטפורמה, בלי דמי כופר חודשיים.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section class="block" id="testimonials">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <div class="eyebrow grad-text">לקוחות מספרים</div>
+        <h2>עסקים קטנים, קופירייטינג גדול</h2>
+      </div>
+      <div class="tstm-grid">
+        <div class="tstm-card" data-reveal style="--d:0">
+          <div class="tstm-mark" aria-hidden="true">„</div>
+          <blockquote>כתבתי שלושה משפטים על הסטודיו וקיבלתי דף שנשמע כאילו קופירייטרית ישבה איתי שבוע. ערכתי שתי מילים — ופרסמתי.</blockquote>
+          <div class="tstm-who">
+            <div class="tstm-avatar a1">נ</div>
+            <div>
+              <div class="tstm-name">נועה שגיא</div>
+              <div class="tstm-role">סטודיו יוגה, תל אביב</div>
+            </div>
+          </div>
+        </div>
+        <div class="tstm-card" data-reveal style="--d:1">
+          <div class="tstm-mark" aria-hidden="true">„</div>
+          <blockquote>מה ששכנע אותי זה כפתור "נסח מחדש". במקום להתעצבן על טקסט לא מדויק — לוחצים, ומקבלים גרסה טובה יותר.</blockquote>
+          <div class="tstm-who">
+            <div class="tstm-avatar a2">א</div>
+            <div>
+              <div class="tstm-name">איתי כהן</div>
+              <div class="tstm-role">קליניקת פיזיותרפיה, חיפה</div>
+            </div>
+          </div>
+        </div>
+        <div class="tstm-card" data-reveal style="--d:2">
+          <div class="tstm-mark" aria-hidden="true">„</div>
+          <blockquote>ניסיתי בוני אתרים באנגלית שמתרגמים לעברית. ההבדל אצל דפדף מורגש מהמילה הראשונה בכותרת.</blockquote>
+          <div class="tstm-who">
+            <div class="tstm-avatar a3">מ</div>
+            <div>
+              <div class="tstm-name">מיטל בר</div>
+              <div class="tstm-role">בוטיק אופנה, ירושלים</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRICING ============ -->
+  <section class="block" id="pricing">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <div class="eyebrow grad-text">מחירים</div>
+        <h2>תמחור פשוט וישר</h2>
+        <p>בלי התחייבות שנתית, בלי הפתעות בחשבונית.</p>
+      </div>
+      <div class="price-grid">
+        <div class="price-card" data-reveal style="--d:0">
+          <div class="price-tier">חינמי</div>
+          <div class="price-num">₪0</div>
+          <div class="price-for">לנסות, לבנות, להתאהב</div>
+          <a href="build.html" class="price-btn">התחילו עכשיו</a>
+          <div class="price-feats">
+            <span>דף נחיתה מלא אחד</span>
+            <span>כל יכולות הכתיבה של ה-AI</span>
+            <span>עריכה חופשית וייצוא HTML</span>
+          </div>
+        </div>
+        <div class="price-card popular" data-reveal style="--d:1">
+          <div class="price-flag">הכי פופולרי</div>
+          <div class="price-tier">מקצועי</div>
+          <div class="price-num">₪49<small>/חודש</small></div>
+          <div class="price-for">לעסקים שרצים קדימה</div>
+          <a href="build.html" class="price-btn hot">התחילו לבנות</a>
+          <div class="price-feats">
+            <span>עד 10 דפי נחיתה</span>
+            <span>דומיין אישי</span>
+            <span>שכתובי AI ללא הגבלה</span>
+            <span>טפסי לידים + אנליטיקס</span>
+          </div>
+        </div>
+        <div class="price-card" data-reveal style="--d:2">
+          <div class="price-tier">עסקי</div>
+          <div class="price-num">₪149<small>/חודש</small></div>
+          <div class="price-for">לצוותים ולסוכנויות</div>
+          <a href="build.html" class="price-btn">דברו איתנו</a>
+          <div class="price-feats">
+            <span>דפים ללא הגבלה</span>
+            <span>ניהול ריבוי לקוחות</span>
+            <span>תמיכה מועדפת</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="block" id="faq" style="padding-top: 30px;">
+    <div class="wrap">
+      <div class="sec-head" data-reveal>
+        <div class="eyebrow grad-text">שאלות נפוצות</div>
+        <h2>כל מה שרציתם לדעת</h2>
+      </div>
+      <div class="faq-list" data-reveal>
+        <details>
+          <summary>צריך ידע טכני כדי להשתמש בדפדף? <span class="faq-plus">+</span></summary>
+          <p>לא. עונים על ארבע שאלות קצרות בעברית, וה-AI עושה את השאר. עריכה נעשית בלחיצה ישירה על הטקסט — כמו במסמך, לא כמו בתוכנת עיצוב.</p>
+        </details>
+        <details>
+          <summary>אפשר לשנות את מה שה-AI כתב? <span class="faq-plus">+</span></summary>
+          <p>בוודאי, וזה הלב של דפדף: כל מילה ניתנת לעריכה ישירה, וכל מקטע אפשר לבקש מה-AI לשכתב, לקצר או לחדד. הוא תמיד ממשיך מהגרסה האחרונה שערכתם — לא מתחיל מאפס.</p>
+        </details>
+        <details>
+          <summary>מה עושים עם קובץ ה-HTML שמורידים? <span class="faq-plus">+</span></summary>
+          <p>הקובץ עצמאי לחלוטין: אפשר להעלות אותו לכל אחסון (Vercel, Netlify, האחסון של הדומיין שלכם) או להעביר למי שמנהל לכם את האתר. אין תלות בדפדף אחרי ההורדה.</p>
+        </details>
+        <details>
+          <summary>באיזה מודל AI אתם משתמשים? <span class="faq-plus">+</span></summary>
+          <p>דפדף עובד עם Claude של Anthropic — מודל שמצטיין בכתיבה בעברית טבעית ובהבנת הקשר עסקי, לא רק בתרגום.</p>
+        </details>
+        <details>
+          <summary>מה כלול במסלול החינמי? <span class="faq-plus">+</span></summary>
+          <p>דף נחיתה מלא אחד, כולל כל יכולות הכתיבה והעריכה של ה-AI וייצוא הקובץ. בלי כרטיס אשראי ובלי מגבלת זמן.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="block" style="padding-top: 20px;">
+    <div class="wrap">
+      <div class="cta-panel" data-reveal>
+        <div class="cta-glow" aria-hidden="true"></div>
+        <h2>הדף הבא שלכם <span class="grad-text">כבר כתוב.</span></h2>
+        <p>צריך רק לספר לדפדף על העסק.</p>
+        <a href="build.html" class="btn-hero">בנו דף נחיתה עכשיו ✨</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap foot-inner">
     <div>
-      <div style="display: inline-flex; align-items: center; gap: 8px; background: oklch(0.94 0.03 290); color: oklch(0.42 0.12 290); padding: 7px 14px; border-radius: 999px; font-size: 14px; font-weight: 600; margin-bottom: 24px;">
-        <span style="width: 6px; height: 6px; border-radius: 999px; background: oklch(0.55 0.16 290);"></span>
-        חדש: דף נחיתה שלם נכתב ומעוצב על ידי AI
+      <div class="foot-brand">
+        <span class="brand-mark" style="width:26px;height:26px;border-radius:8px;font-size:14px;">ד</span>
+        דפדף
       </div>
-      <h1 style="font-size: 56px; font-weight: 800; line-height: 1.12; margin: 0 0 24px; letter-spacing: -0.5px;">
-        מספרים על העסק<br/>
-        <span style="background: linear-gradient(135deg, oklch(0.55 0.16 290), oklch(0.6 0.16 340)); -webkit-background-clip: text; background-clip: text; color: transparent;">ה-AI בונה לכם דף נחיתה</span>
-      </h1>
-      <p style="font-size: 19px; color: oklch(0.42 0.01 80); max-width: 480px; margin: 0 0 36px;">
-        עונים על כמה שאלות קצרות, ודפדף כותב, מעצב ומפרסם עבורכם דף נחיתה מלא בעברית — כותרות, יתרונות, המלצות וטופס לידים. אפשר גם לערוך כל מילה בקליק.
-      </p>
-      <div style="display: flex; gap: 14px; margin-bottom: 40px;">
-        <a href="build.html" style="background: oklch(0.22 0.01 80); color: white; text-decoration: none; padding: 16px 30px; border-radius: 12px; font-weight: 700; font-size: 16px;">בנו לי דף עם AI בחינם</a>
-        <a href="#showcase" style="background: white; color: oklch(0.22 0.01 80); text-decoration: none; padding: 16px 30px; border-radius: 12px; font-weight: 700; font-size: 16px; border: 1px solid oklch(0.88 0.01 80);">צפו בהדגמה</a>
-      </div>
-      <div style="display: flex; gap: 28px; font-size: 14px; color: oklch(0.48 0.01 80);">
-        <div style="display:flex; align-items:center; gap:6px;"><span style="color: oklch(0.55 0.16 290);">✓</span> ללא כרטיס אשראי</div>
-        <div style="display:flex; align-items:center; gap:6px;"><span style="color: oklch(0.55 0.16 290);">✓</span> מוכן תוך 3 דקות</div>
-      </div>
+      <div class="foot-tag">דפי נחיתה שכותבים את עצמם.</div>
     </div>
-
-    <div style="position: relative;">
-      <div style="border-radius: 20px; background: white; border: 1px solid oklch(0.9 0.01 80); box-shadow: 0 30px 60px -20px oklch(0.3 0.02 290 / 0.25); overflow: hidden;">
-        <div style="display: flex; gap: 8px; padding: 14px 18px; border-bottom: 1px solid oklch(0.93 0.01 80);">
-          <div style="width: 10px; height: 10px; border-radius: 999px; background: oklch(0.75 0.12 30);"></div>
-          <div style="width: 10px; height: 10px; border-radius: 999px; background: oklch(0.8 0.1 90);"></div>
-          <div style="width: 10px; height: 10px; border-radius: 999px; background: oklch(0.75 0.1 150);"></div>
-        </div>
-        <div style="padding: 20px; display: grid; grid-template-columns: 90px 1fr; gap: 16px;">
-          <div style="display: flex; flex-direction: column; gap: 10px;">
-            <div style="height: 56px; border-radius: 10px; background: oklch(0.95 0.03 290); border: 1.5px solid oklch(0.6 0.16 290);"></div>
-            <div style="height: 40px; border-radius: 10px; background: oklch(0.96 0.005 80);"></div>
-            <div style="height: 40px; border-radius: 10px; background: oklch(0.96 0.005 80);"></div>
-            <div style="height: 40px; border-radius: 10px; background: oklch(0.96 0.005 80);"></div>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: 12px;">
-            <div style="height: 130px; border-radius: 12px; background: repeating-linear-gradient(135deg, oklch(0.93 0.03 290), oklch(0.93 0.03 290) 10px, oklch(0.9 0.03 290) 10px, oklch(0.9 0.03 290) 20px); display:flex; align-items:center; justify-content:center; font-family: monospace; font-size: 12px; color: oklch(0.4 0.05 290);">תמונת הירו</div>
-            <div style="height: 14px; width: 70%; border-radius: 4px; background: oklch(0.9 0.005 80);"></div>
-            <div style="height: 14px; width: 90%; border-radius: 4px; background: oklch(0.93 0.005 80);"></div>
-            <div style="display: flex; gap: 10px; margin-top: 4px;">
-              <div style="height: 34px; width: 100px; border-radius: 8px; background: oklch(0.6 0.16 290);"></div>
-              <div style="height: 34px; width: 100px; border-radius: 8px; background: oklch(0.95 0.005 80);"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="position: absolute; top: -18px; left: -24px; background: white; border: 1px solid oklch(0.9 0.01 80); border-radius: 12px; padding: 12px 16px; box-shadow: 0 12px 30px -10px oklch(0.3 0.02 290 / 0.2); font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
-        <span style="color: oklch(0.6 0.14 150);">▲ 34%</span> יותר המרות
-      </div>
+    <div class="foot-links">
+      <a href="build.html">בניית דף</a>
+      <a href="#pricing">מחירים</a>
+      <a href="#">פרטיות</a>
+      <a href="#">תנאי שימוש</a>
     </div>
-  </section>
+    <div class="foot-tag">© 2026 דפדף. כל הזכויות שמורות.</div>
+  </div>
+</footer>
 
-  <!-- LOGOS -->
-  <section style="padding: 20px 64px 72px; max-width: 1200px; margin: 0 auto; text-align: center;">
-    <p style="font-size: 13px; color: oklch(0.55 0.01 80); font-weight: 600; letter-spacing: 1px; margin-bottom: 24px;">אלפי עסקים קטנים כבר בונים איתנו</p>
-    <div style="display: flex; justify-content: center; gap: 56px; flex-wrap: wrap; opacity: 0.5;">
-      <div style="font-weight: 800; font-size: 20px;">סטודיו נועה</div>
-      <div style="font-weight: 800; font-size: 20px;">קפה טל</div>
-      <div style="font-weight: 800; font-size: 20px;">בוטיק אורלי</div>
-      <div style="font-weight: 800; font-size: 20px;">פיט־קליניק</div>
-      <div style="font-weight: 800; font-size: 20px;">רהיטי דן</div>
-    </div>
-  </section>
-
-  <!-- FEATURES -->
-  <section id="features" style="padding: 80px 64px; background: white; border-top: 1px solid oklch(0.92 0.01 80); border-bottom: 1px solid oklch(0.92 0.01 80);">
-    <div style="max-width: 1200px; margin: 0 auto;">
-      <div style="text-align: center; max-width: 640px; margin: 0 auto 64px;">
-        <div style="font-size: 14px; font-weight: 700; color: oklch(0.55 0.16 290); margin-bottom: 12px;">למה דפדף</div>
-        <h2 style="font-size: 38px; font-weight: 800; margin: 0 0 16px; letter-spacing: -0.4px;">כל מה שצריך כדי לפרסם דף שממיר</h2>
-        <p style="font-size: 17px; color: oklch(0.45 0.01 80); margin: 0;">בלי מעצב, בלי מפתח — רק תוצאה מקצועית.</p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
-        <div style="padding: 32px; border: 1px solid oklch(0.92 0.01 80); border-radius: 16px;">
-          <div style="width: 48px; height: 48px; border-radius: 12px; background: oklch(0.94 0.03 290); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px;">⬚</div>
-          <h3 style="font-size: 19px; font-weight: 700; margin: 0 0 10px;">גרירה ושחרור</h3>
-          <p style="font-size: 15px; color: oklch(0.48 0.01 80); margin: 0;">סדרו קטעים, החליפו סדר ועדכנו טקסטים בקליק — ללא ידע טכני.</p>
-        </div>
-        <div style="padding: 32px; border: 1px solid oklch(0.92 0.01 80); border-radius: 16px;">
-          <div style="width: 48px; height: 48px; border-radius: 12px; background: oklch(0.94 0.03 340); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px;">▤</div>
-          <h3 style="font-size: 19px; font-weight: 700; margin: 0 0 10px;">תבניות מוכנות בעברית</h3>
-          <p style="font-size: 15px; color: oklch(0.48 0.01 80); margin: 0;">עשרות תבניות RTL מותאמות לענפים שונים — מסעדות ועד קליניקות.</p>
-        </div>
-        <div style="padding: 32px; border: 1px solid oklch(0.92 0.01 80); border-radius: 16px;">
-          <div style="width: 48px; height: 48px; border-radius: 12px; background: oklch(0.94 0.03 290); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px;">⚡</div>
-          <h3 style="font-size: 19px; font-weight: 700; margin: 0 0 10px;">פרסום מיידי</h3>
-          <p style="font-size: 15px; color: oklch(0.48 0.01 80); margin: 0;">קישור לשיתוף תוך שניות, עם דומיין משלכם או תת־דומיין חינמי.</p>
-        </div>
-        <div style="padding: 32px; border: 1px solid oklch(0.92 0.01 80); border-radius: 16px;">
-          <div style="width: 48px; height: 48px; border-radius: 12px; background: oklch(0.94 0.03 340); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px;">✎</div>
-          <h3 style="font-size: 19px; font-weight: 700; margin: 0 0 10px;">טפסי לידים מובנים</h3>
-          <p style="font-size: 15px; color: oklch(0.48 0.01 80); margin: 0;">אספו פניות ישירות לוואטסאפ, מייל או Google Sheets.</p>
-        </div>
-        <div style="padding: 32px; border: 1px solid oklch(0.92 0.01 80); border-radius: 16px;">
-          <div style="width: 48px; height: 48px; border-radius: 12px; background: oklch(0.94 0.03 290); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px;">◱</div>
-          <h3 style="font-size: 19px; font-weight: 700; margin: 0 0 10px;">מותאם למובייל אוטומטית</h3>
-          <p style="font-size: 15px; color: oklch(0.48 0.01 80); margin: 0;">כל דף נראה מצוין בכל מסך, בלי לגעת בהגדרות.</p>
-        </div>
-        <div style="padding: 32px; border: 1px solid oklch(0.92 0.01 80); border-radius: 16px;">
-          <div style="width: 48px; height: 48px; border-radius: 12px; background: oklch(0.94 0.03 340); display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 20px;">▦</div>
-          <h3 style="font-size: 19px; font-weight: 700; margin: 0 0 10px;">אנליטיקס פשוט</h3>
-          <p style="font-size: 15px; color: oklch(0.48 0.01 80); margin: 0;">ראו כמה נכנסו, כמה השאירו פרטים, ואיפה לשפר.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SHOWCASE / BUILDER DEMO -->
-  <section id="showcase" style="padding: 88px 64px; max-width: 1200px; margin: 0 auto;">
-    <div style="text-align: center; max-width: 640px; margin: 0 auto 56px;">
-      <div style="font-size: 14px; font-weight: 700; color: oklch(0.55 0.16 290); margin-bottom: 12px;">איך זה עובד</div>
-      <h2 style="font-size: 38px; font-weight: 800; margin: 0 0 16px; letter-spacing: -0.4px;">מהרעיון לדף חי — בשלושה צעדים</h2>
-    </div>
-
-    <div style="display: grid; grid-template-columns: 320px 1fr; gap: 40px; align-items: start;">
-      <div style="display: flex; flex-direction: column; gap: 4px;">
-        <div style="display: flex; gap: 16px; padding: 20px; border-radius: 14px; background: white; border: 1.5px solid oklch(0.6 0.16 290);">
-          <div style="width: 32px; height: 32px; border-radius: 999px; background: oklch(0.6 0.16 290); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">1</div>
-          <div>
-            <div style="font-weight: 700; margin-bottom: 4px;">בחרו תבנית</div>
-            <div style="font-size: 14px; color: oklch(0.48 0.01 80);">התאימו לענף ולמטרה שלכם</div>
-          </div>
-        </div>
-        <div style="display: flex; gap: 16px; padding: 20px; border-radius: 14px;">
-          <div style="width: 32px; height: 32px; border-radius: 999px; background: oklch(0.92 0.01 80); color: oklch(0.4 0.01 80); display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">2</div>
-          <div>
-            <div style="font-weight: 700; margin-bottom: 4px;">ערכו תוכן ותמונות</div>
-            <div style="font-size: 14px; color: oklch(0.48 0.01 80);">גררו קטעים והחליפו טקסטים בקליק</div>
-          </div>
-        </div>
-        <div style="display: flex; gap: 16px; padding: 20px; border-radius: 14px;">
-          <div style="width: 32px; height: 32px; border-radius: 999px; background: oklch(0.92 0.01 80); color: oklch(0.4 0.01 80); display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0;">3</div>
-          <div>
-            <div style="font-weight: 700; margin-bottom: 4px;">פרסמו ושתפו</div>
-            <div style="font-size: 14px; color: oklch(0.48 0.01 80);">קבלו קישור חי מיידית</div>
-          </div>
-        </div>
-      </div>
-
-      <div style="background: oklch(0.97 0.005 80); border: 1px solid oklch(0.9 0.01 80); border-radius: 18px; padding: 24px; box-shadow: 0 24px 50px -24px oklch(0.3 0.02 290 / 0.2);">
-        <div style="display: grid; grid-template-columns: 160px 1fr; gap: 20px;">
-          <div style="background: white; border-radius: 12px; border: 1px solid oklch(0.9 0.01 80); padding: 14px; display: flex; flex-direction: column; gap: 10px;">
-            <div style="font-size: 12px; font-weight: 700; color: oklch(0.5 0.01 80); margin-bottom: 4px;">קטעים</div>
-            <div style="padding: 8px 10px; border-radius: 8px; background: oklch(0.94 0.03 290); font-size: 13px; font-weight: 600; color: oklch(0.4 0.12 290);">כותרת ראשית</div>
-            <div style="padding: 8px 10px; border-radius: 8px; font-size: 13px; color: oklch(0.45 0.01 80);">יתרונות</div>
-            <div style="padding: 8px 10px; border-radius: 8px; font-size: 13px; color: oklch(0.45 0.01 80);">המלצות</div>
-            <div style="padding: 8px 10px; border-radius: 8px; font-size: 13px; color: oklch(0.45 0.01 80);">קריאה לפעולה</div>
-          </div>
-          <div style="background: white; border-radius: 12px; border: 1px solid oklch(0.9 0.01 80); padding: 22px; display: flex; flex-direction: column; gap: 14px;">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <div style="height: 22px; width: 40%; border-radius: 6px; background: oklch(0.2 0.01 80);"></div>
-              <div style="display: flex; gap: 6px;">
-                <div style="width: 22px; height: 22px; border-radius: 6px; background: oklch(0.95 0.005 80); border: 1px solid oklch(0.88 0.01 80);"></div>
-                <div style="width: 22px; height: 22px; border-radius: 6px; background: oklch(0.95 0.005 80); border: 1px solid oklch(0.88 0.01 80);"></div>
-              </div>
-            </div>
-            <div style="height: 100px; border-radius: 10px; background: repeating-linear-gradient(135deg, oklch(0.95 0.03 340), oklch(0.95 0.03 340) 10px, oklch(0.92 0.03 340) 10px, oklch(0.92 0.03 340) 20px); display:flex; align-items:center; justify-content:center; font-family: monospace; font-size: 12px; color: oklch(0.4 0.06 340);">תמונת מוצר</div>
-            <div style="height: 12px; width: 60%; border-radius: 4px; background: oklch(0.92 0.005 80);"></div>
-            <div style="height: 12px; width: 85%; border-radius: 4px; background: oklch(0.94 0.005 80);"></div>
-            <div style="height: 36px; width: 130px; border-radius: 8px; background: oklch(0.6 0.16 290);"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TESTIMONIALS -->
-  <section id="testimonials" style="padding: 80px 64px; background: oklch(0.22 0.01 80); color: white;">
-    <div style="max-width: 1200px; margin: 0 auto;">
-      <div style="text-align: center; max-width: 600px; margin: 0 auto 56px;">
-        <div style="font-size: 14px; font-weight: 700; color: oklch(0.75 0.13 290); margin-bottom: 12px;">לקוחות מספרים</div>
-        <h2 style="font-size: 36px; font-weight: 800; margin: 0; letter-spacing: -0.4px;">עסקים קטנים, תוצאות גדולות</h2>
-      </div>
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
-        <div style="background: oklch(0.27 0.01 80); border-radius: 16px; padding: 28px;">
-          <p style="font-size: 15px; line-height: 1.6; margin: 0 0 20px; color: oklch(0.9 0.005 80);">"תוך יומיים היה לי דף נחיתה מקצועי לסטודיו שלי. הלקוחות מתחילים להתקשר כבר בשבוע הראשון."</p>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 38px; height: 38px; border-radius: 999px; background: oklch(0.5 0.1 290);"></div>
-            <div>
-              <div style="font-weight: 700; font-size: 14px;">נועה שגיא</div>
-              <div style="font-size: 13px; color: oklch(0.65 0.01 80);">סטודיו יוגה</div>
-            </div>
-          </div>
-        </div>
-        <div style="background: oklch(0.27 0.01 80); border-radius: 16px; padding: 28px;">
-          <p style="font-size: 15px; line-height: 1.6; margin: 0 0 20px; color: oklch(0.9 0.005 80);">"החלפתי סוכנות שגבתה אלפי שקלים בכלי הזה. אותה רמה, שבריר מהמחיר והזמן."</p>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 38px; height: 38px; border-radius: 999px; background: oklch(0.5 0.1 340);"></div>
-            <div>
-              <div style="font-weight: 700; font-size: 14px;">איתי כהן</div>
-              <div style="font-size: 13px; color: oklch(0.65 0.01 80);">קליניקת פיזיותרפיה</div>
-            </div>
-          </div>
-        </div>
-        <div style="background: oklch(0.27 0.01 80); border-radius: 16px; padding: 28px;">
-          <p style="font-size: 15px; line-height: 1.6; margin: 0 0 20px; color: oklch(0.9 0.005 80);">"התבניות מותאמות לעברית באמת, לא סתם תרגום. זה הבדל ענק ברושם הראשוני."</p>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 38px; height: 38px; border-radius: 999px; background: oklch(0.5 0.1 290);"></div>
-            <div>
-              <div style="font-weight: 700; font-size: 14px;">מיטל בר</div>
-              <div style="font-size: 13px; color: oklch(0.65 0.01 80);">בוטיק אופנה</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PRICING -->
-  <section id="pricing" style="padding: 88px 64px; max-width: 1200px; margin: 0 auto;">
-    <div style="text-align: center; max-width: 600px; margin: 0 auto 56px;">
-      <div style="font-size: 14px; font-weight: 700; color: oklch(0.55 0.16 290); margin-bottom: 12px;">מחירים</div>
-      <h2 style="font-size: 38px; font-weight: 800; margin: 0 0 16px; letter-spacing: -0.4px;">תמחור פשוט וישר</h2>
-      <p style="font-size: 17px; color: oklch(0.45 0.01 80); margin: 0;">בלי התחייבות שנתית, בלי הפתעות.</p>
-    </div>
-
-    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; align-items: stretch;">
-      <div style="border: 1px solid oklch(0.9 0.01 80); border-radius: 18px; padding: 32px; background: white;">
-        <div style="font-weight: 700; font-size: 18px; margin-bottom: 8px;">חינמי</div>
-        <div style="font-size: 36px; font-weight: 800; margin-bottom: 4px;">₪0</div>
-        <div style="font-size: 14px; color: oklch(0.5 0.01 80); margin-bottom: 24px;">לתמיד</div>
-        <a href="build.html" style="display: block; text-align: center; background: oklch(0.95 0.005 80); color: oklch(0.22 0.01 80); text-decoration: none; padding: 12px; border-radius: 10px; font-weight: 700; margin-bottom: 28px;">התחילו עכשיו</a>
-        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px; color: oklch(0.4 0.01 80);">
-          <div>✓ דף נחיתה אחד</div>
-          <div>✓ תת־דומיין חינמי</div>
-          <div>✓ עד 5 תבניות</div>
-        </div>
-      </div>
-
-      <div style="border: 2px solid oklch(0.6 0.16 290); border-radius: 18px; padding: 32px; background: white; position: relative; box-shadow: 0 24px 50px -24px oklch(0.55 0.16 290 / 0.35);">
-        <div style="position: absolute; top: -14px; right: 32px; background: oklch(0.6 0.16 290); color: white; font-size: 12px; font-weight: 700; padding: 5px 12px; border-radius: 999px;">הכי פופולרי</div>
-        <div style="font-weight: 700; font-size: 18px; margin-bottom: 8px;">מקצועי</div>
-        <div style="font-size: 36px; font-weight: 800; margin-bottom: 4px;">₪49<span style="font-size: 16px; font-weight: 500; color: oklch(0.5 0.01 80);">/חודש</span></div>
-        <div style="font-size: 14px; color: oklch(0.5 0.01 80); margin-bottom: 24px;">לעסקים פעילים</div>
-        <a href="build.html" style="display: block; text-align: center; background: oklch(0.6 0.16 290); color: white; text-decoration: none; padding: 12px; border-radius: 10px; font-weight: 700; margin-bottom: 28px;">התחילו לבנות</a>
-        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px; color: oklch(0.4 0.01 80);">
-          <div>✓ עד 10 דפי נחיתה</div>
-          <div>✓ דומיין אישי</div>
-          <div>✓ כל התבניות</div>
-          <div>✓ טפסי לידים + אנליטיקס</div>
-        </div>
-      </div>
-
-      <div style="border: 1px solid oklch(0.9 0.01 80); border-radius: 18px; padding: 32px; background: white;">
-        <div style="font-weight: 700; font-size: 18px; margin-bottom: 8px;">עסקי</div>
-        <div style="font-size: 36px; font-weight: 800; margin-bottom: 4px;">₪149<span style="font-size: 16px; font-weight: 500; color: oklch(0.5 0.01 80);">/חודש</span></div>
-        <div style="font-size: 14px; color: oklch(0.5 0.01 80); margin-bottom: 24px;">לצוותים וסוכנויות</div>
-        <a href="#" style="display: block; text-align: center; background: oklch(0.95 0.005 80); color: oklch(0.22 0.01 80); text-decoration: none; padding: 12px; border-radius: 10px; font-weight: 700; margin-bottom: 28px;">דברו איתנו</a>
-        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px; color: oklch(0.4 0.01 80);">
-          <div>✓ דפים ללא הגבלה</div>
-          <div>✓ ניהול ריבוי לקוחות</div>
-          <div>✓ תמיכה מועדפת</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FINAL CTA -->
-  <section style="padding: 90px 64px; max-width: 1000px; margin: 0 auto; text-align: center;">
-    <h2 style="font-size: 40px; font-weight: 800; margin: 0 0 20px; letter-spacing: -0.5px;">מוכנים לדף הנחיתה הבא שלכם?</h2>
-    <p style="font-size: 18px; color: oklch(0.45 0.01 80); margin: 0 0 36px;">הצטרפו לאלפי עסקים קטנים שכבר בונים עם דפדף.</p>
-    <a href="build.html" style="display: inline-block; background: oklch(0.22 0.01 80); color: white; text-decoration: none; padding: 18px 40px; border-radius: 12px; font-weight: 700; font-size: 17px;">התחילו בחינם היום</a>
-  </section>
-
-  <!-- FOOTER -->
-  <footer style="padding: 48px 64px; border-top: 1px solid oklch(0.92 0.01 80); display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
-    <div style="display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 16px;">
-      <div style="width: 24px; height: 24px; border-radius: 6px; background: linear-gradient(135deg, oklch(0.6 0.16 290), oklch(0.65 0.16 340)); display: flex; align-items: center; justify-content: center; color: white; font-size: 13px;">ד</div>
-      דפדף
-    </div>
-    <div style="font-size: 14px; color: oklch(0.55 0.01 80);">© 2026 דפדף. כל הזכויות שמורות.</div>
-    <div style="display: flex; gap: 24px; font-size: 14px; color: oklch(0.5 0.01 80);">
-      <a href="#" style="color: inherit; text-decoration: none;">פרטיות</a>
-      <a href="#" style="color: inherit; text-decoration: none;">תנאי שימוש</a>
-    </div>
-  </footer>
-
-</div>
-
+<script src="js/home.js"></script>
 </body>
 </html>
