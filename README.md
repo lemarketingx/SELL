@@ -14,9 +14,11 @@
 העתיקו את `.env.example` והגדירו:
 
 - `ANTHROPIC_API_KEY` — מפתח Anthropic בצד השרת בלבד.
-- `UPSTASH_REDIS_REST_URL` — כתובת REST של Upstash Redis.
-- `UPSTASH_REDIS_REST_TOKEN` — token ל-Upstash Redis.
+- `UPSTASH_REDIS_REST_KV_REST_API_URL` — כתובת REST שנוצרת אוטומטית בחיבור Upstash for Redis דרך Vercel.
+- `UPSTASH_REDIS_REST_KV_REST_API_TOKEN` — token לכתיבה שנוצר אוטומטית בחיבור Upstash for Redis דרך Vercel.
 - `RATE_LIMIT_SALT` — ערך אקראי המשמש לגיבוב כתובות IP במפתחות ההגבלה.
+
+אין להשתמש ב־`UPSTASH_REDIS_REST_KV_REST_API_READ_ONLY_TOKEN`, מפני שמנגנון הגבלת השימוש צריך לכתוב מונים למסד.
 
 אם משתני Upstash אינם מוגדרים, נקודות הקצה של ה-AI מחזירות 503 במקום לפעול ללא הגנה.
 
