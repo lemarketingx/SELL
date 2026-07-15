@@ -11,7 +11,7 @@ const {
   validateRegenerateInput,
 } = require("../api/_validation");
 const { checkRateLimit, extractClientIp, keyFor } = require("../api/_rateLimit");
-const { callClaude, requestClaude } = require("../api/_shared");
+const { API_URL, callOpenAI, requestOpenAI } = require("../api/_shared");
 const { sendError } = require("../api/_http");
 
 const context = {
@@ -33,6 +33,13 @@ const hero = {
   ctaPrimary: "דברו איתנו",
   ctaSecondary: "פרטים",
   trustPoints: ["ליווי אישי"],
+};
+
+const simpleSchema = {
+  type: "object",
+  additionalProperties: false,
+  required: ["ok"],
+  properties: { ok: { type: "boolean" } },
 };
 
 const originalEnv = { ...process.env };
@@ -105,20 +112,47 @@ test("returns blocked state after the rate limit", async () => {
   assert.equal(result.retryAfter, 120);
 });
 
+test("calls OpenAI Responses API with bearer auth and structured output", async () => {
+  process.env.OPENAI_API_KEY = "test-key";
+  process.env.OPENAI_MODEL = "gpt-test";
+  let captured;
+  const fetchImpl = async (url, options) => {
+    captured = { url, options };
+    return { ok: true, json: async () => ({ output_text: '{"ok":true}' }) };
+  };
+  const result = await requestOpenAI({
+    system: "s",
+    user: "u",
+    requestId: "req",
+    fetchImpl,
+    schema: simpleSchema,
+    schemaName: "test_schema",
+  });
+  const body = JSON.parse(captured.options.body);
+  assert.deepEqual(result, { ok: true });
+  assert.equal(captured.url, API_URL);
+  assert.equal(captured.options.headers.authorization, "Bearer test-key");
+  assert.equal(body.model, "gpt-test");
+  assert.equal(body.store, false);
+  assert.equal(body.text.format.type, "json_schema");
+  assert.deepEqual(body.text.format.schema, simpleSchema);
+});
+
 test("retries once when model JSON is invalid", async () => {
-  process.env.ANTHROPIC_API_KEY = "test-key";
+  process.env.OPENAI_API_KEY = "test-key";
   let calls = 0;
   const fetchImpl = async () => {
     calls += 1;
     const text = calls === 1 ? "not json" : '{"ok":true}';
-    return { ok: true, json: async () => ({ content: [{ type: "text", text }] }) };
+    return { ok: true, json: async () => ({ output_text: text }) };
   };
-  const result = await callClaude({
+  const result = await callOpenAI({
     system: "s",
     user: "u",
     maxTokens: 50,
     requestId: "req",
     fetchImpl,
+    schema: simpleSchema,
     validate: (value) => value,
   });
   assert.deepEqual(result, { ok: true });
@@ -126,14 +160,14 @@ test("retries once when model JSON is invalid", async () => {
 });
 
 test("maps provider timeout to 504", async () => {
-  process.env.ANTHROPIC_API_KEY = "test-key";
+  process.env.OPENAI_API_KEY = "test-key";
   const fetchImpl = async () => {
     const error = new Error("secret timeout detail");
     error.name = "TimeoutError";
     throw error;
   };
   await assert.rejects(
-    () => requestClaude({ system: "s", user: "u", requestId: "req", fetchImpl }),
+    () => requestOpenAI({ system: "s", user: "u", requestId: "req", fetchImpl }),
     (error) => error.statusCode === 504
   );
 });
@@ -150,7 +184,7 @@ test("does not expose provider details to client", () => {
       return body;
     },
   };
-  const error = new Error("Claude API error with private detail");
+  const error = new Error("OpenAI API error with private detail");
   error.statusCode = 502;
   const originalConsoleError = console.error;
   console.error = () => {};

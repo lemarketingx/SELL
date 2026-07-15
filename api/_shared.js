@@ -1,7 +1,7 @@
 "use strict";
 
-const MODEL = "claude-sonnet-5";
-const API_URL = "https://api.anthropic.com/v1/messages";
+const DEFAULT_MODEL = "gpt-5.6-luna";
+const API_URL = "https://api.openai.com/v1/responses";
 
 const BLOCK_SCHEMAS = {
   hero: `{
@@ -37,6 +37,84 @@ const BLOCK_SCHEMAS = {
 }`,
 };
 
+function stringSchema(maxLength) {
+  return { type: "string", minLength: 1, maxLength };
+}
+
+function objectSchema(properties, required = Object.keys(properties)) {
+  return {
+    type: "object",
+    additionalProperties: false,
+    required,
+    properties,
+  };
+}
+
+const BLOCK_JSON_SCHEMAS = {
+  hero: objectSchema({
+    badge: stringSchema(80),
+    headline: stringSchema(180),
+    highlight: stringSchema(180),
+    subheadline: stringSchema(500),
+    ctaPrimary: stringSchema(80),
+    ctaSecondary: stringSchema(80),
+    trustPoints: {
+      type: "array",
+      minItems: 1,
+      maxItems: 4,
+      items: stringSchema(120),
+    },
+  }),
+  features: objectSchema({
+    eyebrow: stringSchema(80),
+    title: stringSchema(180),
+    subtitle: stringSchema(300),
+    items: {
+      type: "array",
+      minItems: 3,
+      maxItems: 4,
+      items: objectSchema({
+        icon: stringSchema(12),
+        title: stringSchema(100),
+        text: stringSchema(240),
+      }),
+    },
+  }),
+  process: objectSchema({
+    eyebrow: stringSchema(80),
+    title: stringSchema(180),
+    steps: {
+      type: "array",
+      minItems: 3,
+      maxItems: 3,
+      items: objectSchema({
+        title: stringSchema(100),
+        text: stringSchema(220),
+      }),
+    },
+  }),
+  testimonials: objectSchema({
+    eyebrow: stringSchema(80),
+    title: stringSchema(180),
+    items: {
+      type: "array",
+      minItems: 3,
+      maxItems: 3,
+      items: objectSchema({
+        quote: stringSchema(420),
+        name: stringSchema(100),
+        role: stringSchema(120),
+      }),
+    },
+  }),
+  cta: objectSchema({
+    title: stringSchema(180),
+    subtitle: stringSchema(300),
+    buttonText: stringSchema(80),
+    formTitle: stringSchema(120),
+  }),
+};
+
 class ProviderError extends Error {
   constructor(message, statusCode = 502, code = "AI_PROVIDER_ERROR") {
     super(message);
@@ -50,9 +128,23 @@ function blockSchema(blockType) {
   return BLOCK_SCHEMAS[blockType] || null;
 }
 
+function blockJsonSchema(blockType) {
+  return BLOCK_JSON_SCHEMAS[blockType] || null;
+}
+
+function pageJsonSchema() {
+  return objectSchema({
+    hero: BLOCK_JSON_SCHEMAS.hero,
+    features: BLOCK_JSON_SCHEMAS.features,
+    process: BLOCK_JSON_SCHEMAS.process,
+    testimonials: BLOCK_JSON_SCHEMAS.testimonials,
+    cta: BLOCK_JSON_SCHEMAS.cta,
+  });
+}
+
 function extractJson(text) {
-  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/i);
-  const candidate = fenced ? fenced[1] : text;
+  const fenced = String(text || "").match(/```(?:json)?\s*([\s\S]*?)```/i);
+  const candidate = fenced ? fenced[1] : String(text || "");
   const start = candidate.indexOf("{");
   const end = candidate.lastIndexOf("}");
   if (start === -1 || end === -1 || end < start) {
@@ -65,49 +157,99 @@ function extractJson(text) {
   }
 }
 
-async function requestClaude({ system, user, maxTokens, requestId, fetchImpl = fetch, timeoutMs = 30_000 }) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new ProviderError("ANTHROPIC_API_KEY is not configured", 500, "MISSING_API_KEY");
+function extractResponseText(data) {
+  if (typeof data?.output_text === "string" && data.output_text.trim()) {
+    return data.output_text;
+  }
+  return (data?.output || [])
+    .filter((item) => item?.type === "message")
+    .flatMap((item) => item.content || [])
+    .filter((part) => part?.type === "output_text")
+    .map((part) => part.text || "")
+    .join("\n");
+}
+
+async function requestOpenAI({
+  system,
+  user,
+  maxTokens,
+  requestId,
+  schema,
+  schemaName = "landing_page",
+  fetchImpl = fetch,
+  timeoutMs = 30_000,
+}) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) throw new ProviderError("OPENAI_API_KEY is not configured", 500, "MISSING_API_KEY");
+
+  const model = process.env.OPENAI_MODEL || DEFAULT_MODEL;
+  const payload = {
+    model,
+    instructions: system,
+    input: user,
+    max_output_tokens: maxTokens || 4096,
+    store: false,
+    text: {
+      format: schema
+        ? {
+            type: "json_schema",
+            name: schemaName,
+            strict: true,
+            schema,
+          }
+        : { type: "json_object" },
+    },
+  };
+  if (model.startsWith("gpt-5")) payload.reasoning = { effort: "none" };
 
   let response;
   try {
     response = await fetchImpl(API_URL, {
       method: "POST",
       headers: {
+        authorization: `Bearer ${apiKey}`,
         "content-type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
       },
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: maxTokens || 4096,
-        system,
-        messages: [{ role: "user", content: user }],
-      }),
+      body: JSON.stringify(payload),
       signal: AbortSignal.timeout(timeoutMs),
     });
   } catch (cause) {
     if (cause?.name === "TimeoutError" || cause?.name === "AbortError") {
-      throw new ProviderError("Claude request timed out", 504, "AI_TIMEOUT");
+      throw new ProviderError("OpenAI request timed out", 504, "AI_TIMEOUT");
     }
-    throw new ProviderError(`Claude network error: ${cause?.message || cause}`, 502, "AI_NETWORK_ERROR");
+    throw new ProviderError(`OpenAI network error: ${cause?.message || cause}`, 502, "AI_NETWORK_ERROR");
   }
 
   if (!response.ok) {
     const detail = await response.text().catch(() => "");
-    console.error(`[${requestId}] Claude API error`, response.status, detail.slice(0, 1_000));
-    throw new ProviderError(`Claude API error (${response.status})`, 502, "AI_PROVIDER_ERROR");
+    console.error(`[${requestId}] OpenAI API error`, response.status, detail.slice(0, 1_000));
+    throw new ProviderError(`OpenAI API error (${response.status})`, 502, "AI_PROVIDER_ERROR");
   }
 
-  const data = await response.json();
-  const text = (data.content || [])
-    .filter((block) => block.type === "text")
-    .map((block) => block.text)
-    .join("\n");
-  return extractJson(text);
+  let data;
+  try {
+    data = await response.json();
+  } catch (cause) {
+    throw new ProviderError(`invalid OpenAI response: ${cause.message}`, 502, "INVALID_MODEL_OUTPUT");
+  }
+  if (data?.status === "incomplete") {
+    console.error(`[${requestId}] OpenAI response incomplete`, data.incomplete_details || null);
+    throw new ProviderError("OpenAI response was incomplete", 502, "INVALID_MODEL_OUTPUT");
+  }
+  return extractJson(extractResponseText(data));
 }
 
-async function callClaude({ system, user, maxTokens, validate, requestId, fetchImpl, timeoutMs }) {
+async function callOpenAI({
+  system,
+  user,
+  maxTokens,
+  validate,
+  requestId,
+  schema,
+  schemaName,
+  fetchImpl,
+  timeoutMs,
+}) {
   let firstError;
   for (let attempt = 0; attempt < 2; attempt += 1) {
     const correctedUser =
@@ -115,11 +257,13 @@ async function callClaude({ system, user, maxTokens, validate, requestId, fetchI
         ? user
         : `${user}\n\nהתשובה הקודמת לא עמדה במבנה הנדרש. החזר עכשיו JSON תקין בלבד, עם כל השדות ובדיוק לפי הסכמה.`;
     try {
-      const parsed = await requestClaude({
+      const parsed = await requestOpenAI({
         system,
         user: correctedUser,
         maxTokens,
         requestId,
+        schema,
+        schemaName,
         fetchImpl,
         timeoutMs,
       });
@@ -149,12 +293,16 @@ const GOAL_HINTS = {
 };
 
 module.exports = {
-  MODEL,
+  API_URL,
+  DEFAULT_MODEL,
   ProviderError,
+  blockJsonSchema,
   blockSchema,
+  callOpenAI,
   extractJson,
-  callClaude,
-  requestClaude,
+  extractResponseText,
+  pageJsonSchema,
+  requestOpenAI,
   VIBE_HINTS,
   GOAL_HINTS,
 };

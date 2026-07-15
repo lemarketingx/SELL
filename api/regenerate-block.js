@@ -1,6 +1,12 @@
 "use strict";
 
-const { callClaude, blockSchema, VIBE_HINTS, GOAL_HINTS } = require("./_shared");
+const {
+  callOpenAI,
+  blockJsonSchema,
+  blockSchema,
+  VIBE_HINTS,
+  GOAL_HINTS,
+} = require("./_shared");
 const { validateBlock, validateRegenerateInput } = require("./_validation");
 const { checkRateLimit } = require("./_rateLimit");
 const { methodNotAllowed, requestId, sendError, sendRateLimit } = require("./_http");
@@ -41,12 +47,14 @@ ${JSON.stringify(input.current, null, 2)}
 החזר JSON יחיד בדיוק במבנה הבא:
 ${blockSchema(input.blockType)}`;
 
-    const block = await callClaude({
+    const block = await callOpenAI({
       system,
       user,
       maxTokens: 1536,
       validate: (value) => validateBlock(input.blockType, value),
       requestId: id,
+      schema: blockJsonSchema(input.blockType),
+      schemaName: `${input.blockType}_block`,
     });
     return res.status(200).json(block);
   } catch (err) {
