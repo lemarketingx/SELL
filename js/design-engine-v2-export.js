@@ -7,10 +7,12 @@
   let timer = null;
   const prefixes = ["de-archetype-", "de-variant-"];
 
-  function clearPrefixedClasses(element) {
-    [...element.classList].forEach((name) => {
-      if (prefixes.some((prefix) => name.startsWith(prefix))) element.classList.remove(name);
-    });
+  function syncClasses(element, archetype, variant) {
+    const expected = [`de-archetype-${archetype}`, `de-variant-${variant || "classic"}`];
+    const current = [...element.classList].filter((name) => prefixes.some((prefix) => name.startsWith(prefix)));
+    if (current.length === expected.length && expected.every((name) => current.includes(name))) return;
+    current.forEach((name) => element.classList.remove(name));
+    element.classList.add(...expected);
   }
 
   function syncExportMarkers() {
@@ -20,14 +22,13 @@
     if (!archetype || !layout) return;
 
     canvas.querySelectorAll(".ai-block,.studio-added-section").forEach((section) => {
-      clearPrefixedClasses(section);
-      section.classList.add(`de-archetype-${archetype}`, `de-variant-${variant || "classic"}`);
+      syncClasses(section, archetype, variant);
     });
 
     const hero = canvas.querySelector('.ai-block[data-block="hero"]');
-    if (hero) hero.dataset.heroLayout = layout;
+    if (hero && hero.dataset.heroLayout !== layout) hero.dataset.heroLayout = layout;
     const rail = canvas.querySelector(".design-proof-rail");
-    if (rail) rail.dataset.heroLayout = layout;
+    if (rail && rail.dataset.heroLayout !== layout) rail.dataset.heroLayout = layout;
   }
 
   function schedule() {
@@ -35,7 +36,12 @@
     timer = setTimeout(syncExportMarkers, 100);
   }
 
-  new MutationObserver(schedule).observe(canvas, { childList: true, subtree: true, attributes: true, attributeFilter: ["data-studio-variant", "data-design-archetype", "data-hero-layout"] });
+  new MutationObserver(schedule).observe(canvas, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["data-studio-variant", "data-design-archetype", "data-hero-layout"],
+  });
   document.querySelectorAll("[data-studio-variant]").forEach((button) => button.addEventListener("click", schedule));
   window.addEventListener("load", schedule);
 })();
