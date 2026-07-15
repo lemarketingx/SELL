@@ -62,6 +62,13 @@
       applyVibe(card.dataset.value);
       updateNextState();
     });
+    document.getElementById("vibe-grid").addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const card = e.target.closest(".vibe-card");
+      if (!card) return;
+      e.preventDefault();
+      card.click();
+    });
 
     els.btnNext.addEventListener("click", onNext);
     els.btnBack.addEventListener("click", onBack);
