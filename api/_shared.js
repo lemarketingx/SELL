@@ -1,3 +1,5 @@
+"use strict";
+
 const MODEL = "claude-sonnet-5";
 const API_URL = "https://api.anthropic.com/v1/messages";
 
@@ -35,6 +37,15 @@ const BLOCK_SCHEMAS = {
 }`,
 };
 
+class ProviderError extends Error {
+  constructor(message, statusCode = 502, code = "AI_PROVIDER_ERROR") {
+    super(message);
+    this.name = "ProviderError";
+    this.statusCode = statusCode;
+    this.code = code;
+  }
+}
+
 function blockSchema(blockType) {
   return BLOCK_SCHEMAS[blockType] || null;
 }
@@ -45,41 +56,47 @@ function extractJson(text) {
   const start = candidate.indexOf("{");
   const end = candidate.lastIndexOf("}");
   if (start === -1 || end === -1 || end < start) {
-    throw new Error("no JSON object found in model output");
+    throw new ProviderError("no JSON object found in model output", 502, "INVALID_MODEL_OUTPUT");
   }
-  return JSON.parse(candidate.slice(start, end + 1));
+  try {
+    return JSON.parse(candidate.slice(start, end + 1));
+  } catch (cause) {
+    throw new ProviderError(`invalid JSON from model: ${cause.message}`, 502, "INVALID_MODEL_OUTPUT");
+  }
 }
 
-async function callClaude({ system, user, maxTokens }) {
+async function requestClaude({ system, user, maxTokens, requestId, fetchImpl = fetch, timeoutMs = 30_000 }) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    const err = new Error(
-      "ANTHROPIC_API_KEY is not configured on the server"
-    );
-    err.statusCode = 500;
-    throw err;
-  }
+  if (!apiKey) throw new ProviderError("ANTHROPIC_API_KEY is not configured", 500, "MISSING_API_KEY");
 
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": apiKey,
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: maxTokens || 4096,
-      system,
-      messages: [{ role: "user", content: user }],
-    }),
-  });
+  let response;
+  try {
+    response = await fetchImpl(API_URL, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: maxTokens || 4096,
+        system,
+        messages: [{ role: "user", content: user }],
+      }),
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+  } catch (cause) {
+    if (cause?.name === "TimeoutError" || cause?.name === "AbortError") {
+      throw new ProviderError("Claude request timed out", 504, "AI_TIMEOUT");
+    }
+    throw new ProviderError(`Claude network error: ${cause?.message || cause}`, 502, "AI_NETWORK_ERROR");
+  }
 
   if (!response.ok) {
     const detail = await response.text().catch(() => "");
-    const err = new Error(`Claude API error (${response.status}): ${detail}`);
-    err.statusCode = 502;
-    throw err;
+    console.error(`[${requestId}] Claude API error`, response.status, detail.slice(0, 1_000));
+    throw new ProviderError(`Claude API error (${response.status})`, 502, "AI_PROVIDER_ERROR");
   }
 
   const data = await response.json();
@@ -87,8 +104,35 @@ async function callClaude({ system, user, maxTokens }) {
     .filter((block) => block.type === "text")
     .map((block) => block.text)
     .join("\n");
-
   return extractJson(text);
+}
+
+async function callClaude({ system, user, maxTokens, validate, requestId, fetchImpl, timeoutMs }) {
+  let firstError;
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const correctedUser =
+      attempt === 0
+        ? user
+        : `${user}\n\nהתשובה הקודמת לא עמדה במבנה הנדרש. החזר עכשיו JSON תקין בלבד, עם כל השדות ובדיוק לפי הסכמה.`;
+    try {
+      const parsed = await requestClaude({
+        system,
+        user: correctedUser,
+        maxTokens,
+        requestId,
+        fetchImpl,
+        timeoutMs,
+      });
+      return typeof validate === "function" ? validate(parsed) : parsed;
+    } catch (err) {
+      if (attempt === 0 && (err?.code === "INVALID_MODEL_OUTPUT" || err?.statusCode === 400)) {
+        firstError = err;
+        continue;
+      }
+      throw err;
+    }
+  }
+  throw firstError || new ProviderError("Invalid model output", 502, "INVALID_MODEL_OUTPUT");
 }
 
 const VIBE_HINTS = {
@@ -106,9 +150,11 @@ const GOAL_HINTS = {
 
 module.exports = {
   MODEL,
+  ProviderError,
   blockSchema,
   extractJson,
   callClaude,
+  requestClaude,
   VIBE_HINTS,
   GOAL_HINTS,
 };
