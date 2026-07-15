@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>בנו דף נחיתה עם AI — דפדף</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/builder.css">
+</head>
+<body class="vibe-trust">
+
+<div class="builder-shell">
+  <nav class="builder-nav">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">ד</span>
+      דפדף
+    </a>
+    <a href="index.html" class="restart">חזרה לעמוד הבית</a>
+  </nav>
+
+  <!-- WIZARD -->
+  <main id="wizard" class="wizard">
+    <div class="wizard-progress">
+      <span data-step="1"></span>
+      <span data-step="2"></span>
+      <span data-step="3"></span>
+      <span data-step="4"></span>
+    </div>
+
+    <section class="wizard-step active" data-step="1">
+      <h2>בואו נכיר את העסק שלכם</h2>
+      <p class="hint">איך קוראים לעסק, ובאיזה תחום הוא פועל?</p>
+      <input id="f-name" class="field-input" type="text" placeholder="לדוגמה: סטודיו נועה" style="margin-bottom: 14px;">
+      <input id="f-industry" class="field-input" type="text" placeholder="תחום העסק — לדוגמה: סטודיו יוגה, מסעדה, ייעוץ עסקי">
+      <div class="chip-row" id="industry-chips">
+        <button type="button" class="chip" data-value="מסעדה / בית קפה">מסעדה / בית קפה</button>
+        <button type="button" class="chip" data-value="קליניקה / טיפול">קליניקה / טיפול</button>
+        <button type="button" class="chip" data-value="סטודיו / יוצר עצמאי">סטודיו / יוצר עצמאי</button>
+        <button type="button" class="chip" data-value="ייעוץ עסקי">ייעוץ עסקי</button>
+        <button type="button" class="chip" data-value="חנות / מסחר">חנות / מסחר</button>
+      </div>
+    </section>
+
+    <section class="wizard-step" data-step="2">
+      <h2>ספרו לנו על העסק במילים שלכם</h2>
+      <p class="hint">מה אתם עושים, למי, ומה מייחד אתכם מהמתחרים? כמה משפטים מספיקים.</p>
+      <textarea id="f-description" class="field-textarea" placeholder="לדוגמה: אני מעצבת שיער עם 10 שנות ניסיון, מתמחה בצבע וטיפולי החלקה, עובדת בבוטיק קטן ואינטימי בתל אביב..."></textarea>
+    </section>
+
+    <section class="wizard-step" data-step="3">
+      <h2>איזה סגנון מתאים לכם?</h2>
+      <p class="hint">הבחירה קובעת את הצבעים, הטון והשפה של הדף.</p>
+      <div class="vibe-grid" id="vibe-grid">
+        <div class="vibe-card" data-value="trust" style="--vibe-hue: 230;">
+          <div class="vibe-swatch"></div>
+          <div class="name">אמין ומקצועי</div>
+          <div class="desc">רגוע, בוטח, ברור</div>
+        </div>
+        <div class="vibe-card" data-value="energetic" style="--vibe-hue: 25;">
+          <div class="vibe-swatch"></div>
+          <div class="name">אנרגטי וצעיר</div>
+          <div class="desc">נמרץ, חיובי, קליל</div>
+        </div>
+        <div class="vibe-card" data-value="luxury" style="--vibe-hue: 290;">
+          <div class="vibe-swatch"></div>
+          <div class="name">יוקרתי ומינימליסטי</div>
+          <div class="desc">מאופק, אלגנטי, בררני</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wizard-step" data-step="4">
+      <h2>מה המטרה העיקרית של הדף?</h2>
+      <p class="hint">זה יקבע את הכפתורים והטופס שיופיעו בדף.</p>
+      <div class="chip-row" id="goal-chips" style="margin-top: 0;">
+        <button type="button" class="chip" data-value="leads">איסוף לידים</button>
+        <button type="button" class="chip" data-value="appointments">קביעת תורים</button>
+        <button type="button" class="chip" data-value="sales">מכירת מוצר/שירות</button>
+        <button type="button" class="chip" data-value="signup">הרשמה לאירוע/קורס</button>
+      </div>
+    </section>
+
+    <div class="wizard-actions">
+      <button type="button" class="btn btn-ghost" id="btn-back">חזרה</button>
+      <button type="button" class="btn btn-primary" id="btn-next" disabled>המשך</button>
+    </div>
+  </main>
+
+  <!-- LOADING -->
+  <main id="loading" class="build-loading" style="display:none;">
+    <div class="spinner"></div>
+    <div class="status" id="loading-status">מנתח את העסק שלכם...</div>
+  </main>
+
+  <!-- RESULT -->
+  <div id="result" style="display:none;">
+    <div class="result-toolbar">
+      <div style="font-weight:700; font-size:14px;">✨ הדף שלכם מוכן — אפשר לערוך כל טקסט בלחיצה</div>
+      <div class="actions">
+        <button type="button" class="btn btn-ghost" id="btn-restart" style="padding:8px 16px; font-size:13px;">התחלה מחדש</button>
+        <button type="button" class="btn btn-accent" id="btn-download" style="padding:8px 16px; font-size:13px;">⬇ הורדת HTML</button>
+      </div>
+    </div>
+    <div class="result-canvas" id="result-canvas"></div>
+  </div>
+</div>
+
+<script src="js/builder.js"></script>
+</body>
+</html>
