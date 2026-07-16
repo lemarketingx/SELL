@@ -52,7 +52,8 @@ module.exports = async function handler(req, res) {
   "features": ${blockSchema("features")},
   "process": ${blockSchema("process")},
   "testimonials": ${blockSchema("testimonials")},
-  "cta": ${blockSchema("cta")}
+  "cta": ${blockSchema("cta")},
+  "photoQueries": ["2 עד 3 מחרוזות חיפוש קצרות באנגלית לתמונות סטוק, כל אחת 2-4 מילים שמתארות במדויק סצנה חזותית מהעסק הספציפי הזה (למשל עבור סטודיו לבניית ציפורניים: \\"nail salon manicure\\", \\"gel polish application\\")"]
 }
 
 הנחיות:
@@ -61,6 +62,7 @@ module.exports = async function handler(req, res) {
 - process.steps: בדיוק 3 צעדים קצרים שמסבירים מה קורה בפועל.
 - testimonials.items: בדיוק 3 עדויות בדויות אך אמינות, עם שמות ותפקידים ישראליים.
 - cta: נסח פעולה פשוטה, ברורה ולא אגרסיבית.
+- photoQueries: מחרוזות באנגלית בלבד, ספציפיות ובנות-צילום (דברים שאפשר לצלם), לא מושגים מופשטים. חובה להתאים בדיוק לעסק הזה ולא לתחום כללי.
 - אל תחזיר שום דבר מלבד JSON.`;
 
     const page = await callOpenAI({

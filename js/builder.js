@@ -331,6 +331,11 @@
     state.page = page;
     els.canvas.style.setProperty("--hue", VIBE_HUES[state.data.vibe] || 290);
     els.canvas.dataset.vibe = state.data.vibe || "trust";
+    if (Array.isArray(page.photoQueries) && page.photoQueries.length) {
+      els.canvas.dataset.photoQueries = JSON.stringify(page.photoQueries);
+    } else {
+      delete els.canvas.dataset.photoQueries;
+    }
     els.canvas.innerHTML = "";
     BLOCK_ORDER.forEach((type) => {
       const slot = document.createElement("div");

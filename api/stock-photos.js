@@ -6,7 +6,6 @@ const { methodNotAllowed, requestId, sendError, sendRateLimit } = require("./_ht
 
 const UNSPLASH_API_URL = "https://api.unsplash.com/search/photos";
 const APP_NAME = "dafdaf";
-const PHOTOS_PER_QUERY = 2;
 const TOTAL_PHOTOS = 6;
 
 const INDUSTRY_QUERY_RULES = [
@@ -20,6 +19,7 @@ const INDUSTRY_QUERY_RULES = [
   [/נדל.?ן|דירה|נכס|בית פרטי|משרד תיווך/, ["real estate house", "modern apartment interior", "architecture exterior"]],
   [/חינוך|קורס|לימוד|מורה|הדרכה|סדנא|מנטור/, ["classroom teaching", "online course laptop", "workshop training"]],
   [/אופנה|בגד|בוטיק|תכשיט|טקסטיל/, ["fashion boutique", "clothing rack store", "jewelry design"]],
+  [/ציפורניים|ציפורן|לק ג'ל|בניית ציפורניים/, ["nail salon manicure", "gel polish application", "nail art design"]],
   [/יופי|קוסמטיקה|איפור|ספא|מניקור|מספרה|קוסמטיקאית/, ["beauty salon", "spa treatment", "makeup artist"]],
   [/עורך דין|משפט|רואה חשבון|פיננס|ביטוח|חשבונאי/, ["lawyer office", "financial documents desk", "accountant meeting"]],
   [/ייעוץ עסקי|יועץ עסקי|יועץ ארגוני|אסטרטגיה עסקית/, ["business consulting meeting", "strategy whiteboard", "corporate handshake"]],
@@ -57,8 +57,8 @@ async function triggerDownload(downloadLocation, accessKey, fetchImpl) {
   }
 }
 
-async function searchQuery(query, accessKey, fetchImpl) {
-  const url = `${UNSPLASH_API_URL}?query=${encodeURIComponent(query)}&per_page=${PHOTOS_PER_QUERY}&orientation=landscape&content_filter=high`;
+async function searchQuery(query, perPage, accessKey, fetchImpl) {
+  const url = `${UNSPLASH_API_URL}?query=${encodeURIComponent(query)}&per_page=${perPage}&orientation=landscape&content_filter=high`;
   try {
     const response = await fetchImpl(url, {
       headers: { Authorization: `Client-ID ${accessKey}` },
@@ -87,15 +87,16 @@ module.exports = async function handler(req, res, fetchImpl = fetch) {
       return res.status(200).json({ photos: [] });
     }
 
-    const queries = queriesFor(input.industry, input.description);
+    const queries = input.queries || queriesFor(input.industry, input.description);
+    const perQuery = Math.ceil(TOTAL_PHOTOS / queries.length);
     const resultsByQuery = await Promise.all(
-      queries.map((query) => searchQuery(query, accessKey, fetchImpl))
+      queries.map((query) => searchQuery(query, perQuery, accessKey, fetchImpl))
     );
 
     const seen = new Set();
     const results = [];
     let round = 0;
-    while (results.length < TOTAL_PHOTOS && round < PHOTOS_PER_QUERY) {
+    while (results.length < TOTAL_PHOTOS && round < perQuery) {
       for (const bucket of resultsByQuery) {
         const photo = bucket[round];
         if (photo && !seen.has(photo.id)) {

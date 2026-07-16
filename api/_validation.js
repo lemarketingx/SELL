@@ -101,11 +101,22 @@ function validateContext(body) {
   };
 }
 
+function validateStockPhotoQueries(value) {
+  if (value == null) return null;
+  if (!Array.isArray(value) || !value.length || value.length > 4) return null;
+  try {
+    return value.map((item, index) => text(item, `queries.${index}`, 1, 80));
+  } catch {
+    return null;
+  }
+}
+
 function validateStockPhotoInput(body) {
   if (!isPlainObject(body)) throw new ValidationError("גוף הבקשה חייב להיות אובייקט JSON");
   return {
     industry: text(body.industry, "industry", 1, 100),
     description: text(body.description, "description", 0, 2_000, true),
+    queries: validateStockPhotoQueries(body.queries),
   };
 }
 
@@ -205,6 +216,10 @@ function validateGeneratedPage(value) {
   for (const blockType of BLOCK_TYPES) {
     result[blockType] = validateBlock(blockType, value[blockType]);
   }
+  if (!Array.isArray(value.photoQueries) || value.photoQueries.length < 2 || value.photoQueries.length > 3) {
+    throw new ValidationError("photoQueries חייב להכיל בין 2 ל-3 פריטים");
+  }
+  result.photoQueries = value.photoQueries.map((item, index) => text(item, `photoQueries.${index}`, 1, 60));
   return result;
 }
 

@@ -211,14 +211,26 @@
     }
   }
 
+  function readAiPhotoQueries() {
+    const raw = $("#result-canvas")?.dataset.photoQueries;
+    if (!raw) return null;
+    try {
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) && parsed.length ? parsed : null;
+    } catch {
+      return null;
+    }
+  }
+
   async function generateAutoGallery() {
     const industry = document.getElementById("f-industry")?.value || "";
     const description = document.getElementById("f-description")?.value || "";
+    const queries = readAiPhotoQueries();
     try {
       const response = await fetch("/api/stock-photos", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ industry, description }),
+        body: JSON.stringify({ industry, description, queries }),
       });
       if (!response.ok) return;
       const data = await response.json().catch(() => null);

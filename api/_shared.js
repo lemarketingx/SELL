@@ -139,6 +139,12 @@ function pageJsonSchema() {
     process: BLOCK_JSON_SCHEMAS.process,
     testimonials: BLOCK_JSON_SCHEMAS.testimonials,
     cta: BLOCK_JSON_SCHEMAS.cta,
+    photoQueries: {
+      type: "array",
+      minItems: 2,
+      maxItems: 3,
+      items: stringSchema(60),
+    },
   });
 }
 
