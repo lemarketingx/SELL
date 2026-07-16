@@ -255,6 +255,10 @@
     canvas.querySelectorAll(".studio-selected").forEach((item) => item.classList.remove("studio-selected"));
     node.classList.add("studio-selected");
     selectedId = node.dataset.studioNodeId || "";
+    // A sidebar tool should always use the section the user most recently
+    // selected. Insert handles call selectNode as well, so they keep their
+    // explicit placement without leaving a stale anchor behind.
+    insertAfterId = selectedId;
     const label = document.getElementById("studio-selection-label");
     if (label) label.textContent = `נבחר: ${nodeLabel(node)} · הוספות ייכנסו ליד המקטע הזה`;
   }

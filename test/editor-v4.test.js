@@ -52,6 +52,7 @@ test("images can be automatic or inserted at a chosen location", () => {
   assert.match(editor, /openImagePanel/);
   assert.match(editor, /openGalleryPanel/);
   assert.match(editor, /insertAfterId/);
+  assert.match(editor, /selectedId = node\.dataset\.studioNodeId \|\| "";\s*\/\/[\s\S]*?insertAfterId = selectedId;/);
   assert.match(css, /studio-image-split/);
 });
 
