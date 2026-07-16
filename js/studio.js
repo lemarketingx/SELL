@@ -312,16 +312,51 @@
     });
   }
 
+  function duplicateSection(slot) {
+    const copy = slot.cloneNode(true);
+    const suffix = `copy-${Date.now().toString(36)}`;
+    const nodes = [copy, ...copy.querySelectorAll("*")];
+    const idMap = new Map();
+
+    nodes.forEach((item) => {
+      item.classList?.remove("studio-selected");
+      delete item.dataset?.studioNodeId;
+      delete item.dataset?.studioPositioned;
+      if (item.id) {
+        const nextId = `${item.id}-${suffix}`;
+        idMap.set(item.id, nextId);
+        item.id = nextId;
+      }
+    });
+
+    copy.querySelectorAll(".studio-insert-handle,.studio-element-toolbar").forEach((item) => item.remove());
+    nodes.forEach((item) => {
+      ["for", "aria-controls", "aria-labelledby", "aria-describedby"].forEach((attribute) => {
+        const value = item.getAttribute?.(attribute);
+        if (!value) return;
+        item.setAttribute(attribute, value.split(/\s+/).map((token) => idMap.get(token) || token).join(" "));
+      });
+      const href = item.getAttribute?.("href");
+      if (href?.startsWith("#") && idMap.has(href.slice(1))) item.setAttribute("href", `#${idMap.get(href.slice(1))}`);
+    });
+
+    slot.after(copy);
+    return copy;
+  }
+
   function handleSectionAction(event) {
     const button = event.target.closest("button");
     if (!button) return;
     event.preventDefault();
-    event.stopPropagation();
+    event.stopImmediatePropagation();
     const slot = button.closest(".block-slot") || button.closest(".ai-block");
+    if (!slot) return;
+    const canvas = $("#result-canvas");
+    if (canvas) canvas.dataset.userOrder = "true";
     const action = button.dataset.studioAction;
     if (action === "up" && slot.previousElementSibling) slot.parentNode.insertBefore(slot, slot.previousElementSibling);
     if (action === "down" && slot.nextElementSibling) slot.parentNode.insertBefore(slot.nextElementSibling, slot);
-    if (action === "duplicate") slot.after(slot.cloneNode(true));
+    if (action === "duplicate") duplicateSection(slot);
     if (action === "delete") slot.remove();
     addSectionActions();
   }

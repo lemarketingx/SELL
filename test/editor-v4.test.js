@@ -7,6 +7,7 @@ const assert = require("node:assert/strict");
 const html = fs.readFileSync("build.html", "utf8");
 const editor = fs.readFileSync("js/editor-v4.js", "utf8");
 const studio = fs.readFileSync("js/studio.js", "utf8");
+const builder = fs.readFileSync("js/builder.js", "utf8");
 const plus = fs.readFileSync("js/plus.js", "utf8");
 const corrections = fs.readFileSync("js/plus-corrections.js", "utf8");
 const engine = fs.readFileSync("js/design-engine-v2.js", "utf8");
@@ -93,4 +94,13 @@ test("header, footer, custom placement and domain hosting entry points are expli
   assert.match(editor, /https:\/\/vercel\.com\/domains/);
   assert.match(editor, /https:\/\/vercel\.com\/new/);
   assert.match(editor, /copy\.classList\.remove\("studio-selected"\)/);
+});
+
+test("section controls do not trigger AI rewriting and duplicated sections get clean editor state", () => {
+  assert.match(builder, /\["rewrite", "shorten", "sales"\]\.includes\(action\)/);
+  assert.match(studio, /function duplicateSection\(slot\)/);
+  assert.match(studio, /canvas\.dataset\.userOrder = "true"/);
+  assert.match(studio, /delete item\.dataset\?\.studioNodeId/);
+  assert.match(studio, /const idMap = new Map\(\)/);
+  assert.doesNotMatch(studio, /slot\.after\(slot\.cloneNode\(true\)\)/);
 });

@@ -407,9 +407,10 @@
   async function onCanvasClick(event) {
     const button = event.target.closest(".block-toolbar button");
     if (!button || button.dataset.busy === "true") return;
+    const action = button.dataset.action;
+    if (!["rewrite", "shorten", "sales"].includes(action)) return;
     const blockElement = button.closest(".ai-block");
     const blockType = blockElement.dataset.block;
-    const action = button.dataset.action;
     const toolbar = blockElement.querySelector(".block-toolbar");
     toolbar.querySelectorAll("button").forEach((item) => {
       item.disabled = true;
