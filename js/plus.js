@@ -421,12 +421,22 @@
   }
 
   function exportRuntimeScript() {
-    const snippets = [];
+    const snippets = [revealRuntime()];
     if (plus.enabled.access) snippets.push(a11yRuntime());
     if (plus.enabled.shabbat) snippets.push(shabbatRuntime());
     if (plus.enabled.proof && proofMessages().length) snippets.push(proofRuntime());
     if (plus.enabled.countdown) snippets.push(countdownRuntime());
     return snippets.join("\n");
+  }
+
+  /* אנימציית כניסה למקטעים בדף המיוצא — מדלגת כשאין תמיכה או כשמבקשים פחות תנועה */
+  function revealRuntime() {
+    return `(function(){if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+var blocks=document.querySelectorAll(".ai-block,.studio-added-section");
+if(!blocks.length||!("IntersectionObserver" in window))return;
+document.documentElement.classList.add("pg-animate");
+var io=new IntersectionObserver(function(entries){entries.forEach(function(entry){if(entry.isIntersecting){entry.target.classList.add("pg-in");io.unobserve(entry.target)}})},{threshold:.12});
+blocks.forEach(function(block){io.observe(block)});})();`;
   }
 
   function a11yRuntime() {
