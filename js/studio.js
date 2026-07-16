@@ -198,7 +198,75 @@
     if (studio.hero && !hero.querySelector(".studio-hero-media")) {
       hero.insertAdjacentHTML("beforeend", `<div class="studio-hero-media"><img src="${studio.hero}" alt="תמונת העסק"></div>`);
     }
-    if (studio.gallery.length && !$(".studio-gallery", $("#result-canvas"))) addGallerySection();
+    if (!$(".studio-gallery", $("#result-canvas"))) {
+      if (studio.gallery.length) {
+        addGallerySection();
+      } else {
+        generateAutoGallery();
+      }
+    }
+  }
+
+  async function generateAutoGallery() {
+    const industry = document.getElementById("f-industry")?.value || "business";
+    const description = document.getElementById("f-description")?.value || "";
+    const keywords = extractKeywords(industry, description);
+
+    try {
+      const images = await fetchStockImages(keywords);
+      if (images.length) {
+        studio.gallery = images;
+        addGallerySection();
+      }
+    } catch (e) {
+      console.log("Auto-gallery generation failed, skipping");
+    }
+  }
+
+  function extractKeywords(industry, description) {
+    const industryKeywords = {
+      "restaurant": ["food", "restaurant", "chef"],
+      "beauty": ["beauty", "cosmetics", "skincare"],
+      "fitness": ["gym", "fitness", "workout"],
+      "photography": ["photography", "portrait", "camera"],
+      "design": ["design", "creative", "art"],
+      "technology": ["tech", "software", "digital"],
+      "real-estate": ["property", "architecture", "interior"],
+      "education": ["learning", "education", "students"],
+      "healthcare": ["health", "medical", "wellness"],
+      "fashion": ["fashion", "clothing", "style"]
+    };
+
+    let words = industryKeywords[industry] || ["business", "professional"];
+    if (description) {
+      const descWords = description.split(/\s+/).slice(0, 3);
+      words = [...words, ...descWords];
+    }
+    return words.slice(0, 3).filter(Boolean);
+  }
+
+  async function fetchStockImages(keywords) {
+    const images = [];
+    const UNSPLASH_KEY = "vDxfBMFvtAFWVe1_MYrXpkL5rVKx3a5lQVMwELiBmAE";
+
+    for (const keyword of keywords) {
+      try {
+        const response = await fetch(
+          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(keyword)}&per_page=2&orientation=landscape`,
+          { headers: { Authorization: `Client-ID ${UNSPLASH_KEY}` } }
+        );
+        if (!response.ok) continue;
+        const data = await response.json();
+        for (const photo of data.results) {
+          if (images.length < 6) {
+            images.push(photo.urls.regular);
+          }
+        }
+      } catch (e) {
+        console.log(`Failed to fetch images for "${keyword}"`);
+      }
+    }
+    return images;
   }
 
   function addGallerySection() {
