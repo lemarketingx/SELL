@@ -3,7 +3,7 @@
 
   const STORAGE_KEY = "dafdaf-studio-project-v1";
   const MAX_IMAGE_BYTES = 1_600_000;
-  const studio = { logo: "", hero: "", gallery: [], galleryAttribution: [], gallerySource: "none", palette: [], variant: "classic", enhanced: false, galleryRequested: false };
+  const studio = { logo: "", hero: "", heroSource: "none", heroAttribution: null, gallery: [], galleryAttribution: [], gallerySource: "none", palette: [], variant: "classic", enhanced: false, galleryRequested: false };
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
@@ -14,6 +14,9 @@
     bindResultTools();
     observeGeneratedPage();
     restoreDraftInputs();
+    $("#result-canvas")?.addEventListener("click", (event) => {
+      if (event.target.closest(".studio-section-actions [data-studio-action]")) handleSectionAction(event);
+    });
     window.addEventListener("dafdaf:page-created", (event) => prepareGeneratedPage(event.detail?.variant));
   }
 
@@ -24,6 +27,11 @@
       studio.galleryAttribution = [];
       studio.gallerySource = "none";
     }
+    if (studio.heroSource === "auto") {
+      studio.hero = "";
+      studio.heroAttribution = null;
+      studio.heroSource = "none";
+    }
     studio.galleryRequested = false;
     setVariant(["classic", "bold", "editorial"].includes(variant) ? variant : "classic");
   }
@@ -32,8 +40,16 @@
     bindImageInput("studio-logo", false, (images) => {
       studio.logo = images[0] || "";
       if (studio.logo) analyzeBrand(studio.logo);
+      $(".studio-logo", $("#result-canvas"))?.remove();
+      if (studio.logo) addBrandAssets();
     });
-    bindImageInput("studio-hero", false, (images) => { studio.hero = images[0] || ""; });
+    bindImageInput("studio-hero", false, (images) => {
+      studio.hero = images[0] || "";
+      studio.heroSource = studio.hero ? "upload" : "none";
+      studio.heroAttribution = null;
+      $(".studio-hero-media", $("#result-canvas"))?.remove();
+      if (studio.hero) addBrandAssets();
+    });
     bindImageInput("studio-gallery", true, (images) => {
       studio.gallery = images.slice(0, 8);
       studio.galleryAttribution = [];
@@ -52,15 +68,19 @@
     const input = document.getElementById(id);
     if (!input) return;
     input.addEventListener("change", async () => {
-      const files = [...input.files].slice(0, multiple ? 8 : 1);
-      const images = [];
-      for (const file of files) {
-        if (!file.type.startsWith("image/")) continue;
-        images.push(await compressImage(file));
+      try {
+        const files = [...input.files].slice(0, multiple ? 8 : 1);
+        const images = [];
+        for (const file of files) {
+          if (!file.type.startsWith("image/")) continue;
+          images.push(await compressImage(file));
+        }
+        onDone(images);
+        renderPreviews(id, images);
+        input.closest(".studio-upload")?.classList.toggle("has-file", images.length > 0);
+      } catch (error) {
+        showToast(error.message || "לא ניתן לעבד את התמונה");
       }
-      onDone(images);
-      renderPreviews(id, images);
-      input.closest(".studio-upload")?.classList.toggle("has-file", images.length > 0);
     });
   }
 
@@ -164,7 +184,7 @@
     $("#studio-audit")?.addEventListener("click", runAudit);
     $("#studio-save")?.addEventListener("click", saveProject);
     $("#studio-load")?.addEventListener("click", loadProject);
-    $("#studio-add-section")?.addEventListener("click", openSectionPanel);
+    if (!window.dafdafEditor) $("#studio-add-section")?.addEventListener("click", openSectionPanel);
     $("#btn-download")?.addEventListener("click", exportEnhancedHtml, true);
   }
 
@@ -204,7 +224,8 @@
       hero.insertAdjacentHTML("afterbegin", `<img class="studio-logo" src="${studio.logo}" alt="לוגו העסק">`);
     }
     if (studio.hero && !hero.querySelector(".studio-hero-media")) {
-      hero.insertAdjacentHTML("beforeend", `<div class="studio-hero-media"><img src="${studio.hero}" alt="תמונת העסק"></div>`);
+      const alt = studio.heroAttribution?.alt || "תמונת העסק";
+      hero.insertAdjacentHTML("beforeend", `<div class="studio-hero-media"><img src="${studio.hero}" alt="${escapeHtml(alt)}"></div>`);
     }
     if (studio.gallery.length && !$(".studio-gallery", $("#result-canvas"))) {
       addGallerySection();
@@ -239,6 +260,15 @@
       const data = await response.json().catch(() => null);
       const photos = Array.isArray(data?.photos) ? data.photos : [];
       if (!photos.length) return;
+      if (!studio.hero || studio.heroSource === "auto") {
+        studio.hero = photos[0].url;
+        studio.heroAttribution = photos[0];
+        studio.heroSource = "auto";
+        const hero = $('.ai-block[data-block="hero"]');
+        if (hero && !hero.querySelector(".studio-hero-media")) {
+          hero.insertAdjacentHTML("beforeend", `<div class="studio-hero-media"><img src="${escapeHtml(studio.hero)}" alt="${escapeHtml(photos[0].alt || "תמונת העסק")}"></div>`);
+        }
+      }
       studio.gallery = photos.map((photo) => photo.url);
       studio.galleryAttribution = photos;
       studio.gallerySource = "auto";
@@ -278,7 +308,6 @@
       const controls = document.createElement("span");
       controls.className = "studio-section-actions";
       controls.innerHTML = `<button type="button" data-studio-action="up" title="הזז למעלה">↑</button><button type="button" data-studio-action="down" title="הזז למטה">↓</button><button type="button" data-studio-action="duplicate" title="שכפל">⧉</button><button type="button" data-studio-action="delete" title="מחק">×</button>`;
-      controls.addEventListener("click", handleSectionAction);
       toolbar.appendChild(controls);
     });
   }
@@ -331,7 +360,7 @@
     checks.push({ ok: Boolean(canvas.querySelector("#lead-action")), text: "קיים CTA פעיל" });
     checks.push({ ok: Boolean(canvas.querySelector(".studio-hero-media img")), text: "נוספה תמונת Hero אמיתית" });
     checks.push({ ok: canvas.querySelectorAll(".ai-block,.studio-added-section").length >= 5, text: "מבנה הדף עשיר מספיק" });
-    checks.push({ ok: Boolean(canvas.querySelector('[data-block="testimonials"],.studio-stats')), text: "קיים מקטע הוכחה או הסרת חששות" });
+    checks.push({ ok: Boolean(canvas.querySelector('[data-block="testimonials"],.studio-stats,.studio-real-testimonial')), text: "קיים מקטע הוכחה או המלצות" });
     checks.push({ ok: Boolean(canvas.querySelector(".studio-gallery")), text: "קיימת גלריה חזותית" });
     const score = Math.round(checks.filter((item) => item.ok).length / checks.length * 100);
     $("#studio-score").textContent = `${score}`;
@@ -388,15 +417,22 @@
     const clone = canvas.cloneNode(true);
     $$(".no-export,.block-toolbar,[data-export-remove='true'],.skeleton-block", clone).forEach((element) => element.remove());
     $$('[contenteditable]', clone).forEach((element) => { element.removeAttribute("contenteditable"); element.removeAttribute("data-path"); });
-    const css = [...document.styleSheets].filter((sheet) => /\/css\/(?:studio(?:-design-v2(?:-export)?)?|plus|page(?:-v3)?)\.css/.test(sheet.href || "")).map((sheet) => { try { return [...sheet.cssRules].map((rule) => rule.cssText).join("\n"); } catch { return ""; } }).join("\n");
+    clone.classList.remove("studio-selected");
+    $$('[data-studio-node-id],[data-studio-positioned]', clone).forEach((element) => {
+      element.classList.remove("studio-selected");
+      element.removeAttribute("data-studio-node-id");
+      element.removeAttribute("data-studio-positioned");
+    });
+    const css = [...document.styleSheets].filter((sheet) => /\/css\/(?:studio(?:-[\w-]+)?|plus|page(?:-v3)?)\.css/.test(sheet.href || "")).map((sheet) => { try { return [...sheet.cssRules].map((rule) => rule.cssText).join("\n"); } catch { return ""; } }).join("\n");
     const business = $("#f-name")?.value.trim() || "דף נחיתה";
     const plusExport = window.dafdafPlus?.exportAssets?.() || { meta: "", html: "", script: "" };
-    const plusScript = plusExport.script ? `<script>${plusExport.script}</script>` : "";
+    const runtimeScripts = [plusExport.script, window.dafdafEditor?.exportRuntime?.()].filter(Boolean).join("\n");
+    const exportScript = runtimeScripts ? `<script>${runtimeScripts}</script>` : "";
     const exportSettings = window.dafdafExportSettings?.() || {};
     const gtmId = /^GTM-[A-Z0-9]{4,15}$/.test(exportSettings.gtmId || "") ? exportSettings.gtmId : "";
     const gtmHead = gtmId ? `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');<\/script>` : "";
     const gtmBody = gtmId ? `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>` : "";
-    const html = `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(business)}</title>${gtmHead}${plusExport.meta}<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Rubik:wght@500;600;700;800&display=swap" rel="stylesheet"><style>*{box-sizing:border-box}body{margin:0;font-family:Heebo,sans-serif;line-height:1.5;background:var(--paper,#fff);color:var(--ink,#222)}a{color:inherit}${css}</style></head><body>${gtmBody}<main class="result-canvas" data-studio-variant="${studio.variant}" data-vibe="${escapeHtml(canvas.dataset.vibe || "trust")}" data-design-archetype="${escapeHtml(canvas.dataset.designArchetype || "modern")}" data-hero-layout="${escapeHtml(canvas.dataset.heroLayout || "centered")}" style="${canvas.getAttribute("style") || ""}">${clone.innerHTML}</main>${plusExport.html}${plusScript}</body></html>`;
+    const html = `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(business)}</title>${gtmHead}${plusExport.meta}<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Rubik:wght@500;600;700;800&display=swap" rel="stylesheet"><style>*{box-sizing:border-box}body{margin:0;font-family:Heebo,sans-serif;line-height:1.5;background:var(--paper,#fff);color:var(--ink,#222)}a{color:inherit}${css}</style></head><body>${gtmBody}<main class="result-canvas" data-studio-variant="${studio.variant}" data-studio-theme="${escapeHtml(canvas.dataset.studioTheme || "clean")}" data-vibe="${escapeHtml(canvas.dataset.vibe || "trust")}" data-design-archetype="${escapeHtml(canvas.dataset.designArchetype || "modern")}" data-hero-layout="${escapeHtml(canvas.dataset.heroLayout || "centered")}" style="${canvas.getAttribute("style") || ""}">${clone.innerHTML}</main>${plusExport.html}${exportScript}</body></html>`;
     const blob = new Blob([html], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
@@ -418,4 +454,11 @@
 
   function escapeHtml(value) { return String(value || "").replace(/[&<>\"']/g, (char) => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[char]); }
   function slugify(value) { return String(value).trim().toLowerCase().replace(/[^\w֐-׿]+/g,"-").replace(/^-+|-+$/g,"") || "landing-page"; }
+
+  window.dafdafStudio = {
+    state: studio,
+    compressImage,
+    toast: showToast,
+    refresh: enhanceGeneratedPage,
+  };
 })();

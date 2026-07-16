@@ -163,14 +163,20 @@
   }
 
   function reorderSections(order) {
+    if (canvas.dataset.userOrder === "true") return;
     const children = directChildren(canvas);
-    const footer = children.find((item) => item.matches("footer") || item.querySelector("footer"));
+    const header = children.find((item) => item.classList.contains("studio-site-header"));
+    const footer = children.find((item) => item.classList.contains("studio-site-footer") || item.matches("footer") || item.querySelector("footer"));
     const customSections = children.filter((item) =>
+      item !== header &&
       item !== footer &&
       !item.classList.contains("block-slot") &&
-      !item.classList.contains("design-proof-rail")
+      !item.classList.contains("design-proof-rail") &&
+      !item.classList.contains("studio-insert-handle") &&
+      !item.classList.contains("plus-el") &&
+      !item.classList.contains("studio-wa-float")
     );
-    const desired = [];
+    const desired = header ? [header] : [];
     for (const type of order) {
       const slot = $(`.block-slot[data-block="${type}"]`, canvas);
       if (type === "cta") desired.push(...customSections);
@@ -179,7 +185,12 @@
     if (!order.includes("cta")) desired.push(...customSections);
     if (footer) desired.push(footer);
 
-    const current = children.filter((item) => !item.classList.contains("design-proof-rail"));
+    const current = children.filter((item) =>
+      !item.classList.contains("design-proof-rail") &&
+      !item.classList.contains("studio-insert-handle") &&
+      !item.classList.contains("plus-el") &&
+      !item.classList.contains("studio-wa-float")
+    );
     if (current.length === desired.length && current.every((node, index) => node === desired[index])) return;
 
     for (const node of desired) {
