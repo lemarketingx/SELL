@@ -231,7 +231,10 @@
     const cta = $('.block-slot[data-block="cta"]', canvas);
     const section = document.createElement("section");
     section.className = "studio-gallery studio-added-section";
-    section.innerHTML = `<div class="studio-gallery-inner"><div style="text-align:center;margin-bottom:34px"><div style="font-weight:800;color:var(--accent-dark);margin-bottom:8px">הצצה לעסק</div><h2 style="font-size:32px;margin:0">תמונות שמספרות את הסיפור</h2></div><div class="studio-gallery-grid">${studio.gallery.map((src) => `<img src="${src}" alt="גלריית העסק" loading="lazy">`).join("")}</div></div>`;
+    const placeholderNote = studio.galleryRequested
+      ? `<p class="no-export" style="margin:10px 0 0;font-size:13px;color:oklch(0.55 0.03 80)">תמונות לדוגמה שנבחרו אוטומטית. מומלץ להחליף בתמונות אמיתיות של העסק דרך העלאת "גלריית עבודות".</p>`
+      : "";
+    section.innerHTML = `<div class="studio-gallery-inner"><div style="text-align:center;margin-bottom:34px"><div style="font-weight:800;color:var(--accent-dark);margin-bottom:8px">הצצה לעסק</div><h2 style="font-size:32px;margin:0">תמונות שמספרות את הסיפור</h2>${placeholderNote}</div><div class="studio-gallery-grid">${studio.gallery.map((src) => `<img src="${src}" alt="גלריית העסק" loading="lazy">`).join("")}</div></div>`;
     canvas.insertBefore(section, cta || canvas.lastElementChild);
   }
 

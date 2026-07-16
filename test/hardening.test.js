@@ -206,9 +206,13 @@ test("export removes inactive controls and blocks javascript links", () => {
   assert.match(builder, /\^javascript:/i);
 });
 
-test("wizard contains optional contact destinations", () => {
+test("contact destination is configurable from the post-generation toolbar", () => {
   const html = fs.readFileSync("build.html", "utf8");
-  assert.match(html, /id="f-whatsapp"/);
-  assert.match(html, /id="f-email"/);
-  assert.match(html, /id="f-cta-url"/);
+  const builder = fs.readFileSync("js/builder.js", "utf8");
+  assert.match(html, /id="dest-target"/);
+  assert.match(html, /id="dest-status"/);
+  assert.match(builder, /id="dest-whatsapp"/);
+  assert.match(builder, /id="dest-email"/);
+  assert.match(builder, /id="dest-cta-url"/);
+  assert.match(builder, /function refreshDestination/);
 });

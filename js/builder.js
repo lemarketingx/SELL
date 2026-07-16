@@ -92,8 +92,52 @@
       toast("זו תצוגה מקדימה. בקובץ המיוצא הטופס יפתח הודעת אימייל מוכנה.");
     });
 
+    document.getElementById("dest-target")?.addEventListener("click", openDestinationPanel);
+    document.getElementById("studio-backdrop")?.addEventListener("click", closeDestinationPanel);
+
     updateProgress();
     updateNextState();
+  }
+
+  function refreshDestination() {
+    if (!state.page) return;
+    const heroCtas = els.canvas.querySelector(".pg-hero .pg-ctas");
+    if (heroCtas) heroCtas.innerHTML = buildHeroCtas(state.page.hero || {});
+    const zone = els.canvas.querySelector("#cta-action-zone");
+    if (zone) zone.innerHTML = buildCtaAction(state.page.cta || {});
+    updateDestStatus();
+  }
+
+  function updateDestStatus() {
+    const statusEl = document.getElementById("dest-status");
+    if (!statusEl) return;
+    const configured = Boolean(contactTarget());
+    statusEl.textContent = configured ? "✓ מוגדר" : "⚠ לא הוגדר";
+    statusEl.classList.toggle("ok", configured);
+    statusEl.classList.toggle("warn", !configured);
+  }
+
+  function openDestinationPanel() {
+    const panel = document.getElementById("studio-panel");
+    const backdrop = document.getElementById("studio-backdrop");
+    if (!panel || !backdrop) return;
+    panel.innerHTML = `<button type="button" class="btn btn-ghost btn-sm" id="dest-panel-close" style="float:left">סגירה</button><h3>יעד הפעולה</h3><p>הוסיפו לאן ילכו הלקוחות בלחיצה על כפתורי הפעולה בדף. מספיק למלא אפשרות אחת.</p><label class="field-label" for="dest-whatsapp">WhatsApp</label><input id="dest-whatsapp" class="field-input" type="tel" maxlength="30" autocomplete="tel" placeholder="050-1234567" value="${escapeHtml(state.data.whatsapp)}"><label class="field-label" for="dest-email">אימייל</label><input id="dest-email" class="field-input" type="email" maxlength="254" autocomplete="email" placeholder="hello@example.com" value="${escapeHtml(state.data.leadEmail)}"><label class="field-label" for="dest-cta-url">קישור חיצוני</label><input id="dest-cta-url" class="field-input" type="url" maxlength="500" inputmode="url" placeholder="https://example.com/order" value="${escapeHtml(state.data.ctaUrl)}"><button type="button" class="btn btn-primary btn-sm" id="dest-save" style="margin-top:14px">שמירת היעד</button>`;
+    panel.classList.add("open");
+    backdrop.classList.add("open");
+    document.getElementById("dest-panel-close").addEventListener("click", closeDestinationPanel);
+    document.getElementById("dest-save").addEventListener("click", () => {
+      state.data.whatsapp = document.getElementById("dest-whatsapp").value.trim();
+      state.data.leadEmail = document.getElementById("dest-email").value.trim();
+      state.data.ctaUrl = document.getElementById("dest-cta-url").value.trim();
+      refreshDestination();
+      closeDestinationPanel();
+      toast("יעד הפעולה עודכן בדף");
+    });
+  }
+
+  function closeDestinationPanel() {
+    document.getElementById("studio-panel")?.classList.remove("open");
+    document.getElementById("studio-backdrop")?.classList.remove("open");
   }
 
   function persistEditableText(event) {
@@ -143,9 +187,6 @@
     state.data.businessName = document.getElementById("f-name").value.trim();
     state.data.industry = document.getElementById("f-industry").value.trim();
     state.data.description = document.getElementById("f-description").value.trim();
-    state.data.whatsapp = document.getElementById("f-whatsapp").value.trim();
-    state.data.leadEmail = document.getElementById("f-email").value.trim();
-    state.data.ctaUrl = document.getElementById("f-cta-url").value.trim();
   }
 
   function onNext() {
@@ -180,7 +221,7 @@
     state.page = null;
     state.data = emptyData();
     state.submitting = false;
-    ["f-name", "f-industry", "f-description", "f-whatsapp", "f-email", "f-cta-url"].forEach((id) => {
+    ["f-name", "f-industry", "f-description"].forEach((id) => {
       document.getElementById(id).value = "";
     });
     document.querySelectorAll(".chip.selected, .vibe-card.selected").forEach((element) => {
@@ -289,6 +330,7 @@
     BLOCK_ORDER.forEach((type, index) => {
       setTimeout(() => revealBlock(type, page[type]), index * 450);
     });
+    updateDestStatus();
   }
 
   function revealBlock(type, data) {
@@ -407,8 +449,7 @@
       : `href="${escapeHtml(target?.href || "#")}"`;
   }
 
-  function heroTemplate(data) {
-    const points = (data.trustPoints || []).map((point, index) => `<span class="pg-point"><b>✓</b><span ${ed(`hero.trustPoints.${index}`, point)}</span></span>`).join("");
+  function buildHeroCtas(data) {
     const target = contactTarget();
     const primaryInner = `<span ${ed("hero.ctaPrimary", data.ctaPrimary)}</span>`;
     const primary = target
@@ -418,7 +459,12 @@
     const secondary = target
       ? `<a class="pg-btn pg-btn-ghost" href="#lead-action">${secondaryInner}</a>`
       : `<span class="pg-btn pg-btn-ghost" data-export-remove="true">${secondaryInner}</span>`;
-    return `<section class="ai-block pg-hero" data-block="hero"><div class="pg-hero-bg" aria-hidden="true"><span class="pg-blob pg-blob-1"></span><span class="pg-blob pg-blob-2"></span><span class="pg-hero-grid"></span></div><div class="pg-hero-inner"><div class="pg-badge"><span class="pg-badge-dot" aria-hidden="true"></span><span ${ed("hero.badge", data.badge)}</span></div><h1 class="pg-h1"><span ${ed("hero.headline", data.headline)}</span><br><span class="pg-highlight" ${ed("hero.highlight", data.highlight)}</span></h1><p class="pg-sub" ${ed("hero.subheadline", data.subheadline)}</p><div class="pg-ctas">${primary}${secondary}</div><div class="pg-points">${points}</div></div>${toolbarHtml()}</section>`;
+    return primary + secondary;
+  }
+
+  function heroTemplate(data) {
+    const points = (data.trustPoints || []).map((point, index) => `<span class="pg-point"><b>✓</b><span ${ed(`hero.trustPoints.${index}`, point)}</span></span>`).join("");
+    return `<section class="ai-block pg-hero" data-block="hero"><div class="pg-hero-bg" aria-hidden="true"><span class="pg-blob pg-blob-1"></span><span class="pg-blob pg-blob-2"></span><span class="pg-hero-grid"></span></div><div class="pg-hero-inner"><div class="pg-badge"><span class="pg-badge-dot" aria-hidden="true"></span><span ${ed("hero.badge", data.badge)}</span></div><h1 class="pg-h1"><span ${ed("hero.headline", data.headline)}</span><br><span class="pg-highlight" ${ed("hero.highlight", data.highlight)}</span></h1><p class="pg-sub" ${ed("hero.subheadline", data.subheadline)}</p><div class="pg-ctas">${buildHeroCtas(data)}</div><div class="pg-points">${points}</div></div>${toolbarHtml()}</section>`;
   }
 
   function featuresTemplate(data) {
@@ -439,18 +485,20 @@
     return `<section class="ai-block pg-testimonials" data-block="testimonials"><div class="pg-wrap"><div class="pg-head"><div class="pg-eyebrow" ${ed("testimonials.eyebrow", data.eyebrow)}</div><h2 class="pg-h2" ${ed("testimonials.title", data.title)}</h2></div><div class="pg-quotes">${items}</div></div>${toolbarHtml()}</section>`;
   }
 
-  function ctaTemplate(data) {
+  function buildCtaAction(data) {
     const target = contactTarget();
     const email = validEmail(state.data.leadEmail);
-    let action;
     if (email) {
-      action = `<form id="lead-action" class="lead-form pg-form" action="mailto:${escapeHtml(email)}" method="post" enctype="text/plain"><div class="pg-form-title" ${ed("cta.formTitle", data.formTitle)}</div><input class="pg-input" name="name" type="text" placeholder="שם מלא" required><input class="pg-input" name="phone" type="tel" placeholder="טלפון" required><button class="pg-btn pg-btn-primary" type="submit"><span ${ed("cta.buttonText", data.buttonText)}</span></button></form><p class="no-export" style="font-size:12px;color:oklch(0.5 0.01 80);">בייצוא, השליחה תפתח הודעת אימייל דרך תוכנת הדואר של המשתמש.</p>`;
-    } else if (target) {
-      action = `<div id="lead-action" class="pg-cta-action"><a class="pg-btn pg-btn-primary" ${linkAttrs(target)}><span ${ed("cta.buttonText", data.buttonText)}</span></a></div>`;
-    } else {
-      action = `<div data-export-remove="true" class="no-export pg-empty">לא הוגדר יעד פעיל. הוסיפו WhatsApp, אימייל או קישור לפני הייצוא.</div>`;
+      return `<form id="lead-action" class="lead-form pg-form" action="mailto:${escapeHtml(email)}" method="post" enctype="text/plain"><div class="pg-form-title" ${ed("cta.formTitle", data.formTitle)}</div><input class="pg-input" name="name" type="text" placeholder="שם מלא" required><input class="pg-input" name="phone" type="tel" placeholder="טלפון" required><button class="pg-btn pg-btn-primary" type="submit"><span ${ed("cta.buttonText", data.buttonText)}</span></button></form><p class="no-export" style="font-size:12px;color:oklch(0.5 0.01 80);">בייצוא, השליחה תפתח הודעת אימייל דרך תוכנת הדואר של המשתמש.</p>`;
     }
-    return `<section class="ai-block pg-cta" data-block="cta"><div class="pg-cta-panel"><span class="pg-cta-glow" aria-hidden="true"></span><h2 class="pg-h2" ${ed("cta.title", data.title)}</h2><p class="pg-cta-sub" ${ed("cta.subtitle", data.subtitle)}</p>${action}</div>${toolbarHtml()}</section>`;
+    if (target) {
+      return `<div id="lead-action" class="pg-cta-action"><a class="pg-btn pg-btn-primary" ${linkAttrs(target)}><span ${ed("cta.buttonText", data.buttonText)}</span></a></div>`;
+    }
+    return `<div data-export-remove="true" class="no-export pg-empty">לא הוגדר יעד פעולה עדיין. לחצו על "יעד הפעולה" בסרגל הכלים כדי להוסיף WhatsApp, אימייל או קישור.</div>`;
+  }
+
+  function ctaTemplate(data) {
+    return `<section class="ai-block pg-cta" data-block="cta"><div class="pg-cta-panel"><span class="pg-cta-glow" aria-hidden="true"></span><h2 class="pg-h2" ${ed("cta.title", data.title)}</h2><p class="pg-cta-sub" ${ed("cta.subtitle", data.subtitle)}</p><div id="cta-action-zone">${buildCtaAction(data)}</div></div>${toolbarHtml()}</section>`;
   }
 
   function footerHtml(businessName) {
