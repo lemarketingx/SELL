@@ -21,6 +21,8 @@ test("workspace exposes page zones and a real element library", () => {
   });
   assert.match(editor, /studio-insert-handle/);
   assert.match(editor, /dataset\.studioPositioned/);
+  assert.match(css, /#studio-backdrop\.studio-panel-backdrop\s*\{[^}]*z-index:\s*2190/s);
+  assert.match(css, /\.studio-panel#studio-panel\s*\{[^}]*z-index:\s*2200\s*!important/s);
 });
 
 test("editor ships eight style kits and editable colors", () => {

@@ -173,8 +173,13 @@
 .studio-panel#studio-panel {
   width: min(520px, 100%) !important;
   padding: 0 !important;
+  z-index: 2200 !important;
   color: #edf1ef;
   background: #202523;
+}
+
+#studio-backdrop.studio-panel-backdrop {
+  z-index: 2190;
 }
 
 .studio-panel-head {
