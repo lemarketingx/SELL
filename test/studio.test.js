@@ -62,6 +62,8 @@ test("enhanced export removes editor controls and embeds assets", () => {
   assert.match(script, /stopImmediatePropagation/);
   assert.match(script, /\.block-toolbar/);
   assert.match(script, /new Blob/);
+  assert.match(script, /document\.body\.appendChild\(anchor\)/);
+  assert.match(script, /setTimeout\(\(\) => URL\.revokeObjectURL\(url\), 1_000\)/);
   assert.match(script, /studio\.gallery/);
   assert.match(script, /googletagmanager\.com/);
 });

@@ -399,7 +399,14 @@
     const html = `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(business)}</title>${gtmHead}${plusExport.meta}<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Rubik:wght@500;600;700;800&display=swap" rel="stylesheet"><style>*{box-sizing:border-box}body{margin:0;font-family:Heebo,sans-serif;line-height:1.5;background:var(--paper,#fff);color:var(--ink,#222)}a{color:inherit}${css}</style></head><body>${gtmBody}<main class="result-canvas" data-studio-variant="${studio.variant}" data-vibe="${escapeHtml(canvas.dataset.vibe || "trust")}" data-design-archetype="${escapeHtml(canvas.dataset.designArchetype || "modern")}" data-hero-layout="${escapeHtml(canvas.dataset.heroLayout || "centered")}" style="${canvas.getAttribute("style") || ""}">${clone.innerHTML}</main>${plusExport.html}${plusScript}</body></html>`;
     const blob = new Blob([html], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a"); anchor.href = url; anchor.download = `${slugify(business)}.html`; anchor.click(); URL.revokeObjectURL(url);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `${slugify(business)}.html`;
+    anchor.hidden = true;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1_000);
   }
 
   function showToast(message) {
