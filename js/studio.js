@@ -32,7 +32,7 @@
     $("#studio-analyze")?.addEventListener("click", () => {
       const source = studio.logo || studio.hero;
       if (source) analyzeBrand(source);
-      else showToast("העלו לוגו או תמונת Hero כדי לנתח את ה-DNA החזותי");
+      else showToast("העלו לוגו או תמונה ראשית כדי להתאים את העיצוב למותג");
     });
   }
 
@@ -135,7 +135,7 @@
     const industry = $("#f-industry")?.value.trim() || "העסק";
     const style = guessStyle(industry);
     panel.classList.add("active");
-    panel.innerHTML = `<strong>Page DNA מוכן</strong><div style="margin-top:6px;color:oklch(.45 .01 80)">סגנון מומלץ: ${style}. המבנה והתמונות יותאמו אוטומטית לאחר יצירת הדף.</div><div class="studio-palette">${studio.palette.map((color) => `<span class="studio-swatch" style="background:${color}" title="${color}"></span>`).join("")}</div>`;
+    panel.innerHTML = `<strong>המיתוג נקלט</strong><div style="margin-top:6px;color:oklch(.45 .01 80)">סגנון מומלץ: ${style}. הצבעים והתמונות ישולבו אוטומטית לאחר יצירת הדף.</div><div class="studio-palette">${studio.palette.map((color) => `<span class="studio-swatch" style="background:${color}" title="${color}"></span>`).join("")}</div>`;
   }
 
   function guessStyle(industry) {
@@ -330,6 +330,7 @@
       savedAt: new Date().toISOString(),
       inputs: Object.fromEntries(["f-name","f-industry","f-description","f-whatsapp","f-email","f-cta-url","studio-ad-message"].map((id) => [id, document.getElementById(id)?.value || ""])),
       studio,
+      publish: window.dafdafExportSettings?.() || {},
       canvas: $("#result-canvas")?.innerHTML || ""
     };
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(payload)); showToast("הפרויקט נשמר בדפדפן הזה"); }
@@ -343,6 +344,7 @@
       const payload = JSON.parse(raw);
       Object.entries(payload.inputs || {}).forEach(([id,value]) => { const input = document.getElementById(id); if (input) input.value = value; });
       Object.assign(studio, payload.studio || {});
+      window.dafdafApplyExportSettings?.(payload.publish || {});
       if (payload.canvas) {
         $("#wizard").style.display = "none";
         $("#loading").style.display = "none";
@@ -374,7 +376,11 @@
     const business = $("#f-name")?.value.trim() || "דף נחיתה";
     const plusExport = window.dafdafPlus?.exportAssets?.() || { meta: "", html: "", script: "" };
     const plusScript = plusExport.script ? `<script>${plusExport.script}</script>` : "";
-    const html = `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(business)}</title>${plusExport.meta}<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet"><style>*{box-sizing:border-box}body{margin:0;font-family:Heebo,sans-serif;line-height:1.5;background:var(--paper,#fff);color:var(--ink,#222)}a{color:inherit}${css}</style></head><body><main class="result-canvas" data-studio-variant="${studio.variant}" data-vibe="${escapeHtml(canvas.dataset.vibe || "trust")}" style="${canvas.getAttribute("style") || ""}">${clone.innerHTML}</main>${plusExport.html}${plusScript}</body></html>`;
+    const exportSettings = window.dafdafExportSettings?.() || {};
+    const gtmId = /^GTM-[A-Z0-9]{4,15}$/.test(exportSettings.gtmId || "") ? exportSettings.gtmId : "";
+    const gtmHead = gtmId ? `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');<\/script>` : "";
+    const gtmBody = gtmId ? `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>` : "";
+    const html = `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(business)}</title>${gtmHead}${plusExport.meta}<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet"><style>*{box-sizing:border-box}body{margin:0;font-family:Heebo,sans-serif;line-height:1.5;background:var(--paper,#fff);color:var(--ink,#222)}a{color:inherit}${css}</style></head><body>${gtmBody}<main class="result-canvas" data-studio-variant="${studio.variant}" data-vibe="${escapeHtml(canvas.dataset.vibe || "trust")}" style="${canvas.getAttribute("style") || ""}">${clone.innerHTML}</main>${plusExport.html}${plusScript}</body></html>`;
     const blob = new Blob([html], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a"); anchor.href = url; anchor.download = `${slugify(business)}.html`; anchor.click(); URL.revokeObjectURL(url);

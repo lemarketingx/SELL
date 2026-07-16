@@ -21,6 +21,8 @@
     whatsapp: "",
     leadEmail: "",
     ctaUrl: "",
+    formEndpoint: "",
+    gtmId: "",
   });
 
   const state = { step: 1, totalSteps: 4, data: emptyData(), page: null, submitting: false };
@@ -89,7 +91,7 @@
     els.canvas.addEventListener("submit", (event) => {
       if (!event.target.matches(".lead-form")) return;
       event.preventDefault();
-      toast("זו תצוגה מקדימה. בקובץ המיוצא הטופס יפתח הודעת אימייל מוכנה.");
+      toast("זו תצוגה מקדימה. בקובץ המיוצא הטופס יישלח ליעד שהגדרתם.");
     });
 
     document.getElementById("dest-target")?.addEventListener("click", openDestinationPanel);
@@ -111,7 +113,7 @@
   function updateDestStatus() {
     const statusEl = document.getElementById("dest-status");
     if (!statusEl) return;
-    const configured = Boolean(contactTarget());
+    const configured = Boolean(contactTarget() || safeFormEndpoint(state.data.formEndpoint));
     statusEl.textContent = configured ? "✓ מוגדר" : "⚠ לא הוגדר";
     statusEl.classList.toggle("ok", configured);
     statusEl.classList.toggle("warn", !configured);
@@ -121,14 +123,27 @@
     const panel = document.getElementById("studio-panel");
     const backdrop = document.getElementById("studio-backdrop");
     if (!panel || !backdrop) return;
-    panel.innerHTML = `<button type="button" class="btn btn-ghost btn-sm" id="dest-panel-close" style="float:left">סגירה</button><h3>יעד הפעולה</h3><p>הוסיפו לאן ילכו הלקוחות בלחיצה על כפתורי הפעולה בדף. מספיק למלא אפשרות אחת.</p><label class="field-label" for="dest-whatsapp">WhatsApp</label><input id="dest-whatsapp" class="field-input" type="tel" maxlength="30" autocomplete="tel" placeholder="050-1234567" value="${escapeHtml(state.data.whatsapp)}"><label class="field-label" for="dest-email">אימייל</label><input id="dest-email" class="field-input" type="email" maxlength="254" autocomplete="email" placeholder="hello@example.com" value="${escapeHtml(state.data.leadEmail)}"><label class="field-label" for="dest-cta-url">קישור חיצוני</label><input id="dest-cta-url" class="field-input" type="url" maxlength="500" inputmode="url" placeholder="https://example.com/order" value="${escapeHtml(state.data.ctaUrl)}"><button type="button" class="btn btn-primary btn-sm" id="dest-save" style="margin-top:14px">שמירת היעד</button>`;
+    panel.innerHTML = `<button type="button" class="btn btn-ghost btn-sm" id="dest-panel-close" style="float:left">סגירה</button><h3>פרסום ולידים</h3><p>חברו ערוץ פנייה, קליטת טופס ומדידה לפני הורדת הדף.</p><div class="publish-panel-section"><h4>פעולה ראשית</h4><label class="field-label" for="dest-whatsapp">WhatsApp</label><input id="dest-whatsapp" class="field-input" type="tel" maxlength="30" autocomplete="tel" placeholder="050-1234567" value="${escapeHtml(state.data.whatsapp)}"><label class="field-label" for="dest-cta-url">קישור להזמנה או לקביעת תור</label><input id="dest-cta-url" class="field-input" type="url" maxlength="500" inputmode="url" placeholder="https://example.com/order" value="${escapeHtml(state.data.ctaUrl)}"></div><div class="publish-panel-section"><h4>קליטת טופס</h4><label class="field-label" for="dest-form-endpoint">כתובת מאובטחת לקבלת לידים</label><input id="dest-form-endpoint" class="field-input" type="url" maxlength="500" inputmode="url" placeholder="https://formspree.io/f/…" value="${escapeHtml(state.data.formEndpoint)}"><p class="field-help">מתאים ל־Formspree או לשירות טפסים שמקבל POST רגיל. אם אין כתובת כזאת, אפשר להשתמש זמנית באימייל.</p><label class="field-label" for="dest-email">אימייל חלופי</label><input id="dest-email" class="field-input" type="email" maxlength="254" autocomplete="email" placeholder="hello@example.com" value="${escapeHtml(state.data.leadEmail)}"></div><div class="publish-panel-section"><h4>מדידת קמפיין</h4><label class="field-label" for="dest-gtm">Google Tag Manager</label><input id="dest-gtm" class="field-input" type="text" maxlength="20" autocomplete="off" placeholder="GTM-XXXXXXX" value="${escapeHtml(state.data.gtmId)}"><p class="field-help">הקוד יוטמע רק בקובץ המיוצא. אפשר לנהל דרכו GA4, Meta Pixel ותגי פרסום.</p></div><button type="button" class="btn btn-primary btn-sm publish-save" id="dest-save">שמירת הגדרות</button>`;
     panel.classList.add("open");
     backdrop.classList.add("open");
     document.getElementById("dest-panel-close").addEventListener("click", closeDestinationPanel);
     document.getElementById("dest-save").addEventListener("click", () => {
-      state.data.whatsapp = document.getElementById("dest-whatsapp").value.trim();
-      state.data.leadEmail = document.getElementById("dest-email").value.trim();
-      state.data.ctaUrl = document.getElementById("dest-cta-url").value.trim();
+      const next = {
+        whatsapp: document.getElementById("dest-whatsapp").value.trim(),
+        leadEmail: document.getElementById("dest-email").value.trim(),
+        ctaUrl: document.getElementById("dest-cta-url").value.trim(),
+        formEndpoint: document.getElementById("dest-form-endpoint").value.trim(),
+        gtmId: document.getElementById("dest-gtm").value.trim().toUpperCase(),
+      };
+      if (next.formEndpoint && !safeFormEndpoint(next.formEndpoint)) {
+        toast("כתובת קליטת הלידים חייבת להתחיל ב־https://");
+        return;
+      }
+      if (next.gtmId && !validGtmId(next.gtmId)) {
+        toast("מזהה GTM אינו תקין. לדוגמה: GTM-XXXXXXX");
+        return;
+      }
+      Object.assign(state.data, next);
       refreshDestination();
       closeDestinationPanel();
       toast("יעד הפעולה עודכן בדף");
@@ -430,6 +445,49 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : "";
   }
 
+  function safeFormEndpoint(raw) {
+    try {
+      const url = new URL(String(raw || "").trim());
+      return url.protocol === "https:" ? url.href : "";
+    } catch {
+      return "";
+    }
+  }
+
+  function validGtmId(raw) {
+    const value = String(raw || "").trim().toUpperCase();
+    return /^GTM-[A-Z0-9]{4,15}$/.test(value) ? value : "";
+  }
+
+  function trackingTags() {
+    const id = validGtmId(state.data.gtmId);
+    if (!id) return { head: "", body: "" };
+    return {
+      head: `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${id}');<\/script>`,
+      body: `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${id}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`,
+    };
+  }
+
+  window.dafdafExportSettings = () => ({
+    whatsapp: state.data.whatsapp,
+    leadEmail: validEmail(state.data.leadEmail),
+    ctaUrl: safeExternalUrl(state.data.ctaUrl),
+    formEndpoint: safeFormEndpoint(state.data.formEndpoint),
+    gtmId: validGtmId(state.data.gtmId),
+  });
+
+  window.dafdafApplyExportSettings = (settings = {}) => {
+    const next = {
+      whatsapp: String(settings.whatsapp || "").trim(),
+      leadEmail: validEmail(settings.leadEmail),
+      ctaUrl: safeExternalUrl(settings.ctaUrl),
+      formEndpoint: safeFormEndpoint(settings.formEndpoint),
+      gtmId: validGtmId(settings.gtmId),
+    };
+    Object.assign(state.data, next);
+    refreshDestination();
+  };
+
   function contactTarget() {
     const url = safeExternalUrl(state.data.ctaUrl);
     if (url) return { href: url, external: true, type: "url" };
@@ -451,12 +509,15 @@
 
   function buildHeroCtas(data) {
     const target = contactTarget();
+    const hasLeadForm = Boolean(safeFormEndpoint(state.data.formEndpoint) || validEmail(state.data.leadEmail));
     const primaryInner = `<span ${ed("hero.ctaPrimary", data.ctaPrimary)}</span>`;
     const primary = target
       ? `<a class="pg-btn pg-btn-primary" ${linkAttrs(target)}>${primaryInner}</a>`
-      : `<span class="pg-btn pg-btn-primary" data-export-remove="true">${primaryInner}</span>`;
+      : hasLeadForm
+        ? `<a class="pg-btn pg-btn-primary" href="#lead-action">${primaryInner}</a>`
+        : `<span class="pg-btn pg-btn-primary" data-export-remove="true">${primaryInner}</span>`;
     const secondaryInner = `<span ${ed("hero.ctaSecondary", data.ctaSecondary)}</span>`;
-    const secondary = target
+    const secondary = target || hasLeadForm
       ? `<a class="pg-btn pg-btn-ghost" href="#lead-action">${secondaryInner}</a>`
       : `<span class="pg-btn pg-btn-ghost" data-export-remove="true">${secondaryInner}</span>`;
     return primary + secondary;
@@ -487,7 +548,11 @@
 
   function buildCtaAction(data) {
     const target = contactTarget();
+    const endpoint = safeFormEndpoint(state.data.formEndpoint);
     const email = validEmail(state.data.leadEmail);
+    if (endpoint) {
+      return `<form id="lead-action" class="lead-form pg-form" action="${escapeHtml(endpoint)}" method="post"><div class="pg-form-title" ${ed("cta.formTitle", data.formTitle)}</div><input type="hidden" name="source" value="דף הנחיתה של ${escapeHtml(state.data.businessName)}"><input class="pg-input" name="name" type="text" autocomplete="name" placeholder="שם מלא" required><input class="pg-input" name="phone" type="tel" autocomplete="tel" placeholder="טלפון" required><input class="pg-input" name="email" type="email" autocomplete="email" placeholder="אימייל, לא חובה"><button class="pg-btn pg-btn-primary" type="submit"><span ${ed("cta.buttonText", data.buttonText)}</span></button></form><p class="no-export" style="font-size:12px;color:oklch(0.5 0.01 80);">הטופס מחובר לכתובת קליטת הלידים שהגדרתם.</p>`;
+    }
     if (email) {
       return `<form id="lead-action" class="lead-form pg-form" action="mailto:${escapeHtml(email)}" method="post" enctype="text/plain"><div class="pg-form-title" ${ed("cta.formTitle", data.formTitle)}</div><input class="pg-input" name="name" type="text" placeholder="שם מלא" required><input class="pg-input" name="phone" type="tel" placeholder="טלפון" required><button class="pg-btn pg-btn-primary" type="submit"><span ${ed("cta.buttonText", data.buttonText)}</span></button></form><p class="no-export" style="font-size:12px;color:oklch(0.5 0.01 80);">בייצוא, השליחה תפתח הודעת אימייל דרך תוכנת הדואר של המשתמש.</p>`;
     }
@@ -524,17 +589,19 @@
       .filter((sheet) => /page\.css/.test(sheet.href || ""))
       .map((sheet) => { try { return [...sheet.cssRules].map((rule) => rule.cssText).join("\n"); } catch { return ""; } })
       .join("\n");
+    const tracking = trackingTags();
     const html = `<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
 <title>${escapeHtml(state.data.businessName || "דף נחיתה")}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+${tracking.head}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
 <style>*{box-sizing:border-box}body{margin:0;font-family:'Heebo',sans-serif;line-height:1.5;overflow-x:hidden}a{color:inherit}${pageCss}</style>
 </head>
-<body><main class="result-canvas" data-vibe="${escapeHtml(state.data.vibe || "trust")}" style="--hue:${hue}">${clone.innerHTML}</main></body>
+<body>${tracking.body}<main class="result-canvas" data-vibe="${escapeHtml(state.data.vibe || "trust")}" style="--hue:${hue}">${clone.innerHTML}</main></body>
 </html>`;
     const blob = new Blob([html], { type: "text/html" });
     const url = URL.createObjectURL(blob);
