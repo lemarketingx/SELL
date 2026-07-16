@@ -7,6 +7,7 @@ const fs = require("node:fs");
 const html = fs.readFileSync("build.html", "utf8");
 const script = fs.readFileSync("js/studio.js", "utf8");
 const css = fs.readFileSync("css/studio.css", "utf8");
+const generate = fs.readFileSync("api/generate.js", "utf8");
 
 test("builder supports logo, hero and gallery uploads", () => {
   assert.match(html, /id="studio-logo"/);
@@ -17,8 +18,12 @@ test("builder supports logo, hero and gallery uploads", () => {
 test("builder includes brand and campaign-message inputs", () => {
   assert.match(html, /id="studio-analyze"/);
   assert.match(html, /id="studio-ad-message"/);
+  assert.match(html, /id="f-offer"/);
+  assert.match(html, /id="f-audience"/);
+  assert.match(html, /id="f-proof"/);
   assert.match(script, /analyzeBrand/);
-  assert.match(script, /מסר הקמפיין:/);
+  assert.match(generate, /מסר קמפיין קיים/);
+  assert.doesNotMatch(script, /מסר הקמפיין:/);
 });
 
 test("studio provides variants, mobile preview and conversion audit", () => {
@@ -28,7 +33,19 @@ test("studio provides variants, mobile preview and conversion audit", () => {
   assert.match(html, /id="studio-mobile"/);
   assert.match(html, /id="studio-audit"/);
   assert.match(script, /runAudit/);
+  assert.match(script, /dafdaf:page-created/);
+  assert.match(script, /gallerySource/);
+  assert.match(script, /querySelector\("#lead-action"\)/);
   assert.match(css, /mobile-preview/);
+});
+
+test("brief style continues into the matching workspace variant", () => {
+  const builder = fs.readFileSync("js/builder.js", "utf8");
+  assert.match(builder, /energetic:\s*"bold"/);
+  assert.match(builder, /luxury:\s*"editorial"/);
+  assert.match(builder, /dafdaf:page-created/);
+  assert.match(script, /prepareGeneratedPage/);
+  assert.match(script, /button\[data-studio-variant\]/);
 });
 
 test("studio supports section management and local project persistence", () => {
@@ -45,6 +62,8 @@ test("enhanced export removes editor controls and embeds assets", () => {
   assert.match(script, /stopImmediatePropagation/);
   assert.match(script, /\.block-toolbar/);
   assert.match(script, /new Blob/);
+  assert.match(script, /document\.body\.appendChild\(anchor\)/);
+  assert.match(script, /setTimeout\(\(\) => URL\.revokeObjectURL\(url\), 1_000\)/);
   assert.match(script, /studio\.gallery/);
   assert.match(script, /googletagmanager\.com/);
 });

@@ -2,11 +2,11 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<title>בנו דף נחיתה עם AI | דפדף</title>
-<meta name="description" content="מתארים את העסק, מעלים לוגו ותמונות, ומקבלים דף נחיתה בעברית שאפשר לערוך ולהוריד.">
+<title>בנו דף נחיתה | דפדף</title>
+<meta name="description" content="בריף קצר הופך לדף נחיתה עברי שאפשר לערוך, לחבר ללידים ולהוריד.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0b1020">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%238b7cff'/%3E%3Cstop%20offset='0.55'%20stop-color='%23ff6b7a'/%3E%3Cstop%20offset='1'%20stop-color='%23ffb86b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width='64'%20height='64'%20rx='16'%20fill='url(%23g)'/%3E%3Ctext%20x='32'%20y='45'%20font-family='Arial'%20font-size='36'%20font-weight='bold'%20text-anchor='middle'%20fill='white'%3E%D7%93%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#f3f0e8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='18'%20fill='%23151918'/%3E%3Cpath%20d='M18%2017h20c7%200%2011%204%2011%2010%200%204-2%207-6%208%204%201%207%204%207%209%200%208-6%2012-15%2012H18V17Zm9%208v7h10c2%200%203-1%203-4s-1-3-4-3h-9Zm0%2015v8h11c3%200%204-1%204-4s-2-4-5-4H27Z'%20fill='%23D8FF3E'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Rubik:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -16,48 +16,86 @@
 <link rel="stylesheet" href="css/plus.css">
 <link rel="stylesheet" href="css/builder-v2.css">
 <link rel="stylesheet" href="css/studio-design-v2.css">
+<link rel="stylesheet" href="css/page-v3.css">
+<link rel="stylesheet" href="css/product-v3.css">
 </head>
-<body class="vibe-trust">
-<div class="builder-shell">
-  <nav class="builder-nav">
-    <a href="index.html" class="brand"><span class="brand-mark">ד</span><span>דפדף</span></a>
-    <div class="builder-nav-meta"><span class="beta-pill">בטא פתוחה</span><a href="index.html" class="restart">חזרה לעמוד הבית</a></div>
+<body class="vibe-trust v3-builder-page">
+<div class="builder-shell v3-builder-shell">
+  <nav class="v3-app-nav">
+    <a href="index.html" class="v3-brand"><span class="v3-brand-mark">ד</span><span>דפדף</span></a>
+    <div class="v3-app-nav-center"><span class="v3-save-dot"></span><span>הפרויקט נשמר בדפדפן שלכם</span></div>
+    <a href="index.html" class="v3-nav-back">יציאה מהבונה</a>
   </nav>
-  <main id="wizard" class="wizard">
-    <div class="wizard-heading"><span class="wizard-kicker">בונים את הדף שלכם</span><span class="wizard-step-label" id="wizard-step-label">שלב 1 מתוך 4</span></div>
-    <div class="wizard-progress" aria-hidden="true"><span data-step="1"></span><span data-step="2"></span><span data-step="3"></span><span data-step="4"></span></div>
-    <section class="wizard-step active" data-step="1">
-      <h2>נתחיל מהבסיס</h2><p class="hint">שם העסק והתחום עוזרים לדפדף לבחור את השפה, המבנה והקומפוזיציה הנכונים.</p>
-      <div class="field-stack"><label class="field-label" for="f-name">שם העסק</label><input id="f-name" class="field-input" type="text" maxlength="100" autocomplete="organization" placeholder="לדוגמה: סטודיו נועה"><label class="field-label" for="f-industry">תחום הפעילות</label><input id="f-industry" class="field-input" type="text" maxlength="100" placeholder="לדוגמה: קליניקה, מסעדה, ייעוץ עסקי"></div>
-      <div class="chip-row" id="industry-chips" aria-label="תחומים נפוצים"><button type="button" class="chip" data-value="מסעדה / בית קפה">מסעדה / בית קפה</button><button type="button" class="chip" data-value="קליניקה / טיפול">קליניקה / טיפול</button><button type="button" class="chip" data-value="סטודיו / יוצר עצמאי">סטודיו / יוצר עצמאי</button><button type="button" class="chip" data-value="ייעוץ עסקי">ייעוץ עסקי</button><button type="button" class="chip" data-value="חנות / מסחר">חנות / מסחר</button></div>
-    </section>
-    <section class="wizard-step" data-step="2">
-      <h2>מה הלקוח צריך להבין עליכם?</h2><p class="hint">כתבו מה אתם מציעים, למי זה מתאים ומה הופך אתכם לבחירה טובה. פרטים מוחשיים יוצרים דף פחות גנרי.</p>
-      <label class="field-label" for="f-description">תיאור העסק</label><textarea id="f-description" class="field-textarea" minlength="10" maxlength="2000" placeholder="לדוגמה: אני פיזיותרפיסטית עם 10 שנות ניסיון. אני מטפלת בכאבי גב ופציעות ספורט, עם תוכנית אישית והסבר ברור בכל שלב."></textarea>
-      <fieldset class="studio-fieldset"><legend>המיתוג והתמונות שלכם</legend><p class="hint">העלו את החומרים שכבר יש לכם. דפדף יחלץ את צבעי המותג וישלב את התמונות במבנה שמתאים לעסק.</p>
-        <div class="studio-grid"><label class="studio-upload"><span><b>לוגו</b><small>PNG, JPG או WebP</small></span><input id="studio-logo" type="file" accept="image/*"></label><label class="studio-upload"><span><b>תמונת Hero</b><small>משפיעה על סוג ה־Hero והקומפוזיציה</small></span><input id="studio-hero" type="file" accept="image/*"></label><label class="studio-upload wide"><span><b>גלריית עבודות</b><small>עד 8 תמונות בפריסה מותאמת לתחום</small></span><input id="studio-gallery" type="file" accept="image/*" multiple></label></div>
-        <div class="studio-previews" data-preview-for="studio-logo"></div><div class="studio-previews" data-preview-for="studio-hero"></div><div class="studio-previews" data-preview-for="studio-gallery"></div>
-        <label class="field-label studio-ad-label" for="studio-ad-message">יש לכם מודעת Facebook או Google?</label><textarea id="studio-ad-message" class="field-textarea" maxlength="600" placeholder="הדביקו את נוסח המודעה כדי שהדף ימשיך בדיוק את אותה הבטחה."></textarea><button type="button" class="btn btn-ghost btn-sm" id="studio-analyze">התאימו את העיצוב למותג ✦</button><div id="studio-dna" class="studio-dna"></div>
-      </fieldset>
-    </section>
-    <section class="wizard-step" data-step="3">
-      <h2>בחרו את האופי של הדף</h2><p class="hint">הבחירה משפיעה על הטון. לאחר היצירה תוכלו לעבור בין שלושה קונספטים עם מבנה ועיצוב שונים באמת.</p>
-      <div class="vibe-grid" id="vibe-grid"><div class="vibe-card" data-value="trust" style="--vibe-hue:230;" role="button" tabindex="0"><div class="vibe-swatch"></div><div class="name">אמין ומקצועי</div><div class="desc">נקי, רגוע וברור</div></div><div class="vibe-card" data-value="energetic" style="--vibe-hue:25;" role="button" tabindex="0"><div class="vibe-swatch"></div><div class="name">אנרגטי וישיר</div><div class="desc">חי, בולט ומכירתי</div></div><div class="vibe-card" data-value="luxury" style="--vibe-hue:290;" role="button" tabindex="0"><div class="vibe-swatch"></div><div class="name">יוקרתי ומאופק</div><div class="desc">אלגנטי, מדויק ומרווח</div></div></div>
-    </section>
-    <section class="wizard-step" data-step="4">
-      <h2>מה המטרה של הדף?</h2><p class="hint">המטרה קובעת את הטון והנוסח שה-AI כותב בכפתורי הפעולה. אחרי שהדף נוצר תוכלו לחבר WhatsApp, טופס לידים, קישור ו־GTM מתוך אזור הפרסום.</p>
-      <div class="chip-row goal-row" id="goal-chips"><button type="button" class="chip" data-value="leads">איסוף לידים</button><button type="button" class="chip" data-value="appointments">קביעת תורים</button><button type="button" class="chip" data-value="sales">מכירת מוצר או שירות</button><button type="button" class="chip" data-value="signup">הרשמה לאירוע או קורס</button></div>
-    </section>
-    <div class="wizard-actions"><button type="button" class="btn btn-ghost" id="btn-back">חזרה</button><button type="button" class="btn btn-primary" id="btn-next" disabled>המשך</button></div>
+
+  <main id="wizard" class="wizard v3-brief">
+    <aside class="v3-brief-rail">
+      <div><span class="v3-rail-kicker">בריף לדף חדש</span><h1>שלוש החלטות לפני שמתחילים לעצב.</h1><p>המידע כאן יקבע את המסר, המבנה והכיוון החזותי של הדף.</p></div>
+      <ol class="v3-brief-steps">
+        <li data-brief-step="1" class="active"><b>1</b><span><strong>ההצעה</strong><small>מה ולמי</small></span></li>
+        <li data-brief-step="2"><b>2</b><span><strong>השכנוע</strong><small>למה להאמין</small></span></li>
+        <li data-brief-step="3"><b>3</b><span><strong>הכיוון</strong><small>מטרה ומראה</small></span></li>
+      </ol>
+      <div class="v3-brief-tip"><span>טיפ</span><p>פרט אחד אמיתי על העסק שווה יותר מחמש סיסמאות שיווקיות.</p></div>
+    </aside>
+
+    <div class="v3-brief-stage">
+      <div class="v3-mobile-progress"><span id="wizard-step-label">שלב 1 מתוך 3</span><div class="wizard-progress" aria-hidden="true"><span data-step="1"></span><span data-step="2"></span><span data-step="3"></span></div></div>
+
+      <section class="wizard-step active" data-step="1">
+        <div class="v3-step-heading"><span>01 · ההצעה</span><h2>מה אתם מוכרים, ולמי?</h2><p>לא צריך ניסוח מושלם. צריך חומר אמיתי שממנו אפשר לבנות מסר.</p></div>
+        <div class="v3-form-grid">
+          <label class="v3-field"><span>שם העסק</span><input id="f-name" class="field-input" type="text" maxlength="100" autocomplete="organization" placeholder="לדוגמה: סטודיו נועה"></label>
+          <label class="v3-field"><span>תחום הפעילות</span><input id="f-industry" class="field-input" type="text" maxlength="100" placeholder="לדוגמה: ייעוץ עסקי"></label>
+          <label class="v3-field v3-field-wide"><span>מה ההצעה המרכזית?</span><textarea id="f-offer" class="field-textarea v3-short-textarea" minlength="6" maxlength="350" placeholder="לדוגמה: תהליך של 4 פגישות לבניית תכנית שיווק שאפשר לבצע לבד"></textarea><small>כתבו שירות, מוצר או תוצאה—לא רק “שירות מקצועי”.</small></label>
+          <label class="v3-field v3-field-wide"><span>למי זה מתאים?</span><input id="f-audience" class="field-input" type="text" minlength="5" maxlength="250" placeholder="לדוגמה: עצמאיות שכבר מוכרות ורוצות זרם יציב יותר של פניות"></label>
+        </div>
+        <div class="chip-row v3-chip-row" id="industry-chips" aria-label="תחומים נפוצים"><button type="button" class="chip" data-value="מסעדה / בית קפה">אוכל ואירוח</button><button type="button" class="chip" data-value="קליניקה / טיפול">קליניקה וטיפול</button><button type="button" class="chip" data-value="סטודיו / יוצר עצמאי">סטודיו ויצירה</button><button type="button" class="chip" data-value="ייעוץ עסקי">ייעוץ ושירותים</button><button type="button" class="chip" data-value="חנות / מסחר">מוצר ומסחר</button></div>
+      </section>
+
+      <section class="wizard-step" data-step="2">
+        <div class="v3-step-heading"><span>02 · השכנוע</span><h2>מה צריך לקרות כדי שיאמינו לכם?</h2><p>הפרטים האלה מונעים מהדף להישמע כמו עוד טקסט AI.</p></div>
+        <div class="v3-form-grid">
+          <label class="v3-field v3-field-wide"><span>איך אתם עוזרים בפועל?</span><textarea id="f-description" class="field-textarea" minlength="10" maxlength="2000" placeholder="תארו את השיטה, התהליך, הניסיון או מה שקורה אחרי שמתחילים לעבוד איתכם."></textarea></label>
+          <label class="v3-field v3-field-wide"><span>איזו הוכחה אמיתית אפשר להציג? <em>לא חובה</em></span><textarea id="f-proof" class="field-textarea v3-short-textarea" maxlength="700" placeholder="לדוגמה: 8 שנות ניסיון, הסמכה מסוימת, מספר פרויקטים, אחריות או תהליך ייחודי"></textarea><small>דפדף לא ימציא לקוחות, מספרים או הבטחות שלא כתבתם.</small></label>
+          <label class="v3-field v3-field-wide"><span>מסר של מודעה קיימת <em>לא חובה</em></span><textarea id="studio-ad-message" class="field-textarea v3-short-textarea" maxlength="600" placeholder="הדביקו את נוסח המודעה כדי שהדף ימשיך את אותה הבטחה."></textarea></label>
+        </div>
+      </section>
+
+      <section class="wizard-step" data-step="3">
+        <div class="v3-step-heading"><span>03 · הכיוון</span><h2>איזה דף צריך לצאת מכאן?</h2><p>בחרו מטרה ואופי. אחרי היצירה תוכלו להחליף כיוון מול הדף עצמו.</p></div>
+        <div class="v3-direction-block"><h3>מטרת הדף</h3><div class="chip-row goal-row v3-goal-grid" id="goal-chips"><button type="button" class="chip" data-value="leads"><b>פניות</b><span>טופס או WhatsApp</span></button><button type="button" class="chip" data-value="appointments"><b>תורים</b><span>שיחה או פגישה</span></button><button type="button" class="chip" data-value="sales"><b>מכירה</b><span>מוצר או שירות</span></button><button type="button" class="chip" data-value="signup"><b>הרשמה</b><span>אירוע או קורס</span></button></div></div>
+        <div class="v3-direction-block"><h3>אופי חזותי</h3><div class="vibe-grid v3-vibe-grid" id="vibe-grid"><div class="vibe-card" data-value="trust" role="button" tabindex="0"><div class="v3-vibe-preview v3-vibe-trust"><i></i><b></b><span></span></div><div class="name">מדויק ושקט</div><div class="desc">אמון, בהירות ומרחב</div></div><div class="vibe-card" data-value="energetic" role="button" tabindex="0"><div class="v3-vibe-preview v3-vibe-energy"><i></i><b></b><span></span></div><div class="name">נועז וישיר</div><div class="desc">קצב, ניגודיות ופעולה</div></div><div class="vibe-card" data-value="luxury" role="button" tabindex="0"><div class="v3-vibe-preview v3-vibe-editorial"><i></i><b></b><span></span></div><div class="name">מערכתי ויוקרתי</div><div class="desc">טיפוגרפיה, חומר ומינימליזם</div></div></div></div>
+        <fieldset class="studio-fieldset v3-assets"><legend>חומרי מותג <span>לא חובה</span></legend><p>אם תעלו תמונות אמיתיות, הן יקבלו עדיפות על תמונות סטוק.</p><div class="studio-grid"><label class="studio-upload"><span><b>לוגו</b><small>PNG, JPG או WebP</small></span><input id="studio-logo" type="file" accept="image/*"></label><label class="studio-upload"><span><b>תמונה ראשית</b><small>משפיעה על קומפוזיציית הפתיחה</small></span><input id="studio-hero" type="file" accept="image/*"></label><label class="studio-upload wide"><span><b>גלריה</b><small>עד 8 תמונות</small></span><input id="studio-gallery" type="file" accept="image/*" multiple></label></div><div class="studio-previews" data-preview-for="studio-logo"></div><div class="studio-previews" data-preview-for="studio-hero"></div><div class="studio-previews" data-preview-for="studio-gallery"></div><button type="button" class="btn btn-ghost btn-sm" id="studio-analyze">התאימו צבעים למותג</button><div id="studio-dna" class="studio-dna"></div></fieldset>
+      </section>
+
+      <div class="wizard-actions v3-wizard-actions"><button type="button" class="btn btn-ghost" id="btn-back">חזרה</button><div class="v3-action-copy"><span id="v3-step-ready">אפשר לשנות הכול גם אחר כך</span><button type="button" class="btn btn-primary" id="btn-next" disabled>המשך</button></div></div>
+    </div>
   </main>
-  <main id="loading" class="build-loading" style="display:none;" aria-live="polite"><div class="loading-card"><div class="spinner" aria-hidden="true"></div><h2>בונים את הדף</h2><div class="status" id="loading-status">מנתח את העסק שלכם...</div><p>הכתיבה, המבנה והעיצוב נוצרים יחד. זה עשוי לקחת כמה שניות.</p></div></main>
-  <div id="result" style="display:none;">
-    <div class="result-toolbar"><div class="result-title"><strong>הדף מוכן לעריכה</strong><span>עברו לפי הסדר: עיצוב, שיווק ואז פרסום</span></div><div class="actions studio-tools"><div class="tool-group" aria-label="תצוגה"><span class="tool-group-label">תצוגה</span><button type="button" class="btn btn-ghost btn-sm active" id="studio-desktop">מחשב</button><button type="button" class="btn btn-ghost btn-sm" id="studio-mobile">מובייל</button></div><div class="tool-group" aria-label="עיצוב"><span class="tool-group-label">עיצוב</span><button type="button" class="btn btn-ghost btn-sm active" data-studio-variant="classic">ממיר</button><button type="button" class="btn btn-ghost btn-sm" data-studio-variant="bold">ויזואלי</button><button type="button" class="btn btn-ghost btn-sm" data-studio-variant="editorial">סיפורי</button><button type="button" class="btn btn-ghost btn-sm" id="studio-add-section">＋ מקטע</button></div><div class="tool-group" aria-label="שיווק"><span class="tool-group-label">שיווק</span><button type="button" class="btn btn-ghost btn-sm" id="plus-campaign">ערכת קמפיין</button><button type="button" class="btn btn-ghost btn-sm" id="plus-boosters">כלים</button><button type="button" class="btn btn-ghost btn-sm" id="studio-audit">בדיקת דף <span class="studio-score"><b id="studio-score">—</b></span></button></div><div class="tool-group tool-group-final" aria-label="פרסום"><span class="tool-group-label">פרסום</span><button type="button" class="btn btn-ghost btn-sm" id="dest-target">לידים ומדידה <span id="dest-status" class="dest-status"></span></button><button type="button" class="btn btn-ghost btn-sm" id="studio-save">שמירה</button><button type="button" class="btn btn-ghost btn-sm" id="studio-load">טעינה</button><button type="button" class="btn btn-accent btn-sm" id="btn-download">הורדת הדף ↓</button></div><button type="button" class="toolbar-reset" id="btn-restart">התחלה מחדש</button></div></div>
-    <div class="canvas-frame"><div class="canvas-bar" aria-hidden="true"><span class="canvas-dot d1"></span><span class="canvas-dot d2"></span><span class="canvas-dot d3"></span><span class="canvas-url">dafdaf.co.il/your-page</span></div><div class="result-canvas" id="result-canvas" data-studio-variant="classic"></div></div>
+
+  <main id="loading" class="build-loading v3-loading" style="display:none" aria-live="polite"><div class="v3-loading-orbit"><span>ד</span><i></i><i></i><i></i></div><span class="v3-loading-kicker">Designing with context</span><h2>בונים את הסיפור,<br>לא רק את המסך.</h2><div class="status" id="loading-status">מנתח את ההצעה והקהל...</div><div class="v3-loading-track"><i></i></div><p>התוכן, המבנה, התמונות והכיוון החזותי נוצרים יחד.</p></main>
+
+  <div id="result" class="v3-workspace" style="display:none">
+    <header class="v3-workspace-topbar">
+      <a href="index.html" class="v3-brand v3-workspace-brand"><span class="v3-brand-mark">ד</span></a>
+      <div class="v3-project-title"><strong id="workspace-project-name">דף חדש</strong><span><i></i> נשמר מקומית</span></div>
+      <div class="v3-preview-switch" aria-label="תצוגה"><button type="button" class="active" id="studio-desktop" title="מחשב">▰</button><button type="button" id="studio-mobile" title="מובייל">▯</button></div>
+      <div class="v3-topbar-actions"><button type="button" class="v3-topbar-button" id="studio-save">שמירה</button><button type="button" class="v3-topbar-button" id="studio-load">טעינה</button><button type="button" class="v3-publish-button" id="btn-download">הורדת הדף <span>↓</span></button></div>
+    </header>
+    <div class="v3-workspace-body">
+      <aside class="v3-workspace-sidebar">
+        <div class="v3-sidebar-scroll">
+          <section><h2>מבנה הדף</h2><button type="button" class="v3-section-link active" data-block-jump="hero"><span>01</span> פתיחה</button><button type="button" class="v3-section-link" data-block-jump="features"><span>02</span> ההצעה</button><button type="button" class="v3-section-link" data-block-jump="process"><span>03</span> התהליך</button><button type="button" class="v3-section-link" data-block-jump="testimonials"><span>04</span> הוכחות</button><button type="button" class="v3-section-link" data-block-jump="cta"><span>05</span> פעולה</button><button type="button" class="v3-sidebar-add" id="studio-add-section">＋ הוספת מקטע</button></section>
+          <section><h2>כיוון עיצוב</h2><div class="v3-variant-list"><button type="button" class="active" data-studio-variant="classic"><i class="v3-variant-a"></i><span><b>מדויק</b><small>בהיר וממוקד</small></span></button><button type="button" data-studio-variant="bold"><i class="v3-variant-b"></i><span><b>ויזואלי</b><small>נועז ותמונתי</small></span></button><button type="button" data-studio-variant="editorial"><i class="v3-variant-c"></i><span><b>מערכתי</b><small>אלגנטי וסיפורי</small></span></button></div></section>
+          <section><h2>שיפור הדף</h2><button type="button" class="v3-tool-link" id="studio-audit"><span>✓</span><b>בדיקת המרות</b><em id="studio-score">—</em></button><button type="button" class="v3-tool-link" id="plus-campaign"><span>↗</span><b>ערכת קמפיין</b></button><button type="button" class="v3-tool-link" id="plus-boosters"><span>✦</span><b>כלים ישראליים</b></button></section>
+          <section><h2>פרסום</h2><button type="button" class="v3-tool-link" id="dest-target"><span>◎</span><b>לידים ומדידה</b><em id="dest-status" class="dest-status"></em></button></section>
+        </div>
+        <button type="button" class="v3-restart" id="btn-restart">התחלה מחדש</button>
+      </aside>
+      <main class="v3-preview-area"><div class="v3-canvas-toolbar"><div><i></i><i></i><i></i></div><span>dafdaf.co.il/<b id="workspace-slug">your-page</b></span><small>תצוגה מקדימה</small></div><div class="canvas-frame v3-canvas-frame"><div class="result-canvas" id="result-canvas" data-studio-variant="classic"></div></div></main>
+    </div>
   </div>
 </div>
 <div id="studio-backdrop" class="studio-panel-backdrop"></div><aside id="studio-panel" class="studio-panel" aria-live="polite"></aside>
 <script src="js/builder.js"></script><script src="js/studio.js"></script><script src="js/plus.js"></script><script src="js/plus-corrections.js"></script><script src="js/design-engine-v2.js"></script>
-<script>(()=>{const label=document.getElementById("wizard-step-label");const wizard=document.getElementById("wizard");if(!label||!wizard)return;const update=()=>{const active=wizard.querySelector(".wizard-step.active");label.textContent=`שלב ${active?.dataset.step||"1"} מתוך 4`};new MutationObserver(update).observe(wizard,{attributes:true,subtree:true,attributeFilter:["class"]});update()})();</script>
 </body>
 </html>

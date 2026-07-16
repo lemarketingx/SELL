@@ -8,16 +8,21 @@ const build = fs.readFileSync("build.html", "utf8");
 const engine = fs.readFileSync("js/design-engine-v2.js", "utf8");
 const exportRuntime = fs.readFileSync("js/design-engine-v2-export.js", "utf8");
 const css = fs.readFileSync("css/studio-design-v2.css", "utf8");
+const pageV3 = fs.readFileSync("css/page-v3.css", "utf8");
 const exportCss = fs.readFileSync("css/studio-design-v2-export.css", "utf8");
 const generate = fs.readFileSync("api/generate.js", "utf8");
 const studio = fs.readFileSync("js/studio.js", "utf8");
 
-test("builder loads Design Engine v2 and exposes three distinct concepts", () => {
+test("builder loads the design engine and exposes three distinct concepts", () => {
   assert.match(build, /css\/studio-design-v2\.css/);
+  assert.match(build, /css\/page-v3\.css/);
   assert.match(build, /js\/design-engine-v2\.js/);
-  assert.match(build, /data-studio-variant="classic">ממיר/);
-  assert.match(build, /data-studio-variant="bold">ויזואלי/);
-  assert.match(build, /data-studio-variant="editorial">סיפורי/);
+  assert.match(build, /data-studio-variant="classic"/);
+  assert.match(build, /data-studio-variant="bold"/);
+  assert.match(build, /data-studio-variant="editorial"/);
+  assert.match(build, />מדויק</);
+  assert.match(build, />ויזואלי</);
+  assert.match(build, />מערכתי</);
 });
 
 test("engine selects industry archetypes, hero layouts and section orders", () => {
@@ -28,23 +33,26 @@ test("engine selects industry archetypes, hero layouts and section orders", () =
     assert.match(`${engine}${css}`, new RegExp(layout));
   });
   assert.match(engine, /reorderSections/);
+  assert.match(engine, /syncWorkspaceNavigation/);
   assert.match(engine, /design-proof-rail/);
 });
 
 test("engine avoids repeated DOM mutation loops", () => {
-  assert.match(engine, /current\.join\("\|"\) === order\.join\("\|"\)/);
+  assert.match(engine, /current\.every\(\(node, index\) => node === desired\[index\]\)/);
+  assert.match(engine, /item\.matches\("footer"\)/);
   assert.match(engine, /rail\.dataset\.signature !== signature/);
   assert.match(exportRuntime, /hero\.dataset\.heroLayout !== layout/);
 });
 
 test("generated designs contain meaningful layout systems and responsive rules", () => {
-  assert.match(css, /data-hero-layout="split"/);
-  assert.match(css, /data-hero-layout="collage"/);
-  assert.match(css, /data-hero-layout="immersive"/);
-  assert.match(css, /grid-template-columns: repeat\(6/);
-  assert.match(css, /data-design-archetype="showcase"/);
-  assert.match(css, /@media \(max-width: 620px\)/);
-  assert.match(css, /prefers-reduced-motion/);
+  const styles = `${css}\n${pageV3}`;
+  assert.match(styles, /data-hero-layout="split"/);
+  assert.match(styles, /data-hero-layout="collage"/);
+  assert.match(styles, /data-hero-layout="immersive"/);
+  assert.match(styles, /grid-template-columns:\s*repeat\(6/);
+  assert.match(styles, /data-design-archetype="showcase"/);
+  assert.match(styles, /@media \(max-width: 620px\)/);
+  assert.match(styles, /prefers-reduced-motion/);
 });
 
 test("export keeps layout and archetype markers", () => {
@@ -53,7 +61,9 @@ test("export keeps layout and archetype markers", () => {
   assert.match(exportRuntime, /de-archetype-/);
   assert.match(exportRuntime, /data-block="process"/);
   assert.match(exportCss, /design-hero\[data-hero-layout="split"\]/);
-  assert.match(studio, /\(\?:studio\|plus\|page\)\\\.css/);
+  assert.match(studio, /page\(\?:-v3\)\?/);
+  assert.match(studio, /data-design-archetype/);
+  assert.match(studio, /data-hero-layout/);
 });
 
 test("AI prompt demands concrete, non-generic business copy", () => {
@@ -61,4 +71,5 @@ test("AI prompt demands concrete, non-generic business copy", () => {
   assert.match(generate, /אל תחזור על אותו רעיון/);
   assert.match(generate, /בין 4 ל-10 מילים/);
   assert.match(generate, /פרט, שיטה, התמחות או יתרון מוחשי/);
+  assert.match(generate, /אסור להמציא עדויות/);
 });
