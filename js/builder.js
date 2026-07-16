@@ -2,6 +2,7 @@
   "use strict";
 
   const VIBE_HUES = { trust: 230, energetic: 25, luxury: 290 };
+  const VIBE_VARIANTS = { trust: "classic", energetic: "bold", luxury: "editorial" };
   const BLOCK_ORDER = ["hero", "features", "process", "testimonials", "cta"];
   const LOADING_MESSAGES = [
     "מנתח את ההצעה והקהל...",
@@ -361,6 +362,9 @@
     state.page = page;
     els.canvas.style.setProperty("--hue", VIBE_HUES[state.data.vibe] || 290);
     els.canvas.dataset.vibe = state.data.vibe || "trust";
+    const suggestedVariant = VIBE_VARIANTS[state.data.vibe] || "classic";
+    els.canvas.dataset.studioVariant = suggestedVariant;
+    window.dispatchEvent(new CustomEvent("dafdaf:page-created", { detail: { variant: suggestedVariant } }));
     if (Array.isArray(page.photoQueries) && page.photoQueries.length) {
       els.canvas.dataset.photoQueries = JSON.stringify(page.photoQueries);
     } else {

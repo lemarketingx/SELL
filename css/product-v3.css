@@ -23,6 +23,7 @@ html {
 body.v3-home,
 body.v3-builder-page {
   margin: 0;
+  overflow-x: clip;
   color: var(--v3-ink);
   background: var(--v3-paper);
   font-family: "Heebo", sans-serif;

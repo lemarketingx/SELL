@@ -163,13 +163,43 @@
   }
 
   function reorderSections(order) {
-    const current = $$(".block-slot[data-block]", canvas).map((slot) => slot.dataset.block);
-    if (current.join("|") === order.join("|")) return;
-    const footer = directChildren(canvas).find((item) => !item.classList.contains("block-slot") && !item.classList.contains("design-proof-rail") && item.querySelector("footer"));
-    const anchor = footer || null;
+    const children = directChildren(canvas);
+    const footer = children.find((item) => item.matches("footer") || item.querySelector("footer"));
+    const customSections = children.filter((item) =>
+      item !== footer &&
+      !item.classList.contains("block-slot") &&
+      !item.classList.contains("design-proof-rail")
+    );
+    const desired = [];
     for (const type of order) {
       const slot = $(`.block-slot[data-block="${type}"]`, canvas);
-      if (slot) canvas.insertBefore(slot, anchor);
+      if (type === "cta") desired.push(...customSections);
+      if (slot) desired.push(slot);
+    }
+    if (!order.includes("cta")) desired.push(...customSections);
+    if (footer) desired.push(footer);
+
+    const current = children.filter((item) => !item.classList.contains("design-proof-rail"));
+    if (current.length === desired.length && current.every((node, index) => node === desired[index])) return;
+
+    for (const node of desired) {
+      if (node !== footer) canvas.insertBefore(node, footer || null);
+    }
+  }
+
+  function syncWorkspaceNavigation(order) {
+    const buttons = $$("button[data-block-jump]");
+    const container = buttons[0]?.parentElement;
+    const addButton = container?.querySelector("#studio-add-section");
+    if (!container || !addButton) return;
+    let index = 0;
+    for (const type of order) {
+      const button = container.querySelector(`button[data-block-jump="${type}"]`);
+      if (!button) continue;
+      index += 1;
+      const number = button.querySelector("span");
+      if (number) number.textContent = String(index).padStart(2, "0");
+      container.insertBefore(button, addButton);
     }
   }
 
@@ -222,6 +252,7 @@
       canvas.dataset.heroLayout = plan.layout;
       markSections();
       reorderSections(plan.order);
+      syncWorkspaceNavigation(plan.order);
       ensureProofRail();
       markGallery();
       canvas.dataset.designEngine = "v2";
@@ -246,7 +277,7 @@
   }
 
   new MutationObserver(schedule).observe(canvas, { childList: true, subtree: true });
-  $$('[data-studio-variant]').forEach((button) => button.addEventListener("click", schedule));
+  $$("button[data-studio-variant]").forEach((button) => button.addEventListener("click", schedule));
   ["f-name", "f-industry", "f-description"].forEach((id) => document.getElementById(id)?.addEventListener("change", schedule));
   window.addEventListener("load", schedule);
 

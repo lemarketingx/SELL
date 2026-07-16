@@ -3,7 +3,7 @@
 
   const STORAGE_KEY = "dafdaf-studio-project-v1";
   const MAX_IMAGE_BYTES = 1_600_000;
-  const studio = { logo: "", hero: "", gallery: [], galleryAttribution: [], palette: [], variant: "classic", enhanced: false, galleryRequested: false };
+  const studio = { logo: "", hero: "", gallery: [], galleryAttribution: [], gallerySource: "none", palette: [], variant: "classic", enhanced: false, galleryRequested: false };
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
@@ -14,6 +14,18 @@
     bindResultTools();
     observeGeneratedPage();
     restoreDraftInputs();
+    window.addEventListener("dafdaf:page-created", (event) => prepareGeneratedPage(event.detail?.variant));
+  }
+
+  function prepareGeneratedPage(variant) {
+    studio.enhanced = false;
+    if (studio.gallerySource === "auto") {
+      studio.gallery = [];
+      studio.galleryAttribution = [];
+      studio.gallerySource = "none";
+    }
+    studio.galleryRequested = false;
+    setVariant(["classic", "bold", "editorial"].includes(variant) ? variant : "classic");
   }
 
   function bindUploads() {
@@ -25,6 +37,7 @@
     bindImageInput("studio-gallery", true, (images) => {
       studio.gallery = images.slice(0, 8);
       studio.galleryAttribution = [];
+      studio.gallerySource = studio.gallery.length ? "upload" : "none";
       $(".studio-gallery", $("#result-canvas"))?.remove();
       if (studio.gallery.length) addGallerySection();
     });
@@ -147,7 +160,7 @@
   function bindResultTools() {
     $("#studio-desktop")?.addEventListener("click", () => setPreview(false));
     $("#studio-mobile")?.addEventListener("click", () => setPreview(true));
-    $$("[data-studio-variant]").forEach((button) => button.addEventListener("click", () => setVariant(button.dataset.studioVariant)));
+    $$("button[data-studio-variant]").forEach((button) => button.addEventListener("click", () => setVariant(button.dataset.studioVariant)));
     $("#studio-audit")?.addEventListener("click", runAudit);
     $("#studio-save")?.addEventListener("click", saveProject);
     $("#studio-load")?.addEventListener("click", loadProject);
@@ -165,7 +178,7 @@
     studio.variant = variant;
     const canvas = $("#result-canvas");
     if (canvas) canvas.dataset.studioVariant = variant;
-    $$("[data-studio-variant]").forEach((button) => button.classList.toggle("active", button.dataset.studioVariant === variant));
+    $$("button[data-studio-variant]").forEach((button) => button.classList.toggle("active", button.dataset.studioVariant === variant));
   }
 
   function observeGeneratedPage() {
@@ -228,6 +241,7 @@
       if (!photos.length) return;
       studio.gallery = photos.map((photo) => photo.url);
       studio.galleryAttribution = photos;
+      studio.gallerySource = "auto";
       if (!$(".studio-gallery", $("#result-canvas"))) addGallerySection();
     } catch {
       // no auto-gallery available; the user can still upload their own photos
@@ -314,10 +328,10 @@
     const checks = window.dafdafPlus?.auditChecks?.() || [];
     const headline = $("h1", canvas)?.textContent.trim() || "";
     checks.push({ ok: headline.length >= 20 && headline.length <= 95, text: "כותרת ראשית ממוקדת וברורה" });
-    checks.push({ ok: Boolean(canvas.querySelector("a[href]:not([href='#'])")), text: "קיים CTA פעיל" });
+    checks.push({ ok: Boolean(canvas.querySelector("#lead-action")), text: "קיים CTA פעיל" });
     checks.push({ ok: Boolean(canvas.querySelector(".studio-hero-media img")), text: "נוספה תמונת Hero אמיתית" });
     checks.push({ ok: canvas.querySelectorAll(".ai-block,.studio-added-section").length >= 5, text: "מבנה הדף עשיר מספיק" });
-    checks.push({ ok: Boolean(canvas.querySelector('[data-block="testimonials"],.studio-stats')), text: "קיימת הוכחת אמון" });
+    checks.push({ ok: Boolean(canvas.querySelector('[data-block="testimonials"],.studio-stats')), text: "קיים מקטע הוכחה או הסרת חששות" });
     checks.push({ ok: Boolean(canvas.querySelector(".studio-gallery")), text: "קיימת גלריה חזותית" });
     const score = Math.round(checks.filter((item) => item.ok).length / checks.length * 100);
     $("#studio-score").textContent = `${score}`;

@@ -58,6 +58,7 @@ test("redesign stylesheets contain responsive rules", () => {
   assert.match(product, /prefers-reduced-motion/);
   assert.match(product, /max-width:\s*820px/);
   assert.match(product, /--v3-acid:/);
+  assert.match(product, /overflow-x:\s*clip/);
   assert.match(page, /max-width:\s*620px/);
   assert.match(page, /--v3p-ink:/);
 });

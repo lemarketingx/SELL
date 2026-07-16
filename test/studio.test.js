@@ -33,7 +33,19 @@ test("studio provides variants, mobile preview and conversion audit", () => {
   assert.match(html, /id="studio-mobile"/);
   assert.match(html, /id="studio-audit"/);
   assert.match(script, /runAudit/);
+  assert.match(script, /dafdaf:page-created/);
+  assert.match(script, /gallerySource/);
+  assert.match(script, /querySelector\("#lead-action"\)/);
   assert.match(css, /mobile-preview/);
+});
+
+test("brief style continues into the matching workspace variant", () => {
+  const builder = fs.readFileSync("js/builder.js", "utf8");
+  assert.match(builder, /energetic:\s*"bold"/);
+  assert.match(builder, /luxury:\s*"editorial"/);
+  assert.match(builder, /dafdaf:page-created/);
+  assert.match(script, /prepareGeneratedPage/);
+  assert.match(script, /button\[data-studio-variant\]/);
 });
 
 test("studio supports section management and local project persistence", () => {

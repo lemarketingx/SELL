@@ -33,11 +33,13 @@ test("engine selects industry archetypes, hero layouts and section orders", () =
     assert.match(`${engine}${css}`, new RegExp(layout));
   });
   assert.match(engine, /reorderSections/);
+  assert.match(engine, /syncWorkspaceNavigation/);
   assert.match(engine, /design-proof-rail/);
 });
 
 test("engine avoids repeated DOM mutation loops", () => {
-  assert.match(engine, /current\.join\("\|"\) === order\.join\("\|"\)/);
+  assert.match(engine, /current\.every\(\(node, index\) => node === desired\[index\]\)/);
+  assert.match(engine, /item\.matches\("footer"\)/);
   assert.match(engine, /rail\.dataset\.signature !== signature/);
   assert.match(exportRuntime, /hero\.dataset\.heroLayout !== layout/);
 });
