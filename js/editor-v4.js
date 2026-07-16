@@ -234,6 +234,7 @@
     if (action === "duplicate" && !section.classList.contains("studio-site-header") && !section.classList.contains("studio-site-footer")) {
       const copy = section.cloneNode(true);
       delete copy.dataset.studioNodeId;
+      copy.classList.remove("studio-selected");
       copy.querySelectorAll(".studio-element-toolbar,.studio-insert-handle").forEach((item) => item.remove());
       section.after(copy);
       showToast("המקטע שוכפל");

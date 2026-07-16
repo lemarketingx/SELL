@@ -92,4 +92,5 @@ test("header, footer, custom placement and domain hosting entry points are expli
   assert.match(html, /id="studio-domain-hosting"/);
   assert.match(editor, /https:\/\/vercel\.com\/domains/);
   assert.match(editor, /https:\/\/vercel\.com\/new/);
+  assert.match(editor, /copy\.classList\.remove\("studio-selected"\)/);
 });
