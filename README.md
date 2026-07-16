@@ -18,6 +18,7 @@
 - `UPSTASH_REDIS_REST_KV_REST_API_URL` — כתובת REST שנוצרת אוטומטית בחיבור Upstash for Redis דרך Vercel.
 - `UPSTASH_REDIS_REST_KV_REST_API_TOKEN` — token לכתיבה שנוצר אוטומטית בחיבור Upstash for Redis דרך Vercel.
 - `RATE_LIMIT_SALT` — ערך אקראי המשמש לגיבוב כתובות IP במפתחות ההגבלה.
+- `UNSPLASH_ACCESS_KEY` — אופציונלי. מפתח Access Key של אפליקציית Unsplash, בצד השרת בלבד. אם לא מוגדר, גלריית התמונות האוטומטית פשוט לא מוצגת כשלא הועלו תמונות.
 
 אין להשתמש ב־`UPSTASH_REDIS_REST_KV_REST_API_READ_ONLY_TOKEN`, מפני שמנגנון הגבלת השימוש צריך לכתוב מונים למסד.
 

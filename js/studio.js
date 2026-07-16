@@ -3,7 +3,7 @@
 
   const STORAGE_KEY = "dafdaf-studio-project-v1";
   const MAX_IMAGE_BYTES = 1_600_000;
-  const studio = { logo: "", hero: "", gallery: [], palette: [], variant: "classic", enhanced: false, galleryRequested: false };
+  const studio = { logo: "", hero: "", gallery: [], galleryAttribution: [], palette: [], variant: "classic", enhanced: false, galleryRequested: false };
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
@@ -25,6 +25,7 @@
     bindImageInput("studio-hero", false, (images) => { studio.hero = images[0] || ""; });
     bindImageInput("studio-gallery", true, (images) => {
       studio.gallery = images.slice(0, 8);
+      studio.galleryAttribution = [];
       $(".studio-gallery", $("#result-canvas"))?.remove();
       if (studio.gallery.length) addGallerySection();
     });
@@ -211,19 +212,38 @@
   }
 
   async function generateAutoGallery() {
-    const industry = document.getElementById("f-industry")?.value || "business";
-    const images = fetchStockPhotos(industry);
-    studio.gallery = images;
-    if (!$(".studio-gallery", $("#result-canvas"))) addGallerySection();
+    const industry = document.getElementById("f-industry")?.value || "";
+    const description = document.getElementById("f-description")?.value || "";
+    try {
+      const response = await fetch("/api/stock-photos", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ industry, description }),
+      });
+      if (!response.ok) return;
+      const data = await response.json().catch(() => null);
+      const photos = Array.isArray(data?.photos) ? data.photos : [];
+      if (!photos.length) return;
+      studio.gallery = photos.map((photo) => photo.url);
+      studio.galleryAttribution = photos;
+      if (!$(".studio-gallery", $("#result-canvas"))) addGallerySection();
+    } catch {
+      // no auto-gallery available; the user can still upload their own photos
+    }
   }
 
-  function fetchStockPhotos(industry) {
-    const seed = slugify(industry || "business");
-    const images = [];
-    for (let i = 0; i < 6; i++) {
-      images.push(`https://picsum.photos/seed/${encodeURIComponent(seed)}-${i}/600/400`);
-    }
-    return images;
+  function buildGalleryCredit() {
+    if (!studio.galleryAttribution.length) return "";
+    const credits = new Map();
+    studio.galleryAttribution.forEach((photo) => {
+      if (photo.photographerName && photo.photographerUrl) credits.set(photo.photographerUrl, photo.photographerName);
+    });
+    if (!credits.size) return "";
+    const names = [...credits.entries()]
+      .map(([url, name]) => `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(name)}</a>`)
+      .join(", ");
+    const unsplashUrl = escapeHtml(studio.galleryAttribution[0].unsplashUrl || "https://unsplash.com/");
+    return `<p class="studio-gallery-credit">תמונות: ${names} דרך <a href="${unsplashUrl}" target="_blank" rel="noopener noreferrer">Unsplash</a></p>`;
   }
 
   function addGallerySection() {
@@ -231,10 +251,8 @@
     const cta = $('.block-slot[data-block="cta"]', canvas);
     const section = document.createElement("section");
     section.className = "studio-gallery studio-added-section";
-    const placeholderNote = studio.galleryRequested
-      ? `<p class="no-export" style="margin:10px 0 0;font-size:13px;color:oklch(0.55 0.03 80)">תמונות לדוגמה שנבחרו אוטומטית. מומלץ להחליף בתמונות אמיתיות של העסק דרך העלאת "גלריית עבודות".</p>`
-      : "";
-    section.innerHTML = `<div class="studio-gallery-inner"><div style="text-align:center;margin-bottom:34px"><div style="font-weight:800;color:var(--accent-dark);margin-bottom:8px">הצצה לעסק</div><h2 style="font-size:32px;margin:0">תמונות שמספרות את הסיפור</h2>${placeholderNote}</div><div class="studio-gallery-grid">${studio.gallery.map((src) => `<img src="${src}" alt="גלריית העסק" loading="lazy">`).join("")}</div></div>`;
+    const credit = buildGalleryCredit();
+    section.innerHTML = `<div class="studio-gallery-inner"><div style="text-align:center;margin-bottom:34px"><div style="font-weight:800;color:var(--accent-dark);margin-bottom:8px">הצצה לעסק</div><h2 style="font-size:32px;margin:0">תמונות שמספרות את הסיפור</h2></div><div class="studio-gallery-grid">${studio.gallery.map((src, index) => `<img src="${src}" alt="${escapeHtml(studio.galleryAttribution[index]?.alt || "גלריית העסק")}" loading="lazy">`).join("")}</div>${credit}</div>`;
     canvas.insertBefore(section, cta || canvas.lastElementChild);
   }
 

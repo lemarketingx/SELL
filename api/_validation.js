@@ -101,6 +101,14 @@ function validateContext(body) {
   };
 }
 
+function validateStockPhotoInput(body) {
+  if (!isPlainObject(body)) throw new ValidationError("גוף הבקשה חייב להיות אובייקט JSON");
+  return {
+    industry: text(body.industry, "industry", 1, 100),
+    description: text(body.description, "description", 0, 2_000, true),
+  };
+}
+
 function validateGenerateInput(body) {
   assertBodySize(body);
   return validateContext(body);
@@ -232,4 +240,5 @@ module.exports = {
   validateGeneratedPage,
   validateGenerateInput,
   validateRegenerateInput,
+  validateStockPhotoInput,
 };
