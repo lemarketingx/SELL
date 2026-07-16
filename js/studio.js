@@ -11,7 +11,6 @@
 
   function initStudio() {
     bindUploads();
-    bindCampaignMessage();
     bindResultTools();
     observeGeneratedPage();
     restoreDraftInputs();
@@ -143,15 +142,6 @@
     if (/אוכל|מסעד|כושר|אירוע|ילד/.test(industry)) return "נועז ואנרגטי";
     if (/עיצוב|צילום|אדריכ|אופנה|תכשיט/.test(industry)) return "מערכתי ויוקרתי";
     return "נקי וממוקד המרות";
-  }
-
-  function bindCampaignMessage() {
-    $("#btn-next")?.addEventListener("click", () => {
-      const description = $("#f-description");
-      const ad = $("#studio-ad-message")?.value.trim();
-      if (!description || !ad || description.value.includes("מסר הקמפיין:")) return;
-      description.value = `${description.value.trim()}\n\nמסר הקמפיין: ${ad}`.slice(0, 2000);
-    }, true);
   }
 
   function bindResultTools() {
@@ -307,7 +297,7 @@
   function addCustomSection(type) {
     const templates = {
       faq: `<section class="studio-custom studio-added-section"><div class="studio-custom-inner"><h2 style="text-align:center;font-size:32px">שאלות נפוצות</h2><details open><summary>מה חשוב לדעת לפני שמתחילים?</summary><p contenteditable="true">כתבו כאן תשובה ברורה וקצרה שמסירה חשש מרכזי.</p></details><details><summary>כמה זמן התהליך לוקח?</summary><p contenteditable="true">עדכנו את התשובה לפי השירות שלכם.</p></details></div></section>`,
-      stats: `<section class="studio-custom studio-added-section"><div class="studio-custom-inner"><h2 style="text-align:center;font-size:32px">המספרים מדברים</h2><div class="studio-stats"><div class="studio-stat"><b contenteditable="true">10+</b><span contenteditable="true">שנות ניסיון</span></div><div class="studio-stat"><b contenteditable="true">500</b><span contenteditable="true">לקוחות מרוצים</span></div><div class="studio-stat"><b contenteditable="true">24/7</b><span contenteditable="true">זמינות דיגיטלית</span></div></div></div></section>`,
+      stats: `<section class="studio-custom studio-added-section"><div class="studio-custom-inner"><h2 style="text-align:center;font-size:32px">המספרים שלכם</h2><p class="no-export" style="text-align:center;color:#78716c">החליפו כל שדה בנתון אמיתי שאפשר לאמת לפני הייצוא.</p><div class="studio-stats"><div class="studio-stat"><b contenteditable="true">הוסיפו נתון</b><span contenteditable="true">מה הנתון מוכיח?</span></div><div class="studio-stat"><b contenteditable="true">הוסיפו נתון</b><span contenteditable="true">מה הנתון מוכיח?</span></div><div class="studio-stat"><b contenteditable="true">הוסיפו נתון</b><span contenteditable="true">מה הנתון מוכיח?</span></div></div></div></section>`,
       about: `<section class="studio-custom studio-added-section"><div class="studio-custom-inner" style="max-width:780px;text-align:center"><div style="font-weight:800;color:var(--accent-dark)">מאחורי העסק</div><h2 style="font-size:32px" contenteditable="true">נעים להכיר</h2><p style="font-size:18px;color:#57534e" contenteditable="true">ספרו בקצרה מי אתם, למה הקמתם את העסק ומה הלקוחות מקבלים דווקא מכם.</p></div></section>`,
       trust: `<section class="studio-custom studio-added-section" style="padding-block:28px;background:var(--accent-tint)"><div class="studio-custom-inner" style="display:flex;justify-content:center;gap:32px;flex-wrap:wrap;font-weight:800"><span contenteditable="true">✓ שירות אישי</span><span contenteditable="true">✓ שקיפות מלאה</span><span contenteditable="true">✓ מענה מהיר</span></div></section>`
     };
@@ -340,7 +330,7 @@
   function saveProject() {
     const payload = {
       savedAt: new Date().toISOString(),
-      inputs: Object.fromEntries(["f-name","f-industry","f-description","f-whatsapp","f-email","f-cta-url","studio-ad-message"].map((id) => [id, document.getElementById(id)?.value || ""])),
+      inputs: Object.fromEntries(["f-name","f-industry","f-offer","f-audience","f-description","f-proof","studio-ad-message"].map((id) => [id, document.getElementById(id)?.value || ""])),
       studio,
       publish: window.dafdafExportSettings?.() || {},
       canvas: $("#result-canvas")?.innerHTML || ""
@@ -384,7 +374,7 @@
     const clone = canvas.cloneNode(true);
     $$(".no-export,.block-toolbar,[data-export-remove='true'],.skeleton-block", clone).forEach((element) => element.remove());
     $$('[contenteditable]', clone).forEach((element) => { element.removeAttribute("contenteditable"); element.removeAttribute("data-path"); });
-    const css = [...document.styleSheets].filter((sheet) => /(?:studio|plus|page)\.css/.test(sheet.href || "")).map((sheet) => { try { return [...sheet.cssRules].map((rule) => rule.cssText).join("\n"); } catch { return ""; } }).join("\n");
+    const css = [...document.styleSheets].filter((sheet) => /\/css\/(?:studio(?:-design-v2(?:-export)?)?|plus|page(?:-v3)?)\.css/.test(sheet.href || "")).map((sheet) => { try { return [...sheet.cssRules].map((rule) => rule.cssText).join("\n"); } catch { return ""; } }).join("\n");
     const business = $("#f-name")?.value.trim() || "דף נחיתה";
     const plusExport = window.dafdafPlus?.exportAssets?.() || { meta: "", html: "", script: "" };
     const plusScript = plusExport.script ? `<script>${plusExport.script}</script>` : "";
@@ -392,7 +382,7 @@
     const gtmId = /^GTM-[A-Z0-9]{4,15}$/.test(exportSettings.gtmId || "") ? exportSettings.gtmId : "";
     const gtmHead = gtmId ? `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');<\/script>` : "";
     const gtmBody = gtmId ? `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>` : "";
-    const html = `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(business)}</title>${gtmHead}${plusExport.meta}<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet"><style>*{box-sizing:border-box}body{margin:0;font-family:Heebo,sans-serif;line-height:1.5;background:var(--paper,#fff);color:var(--ink,#222)}a{color:inherit}${css}</style></head><body>${gtmBody}<main class="result-canvas" data-studio-variant="${studio.variant}" data-vibe="${escapeHtml(canvas.dataset.vibe || "trust")}" style="${canvas.getAttribute("style") || ""}">${clone.innerHTML}</main>${plusExport.html}${plusScript}</body></html>`;
+    const html = `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(business)}</title>${gtmHead}${plusExport.meta}<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Rubik:wght@500;600;700;800&display=swap" rel="stylesheet"><style>*{box-sizing:border-box}body{margin:0;font-family:Heebo,sans-serif;line-height:1.5;background:var(--paper,#fff);color:var(--ink,#222)}a{color:inherit}${css}</style></head><body>${gtmBody}<main class="result-canvas" data-studio-variant="${studio.variant}" data-vibe="${escapeHtml(canvas.dataset.vibe || "trust")}" data-design-archetype="${escapeHtml(canvas.dataset.designArchetype || "modern")}" data-hero-layout="${escapeHtml(canvas.dataset.heroLayout || "centered")}" style="${canvas.getAttribute("style") || ""}">${clone.innerHTML}</main>${plusExport.html}${plusScript}</body></html>`;
     const blob = new Blob([html], { type: "text/html;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a"); anchor.href = url; anchor.download = `${slugify(business)}.html`; anchor.click(); URL.revokeObjectURL(url);

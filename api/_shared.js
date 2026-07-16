@@ -27,7 +27,7 @@ const BLOCK_SCHEMAS = {
   testimonials: `{
   "eyebrow": "string",
   "title": "string",
-  "items": [ { "quote": "string עד 30 מילים, גוף ראשון, בעברית טבעית", "name": "שם פרטי ושם משפחה ישראלי בדוי", "role": "תפקיד או סוג לקוח קצר" } ]
+  "items": [ { "quote": "string עד 35 מילים שמסביר הוכחה, מנגנון או מענה לחשש", "name": "כותרת קצרה לכרטיס", "role": "מקור ההוכחה או הקשר קצר, ללא שם לקוח מומצא" } ]
 }`,
   cta: `{
   "title": "string",

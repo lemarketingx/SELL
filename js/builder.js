@@ -4,18 +4,22 @@
   const VIBE_HUES = { trust: 230, energetic: 25, luxury: 290 };
   const BLOCK_ORDER = ["hero", "features", "process", "testimonials", "cta"];
   const LOADING_MESSAGES = [
-    "מנתח את העסק שלכם...",
-    "מנסח כותרת שתמשוך תשומת לב...",
-    "בונה טיעוני מכירה...",
-    "כותב עדויות לקוחות...",
-    "מסדר את הדף לפי הסגנון שבחרתם...",
+    "מנתח את ההצעה והקהל...",
+    "מחדד את ההבטחה המרכזית...",
+    "בונה את סדר הטיעונים...",
+    "מחבר הוכחות ומסיר חששות...",
+    "מתאים את הקומפוזיציה לתחום...",
     "כמעט מוכן...",
   ];
 
   const emptyData = () => ({
     businessName: "",
     industry: "",
+    offer: "",
+    audience: "",
     description: "",
+    proof: "",
+    adMessage: "",
     vibe: "",
     goal: "",
     whatsapp: "",
@@ -25,7 +29,7 @@
     gtmId: "",
   });
 
-  const state = { step: 1, totalSteps: 4, data: emptyData(), page: null, submitting: false };
+  const state = { step: 1, totalSteps: 3, data: emptyData(), page: null, submitting: false };
   const els = {};
   let loadingInterval = null;
   let retryButton = null;
@@ -45,8 +49,8 @@
       btnDownload: document.getElementById("btn-download"),
     });
 
-    ["f-name", "f-industry", "f-description"].forEach((id) => {
-      document.getElementById(id).addEventListener("input", updateNextState);
+    ["f-name", "f-industry", "f-offer", "f-audience", "f-description", "f-proof", "studio-ad-message"].forEach((id) => {
+      document.getElementById(id)?.addEventListener("input", updateNextState);
     });
 
     document.getElementById("industry-chips").addEventListener("click", (event) => {
@@ -96,6 +100,9 @@
 
     document.getElementById("dest-target")?.addEventListener("click", openDestinationPanel);
     document.getElementById("studio-backdrop")?.addEventListener("click", closeDestinationPanel);
+    document.querySelectorAll("[data-block-jump]").forEach((button) => {
+      button.addEventListener("click", () => jumpToBlock(button));
+    });
 
     updateProgress();
     updateNextState();
@@ -155,6 +162,15 @@
     document.getElementById("studio-backdrop")?.classList.remove("open");
   }
 
+  function jumpToBlock(button) {
+    const type = button.dataset.blockJump;
+    const block = els.canvas.querySelector(`[data-block="${type}"]`);
+    if (!block) return;
+    document.querySelectorAll("[data-block-jump]").forEach((item) => item.classList.remove("active"));
+    button.classList.add("active");
+    block.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   function persistEditableText(event) {
     const element = event.target;
     if (!(element instanceof HTMLElement) || element.getAttribute("contenteditable") !== "true") return;
@@ -168,23 +184,25 @@
   }
 
   function applyVibe(vibe) {
-    document.body.className = `vibe-${vibe || "trust"}`;
+    document.body.classList.remove("vibe-trust", "vibe-energetic", "vibe-luxury");
+    document.body.classList.add(`vibe-${vibe || "trust"}`);
   }
 
   function currentStepValid() {
     if (state.step === 1) {
       return document.getElementById("f-name").value.trim().length > 0 &&
-        document.getElementById("f-industry").value.trim().length > 0;
+        document.getElementById("f-industry").value.trim().length > 0 &&
+        document.getElementById("f-offer").value.trim().length >= 6 &&
+        document.getElementById("f-audience").value.trim().length >= 5;
     }
     if (state.step === 2) return document.getElementById("f-description").value.trim().length >= 10;
-    if (state.step === 3) return Boolean(state.data.vibe);
-    if (state.step === 4) return Boolean(state.data.goal);
+    if (state.step === 3) return Boolean(state.data.vibe && state.data.goal);
     return false;
   }
 
   function updateNextState() {
     els.btnNext.disabled = state.submitting || !currentStepValid();
-    els.btnNext.textContent = state.step === state.totalSteps ? "בנו לי דף נחיתה עם AI ✨" : "המשך";
+    els.btnNext.textContent = state.step === state.totalSteps ? "צרו את הדף" : "המשך";
     els.btnBack.style.visibility = state.step === 1 ? "hidden" : "visible";
     els.btnBack.disabled = state.submitting;
   }
@@ -196,12 +214,23 @@
     document.querySelectorAll(".wizard-step").forEach((section) => {
       section.classList.toggle("active", Number(section.dataset.step) === state.step);
     });
+    document.querySelectorAll("[data-brief-step]").forEach((item) => {
+      const itemStep = Number(item.dataset.briefStep);
+      item.classList.toggle("active", itemStep === state.step);
+      item.classList.toggle("completed", itemStep < state.step);
+    });
+    const label = document.getElementById("wizard-step-label");
+    if (label) label.textContent = `שלב ${state.step} מתוך ${state.totalSteps}`;
   }
 
   function collectData() {
     state.data.businessName = document.getElementById("f-name").value.trim();
     state.data.industry = document.getElementById("f-industry").value.trim();
+    state.data.offer = document.getElementById("f-offer").value.trim();
+    state.data.audience = document.getElementById("f-audience").value.trim();
     state.data.description = document.getElementById("f-description").value.trim();
+    state.data.proof = document.getElementById("f-proof").value.trim();
+    state.data.adMessage = document.getElementById("studio-ad-message").value.trim();
   }
 
   function onNext() {
@@ -236,8 +265,9 @@
     state.page = null;
     state.data = emptyData();
     state.submitting = false;
-    ["f-name", "f-industry", "f-description"].forEach((id) => {
-      document.getElementById(id).value = "";
+    ["f-name", "f-industry", "f-offer", "f-audience", "f-description", "f-proof", "studio-ad-message"].forEach((id) => {
+      const input = document.getElementById(id);
+      if (input) input.value = "";
     });
     document.querySelectorAll(".chip.selected, .vibe-card.selected").forEach((element) => {
       element.classList.remove("selected");
@@ -337,6 +367,10 @@
       delete els.canvas.dataset.photoQueries;
     }
     els.canvas.innerHTML = "";
+    const projectName = document.getElementById("workspace-project-name");
+    const projectSlug = document.getElementById("workspace-slug");
+    if (projectName) projectName.textContent = state.data.businessName || "דף חדש";
+    if (projectSlug) projectSlug.textContent = slugify(state.data.businessName || "your-page");
     BLOCK_ORDER.forEach((type) => {
       const slot = document.createElement("div");
       slot.className = "block-slot";
@@ -545,8 +579,7 @@
 
   function testimonialsTemplate(data) {
     const items = (data.items || []).map((item, index) => {
-      const initial = escapeHtml(String(item.name || "•").trim().charAt(0));
-      return `<figure class="pg-quote"><div class="pg-stars" aria-hidden="true">★★★★★</div><blockquote ${ed(`testimonials.items.${index}.quote`, item.quote)}</blockquote><figcaption><span class="pg-avatar" aria-hidden="true">${initial}</span><span><b ${ed(`testimonials.items.${index}.name`, item.name)}</b><small ${ed(`testimonials.items.${index}.role`, item.role)}</small></span></figcaption></figure>`;
+      return `<article class="pg-proof-card"><span class="pg-proof-index" aria-hidden="true">0${index + 1}</span><h3 ${ed(`testimonials.items.${index}.name`, item.name)}</h3><p ${ed(`testimonials.items.${index}.quote`, item.quote)}</p><small ${ed(`testimonials.items.${index}.role`, item.role)}</small></article>`;
     }).join("");
     return `<section class="ai-block pg-testimonials" data-block="testimonials"><div class="pg-wrap"><div class="pg-head"><div class="pg-eyebrow" ${ed("testimonials.eyebrow", data.eyebrow)}</div><h2 class="pg-h2" ${ed("testimonials.title", data.title)}</h2></div><div class="pg-quotes">${items}</div></div>${toolbarHtml()}</section>`;
   }
@@ -564,7 +597,7 @@
     if (target) {
       return `<div id="lead-action" class="pg-cta-action"><a class="pg-btn pg-btn-primary" ${linkAttrs(target)}><span ${ed("cta.buttonText", data.buttonText)}</span></a></div>`;
     }
-    return `<div data-export-remove="true" class="no-export pg-empty">לא הוגדר יעד פעולה עדיין. לחצו על "יעד הפעולה" בסרגל הכלים כדי להוסיף WhatsApp, אימייל או קישור.</div>`;
+    return `<div data-export-remove="true" class="no-export pg-empty">עדיין לא הוגדר יעד. פתחו "לידים ומדידה" בסרגל הצד וחברו WhatsApp, טופס או קישור.</div>`;
   }
 
   function ctaTemplate(data) {
@@ -591,7 +624,7 @@
 
     const hue = VIBE_HUES[state.data.vibe] || 290;
     const pageCss = [...document.styleSheets]
-      .filter((sheet) => /page\.css/.test(sheet.href || ""))
+      .filter((sheet) => /page(?:-v3)?\.css/.test(sheet.href || ""))
       .map((sheet) => { try { return [...sheet.cssRules].map((rule) => rule.cssText).join("\n"); } catch { return ""; } })
       .join("\n");
     const tracking = trackingTags();
@@ -603,7 +636,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 ${tracking.head}
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Rubik:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>*{box-sizing:border-box}body{margin:0;font-family:'Heebo',sans-serif;line-height:1.5;overflow-x:hidden}a{color:inherit}${pageCss}</style>
 </head>
 <body>${tracking.body}<main class="result-canvas" data-vibe="${escapeHtml(state.data.vibe || "trust")}" style="--hue:${hue}">${clone.innerHTML}</main></body>

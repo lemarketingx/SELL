@@ -69,8 +69,11 @@
   function inferPlan() {
     const industry = fieldValue("f-industry");
     const description = fieldValue("f-description");
+    const offer = fieldValue("f-offer");
+    const audience = fieldValue("f-audience");
+    const proof = fieldValue("f-proof");
     const business = fieldValue("f-name");
-    const source = `${industry} ${description}`;
+    const source = `${industry} ${offer} ${audience} ${description} ${proof}`;
     const rule = ARCHETYPES.find((item) => item.pattern.test(source)) || {
       name: "modern",
       layout: "centered",
@@ -113,15 +116,12 @@
 
   function markHero(hero) {
     hero.classList.add("design-hero");
-    const children = directChildren(hero);
-    const title = children.find((item) => item.tagName === "H1");
-    const copy = children.find((item) => item.tagName === "P");
-    const toolbar = $(".block-toolbar", hero);
-    const media = $(".studio-hero-media", hero);
+    const title = $(".pg-h1", hero);
+    const copy = $(".pg-sub", hero);
+    const badge = $(".pg-badge", hero);
+    const action = $(".pg-ctas", hero);
+    const trust = $(".pg-points", hero);
     const logo = $(".studio-logo", hero);
-    const badge = children.find((item) => item.tagName === "DIV" && item !== toolbar && item !== media && !item.querySelector("a, button") && item.textContent.trim());
-    const action = children.find((item) => item.tagName === "DIV" && item !== badge && item.querySelector("a, [data-export-remove]"));
-    const trust = children.find((item) => item.tagName === "DIV" && item !== badge && item !== action && item !== toolbar && item !== media && item.querySelectorAll(":scope > div").length > 0);
 
     title?.classList.add("design-hero-title");
     copy?.classList.add("design-hero-copy");
@@ -133,11 +133,10 @@
 
   function markStandardSection(section, type) {
     section.classList.add(`design-${type}`);
-    const outer = directChildren(section).find((item) => item.tagName === "DIV" && !item.classList.contains("block-toolbar"));
+    const outer = $(".pg-wrap", section);
     if (!outer) return;
-    const innerChildren = directChildren(outer);
-    const head = innerChildren.find((item) => item.tagName === "DIV" && item.querySelector("h2"));
-    const grid = innerChildren.find((item) => item.tagName === "DIV" && item !== head && item.children.length >= 2);
+    const head = $(".pg-head", outer);
+    const grid = $(".pg-cards,.pg-steps,.pg-quotes", outer);
     head?.classList.add("design-section-head");
     head?.querySelector("h2")?.classList.add("design-section-title");
     head?.querySelector("p")?.classList.add("design-section-copy");
@@ -176,7 +175,7 @@
 
   function proofItems() {
     const items = [];
-    $$(".design-hero-trust > div", canvas).forEach((item) => {
+    $$(".design-hero-trust > *", canvas).forEach((item) => {
       const text = item.textContent.replace(/^✓\s*/, "").trim();
       if (text) items.push(text);
     });
