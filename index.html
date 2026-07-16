@@ -2,418 +2,114 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
-<title>דפדף — דפי נחיתה שכותבים את עצמם</title>
-<meta name="description" content="דפדף הוא בונה דפי הנחיתה הראשון שכותב עבורכם את כל הדף בעברית — כותרות, יתרונות, המלצות וטופס לידים — עם AI. מתארים את העסק, מקבלים דף שמוכר.">
+<title>דפדף | דף נחיתה בעברית, מוכן תוך דקות</title>
+<meta name="description" content="מספרים לדפדף על העסק, מעלים לוגו ותמונות, ומקבלים דף נחיתה שלם בעברית שאפשר לערוך, לשפר ולהוריד כקובץ HTML עצמאי.">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:title" content="דפדף — דפי נחיתה שכותבים את עצמם">
-<meta property="og:description" content="מתארים את העסק במשפט. ה-AI כותב, מעצב ומפרסם דף נחיתה שלם בעברית.">
+<meta property="og:title" content="דפדף | דף נחיתה בעברית, מוכן תוך דקות">
+<meta property="og:description" content="ה-AI כותב ומעצב. אתם עורכים ושומרים שליטה מלאה על הדף.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%238b5cf6'/%3E%3Cstop%20offset='.55'%20stop-color='%23ec4899'/%3E%3Cstop%20offset='1'%20stop-color='%23f59e0b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='url(%23g)'/%3E%3Ctext%20x='32'%20y='45'%20font-family='Arial'%20font-size='36'%20font-weight='bold'%20text-anchor='middle'%20fill='white'%3E%D7%93%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#0b1020">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='1'%20y2='1'%3E%3Cstop%20offset='0'%20stop-color='%238b7cff'/%3E%3Cstop%20offset='0.55'%20stop-color='%23ff6b7a'/%3E%3Cstop%20offset='1'%20stop-color='%23ffb86b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect%20width='64'%20height='64'%20rx='16'%20fill='url(%23g)'/%3E%3Ctext%20x='32'%20y='45'%20font-family='Arial'%20font-size='36'%20font-weight='bold'%20text-anchor='middle'%20fill='white'%3E%D7%93%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/home.css">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Rubik:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/home-v2.css">
 </head>
 <body>
-
-<a class="skip" href="#main">דלגו לתוכן</a>
-<div class="noise" aria-hidden="true"></div>
-
-<header class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="index.html" class="brand">
-      <span class="brand-mark">ד</span>
-      דפדף
-    </a>
+<a class="skip-link" href="#main">דלגו לתוכן</a>
+<header class="site-nav" id="nav">
+  <div class="nav-wrap">
+    <a href="index.html" class="brand" aria-label="דפדף, עמוד הבית"><span class="brand-mark">ד</span><span>דפדף</span></a>
     <nav class="nav-links" aria-label="ניווט ראשי">
-      <a href="#how">איך זה עובד</a>
-      <a href="#features">יכולות</a>
-      <a href="#plus">הפלוס</a>
-      <a href="#pricing">מחירים</a>
-      <a href="#faq">שאלות</a>
+      <a href="#how">איך זה עובד</a><a href="#features">מה מקבלים</a><a href="#israel">ישראלי מהיסוד</a><a href="#faq">שאלות</a>
     </nav>
-    <a href="build.html" class="nav-cta">בנו דף עכשיו</a>
+    <a href="build.html" class="nav-cta">בנו דף</a>
   </div>
 </header>
-
 <main id="main">
-
-  <!-- ============ HERO ============ -->
   <section class="hero">
-    <div class="hero-bg" aria-hidden="true">
-      <div class="blob blob-1"></div>
-      <div class="blob blob-2"></div>
-      <div class="blob blob-3"></div>
-      <div class="grid-overlay"></div>
-    </div>
-
-    <div class="wrap hero-inner">
-      <div>
-        <div class="hero-badge">
-          <span class="pulse" aria-hidden="true"></span>
-          מנוע ה-AI של דפדף — כותב, מעצב ומפרסם
-        </div>
-        <h1>
-          מספרים על העסק במשפט.<br>
-          <span class="grad-text">ה-AI בונה דף שמוכר.</span>
-        </h1>
-        <p class="hero-sub">
-          דפדף הוא בונה דפי הנחיתה הראשון שחושב בעברית: הוא כותב עבורכם את הכותרות, היתרונות, ההמלצות וטופס הלידים — בעיצוב שמותאם לאופי העסק, מוכן לפרסום. בלי תבניות גנריות, בלי מעצב, בלי קוד.
-        </p>
-        <div class="hero-ctas">
-          <a href="build.html" class="btn-hero">בנו דף עכשיו — חינם ✨</a>
-          <a href="#how" class="btn-quiet">איך זה עובד ↓</a>
-        </div>
-        <div class="hero-trust">
-          <span><b class="tick">✓</b> ללא כרטיס אשראי</span>
-          <span><b class="tick">✓</b> עברית ו-RTL מלאים</span>
-          <span><b class="tick">✓</b> מוכן תוך דקות</span>
-        </div>
+    <div class="hero-glow hero-glow-a" aria-hidden="true"></div><div class="hero-glow hero-glow-b" aria-hidden="true"></div>
+    <div class="page-shell hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow-chip"><span class="live-dot" aria-hidden="true"></span>בטא פתוחה · ללא כרטיס אשראי</div>
+        <h1>דף נחיתה שמסביר את העסק שלכם <span class="accent-text">ברור, יפה ובעברית.</span></h1>
+        <p class="hero-lead">מספרים לדפדף מה אתם מציעים, מעלים לוגו ותמונות, ומקבלים דף שלם שאפשר לערוך, לשפר ולהוריד כקובץ HTML עצמאי.</p>
+        <div class="hero-actions"><a href="build.html" class="button button-primary">בנו דף ראשון</a><a href="#how" class="button button-secondary">ראו איך זה עובד</a></div>
+        <div class="trust-row" aria-label="יתרונות מרכזיים"><span>✓ עריכה חופשית</span><span>✓ תמונות ומיתוג</span><span>✓ הקובץ נשאר שלכם</span></div>
+        <div class="hero-metrics"><div><strong>4</strong><span>שלבים קצרים</span></div><div><strong>3</strong><span>כיווני עיצוב</span></div><div><strong>1</strong><span>קובץ עצמאי</span></div></div>
       </div>
-
-      <div>
-        <!-- self-building landing page demo -->
-        <div class="demo-frame" id="demo" aria-label="הדגמה: דף נחיתה שנבנה על ידי AI">
-          <div class="demo-bar">
-            <span class="demo-dot r"></span>
-            <span class="demo-dot y"></span>
-            <span class="demo-dot g"></span>
-            <span class="demo-url">dafdaf.co.il/<b id="demo-slug"></b></span>
-          </div>
-          <div class="demo-prompt">
-            <span class="demo-spark" aria-hidden="true">✦</span>
-            <span><span id="demo-prompt-text"></span><span class="caret" aria-hidden="true"></span></span>
-          </div>
+      <div class="demo-stage" data-reveal>
+        <div class="demo-orbit orbit-a" aria-hidden="true"></div><div class="demo-orbit orbit-b" aria-hidden="true"></div>
+        <div class="demo-frame" id="demo" aria-label="הדגמה של דף נחיתה שנבנה מתוך תיאור קצר">
+          <div class="demo-top"><div class="demo-dots" aria-hidden="true"><span></span><span></span><span></span></div><div class="demo-url">dafdaf.co.il/<b id="demo-slug"></b></div></div>
+          <div class="demo-prompt"><span class="spark" aria-hidden="true">✦</span><span id="demo-prompt-text"></span><span class="typing-caret" aria-hidden="true"></span></div>
           <div class="demo-page">
-            <div class="dp-badge" id="dp-badge"></div>
-            <h3 class="dp-headline"><span id="dp-headline"></span><span class="caret caret-h" id="dp-caret" aria-hidden="true"></span></h3>
-            <p class="dp-sub" id="dp-sub"></p>
-            <div class="dp-chips" id="dp-chips"></div>
-            <div class="dp-media" id="dp-media">תמונת אווירה</div>
-            <span class="dp-cta" id="dp-cta"></span>
+            <div class="demo-badge" id="dp-badge"></div><h2><span id="dp-headline"></span><span class="typing-caret headline-caret" id="dp-caret" aria-hidden="true"></span></h2>
+            <p id="dp-sub"></p><div class="demo-chips" id="dp-chips"></div><div class="demo-media" id="dp-media"><span>תמונה ראשית</span><i aria-hidden="true"></i></div><span class="demo-button" id="dp-cta"></span>
           </div>
-          <div class="demo-toast" id="demo-toast">✓ הדף פורסם</div>
+          <div class="demo-toast" id="demo-toast">הדף מוכן לעריכה ✓</div>
         </div>
-        <p class="demo-caption">↑ ככה זה נראה בזמן אמת — ה-AI בונה דף חדש לכל עסק</p>
+        <p class="demo-note">הדגמה חזותית. התוכן משתנה לפי העסק והמידע שמזינים.</p>
       </div>
     </div>
   </section>
-
-  <!-- ============ MARQUEE ============ -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>מסעדות <i class="sep">✦</i> קליניקות <i class="sep">✦</i> עורכי דין <i class="sep">✦</i> מאמנים אישיים <i class="sep">✦</i> סטודיו ליוגה <i class="sep">✦</i> צלמים <i class="sep">✦</i> מעצבות <i class="sep">✦</i> נדל״ן <i class="sep">✦</i> חנויות <i class="sep">✦</i> יועצים עסקיים <i class="sep">✦</i> קוסמטיקאיות <i class="sep">✦</i> מוזיקאים <i class="sep">✦</i></span>
-      <span>מסעדות <i class="sep">✦</i> קליניקות <i class="sep">✦</i> עורכי דין <i class="sep">✦</i> מאמנים אישיים <i class="sep">✦</i> סטודיו ליוגה <i class="sep">✦</i> צלמים <i class="sep">✦</i> מעצבות <i class="sep">✦</i> נדל״ן <i class="sep">✦</i> חנויות <i class="sep">✦</i> יועצים עסקיים <i class="sep">✦</i> קוסמטיקאיות <i class="sep">✦</i> מוזיקאים <i class="sep">✦</i></span>
+  <section class="signal-strip" aria-label="עקרונות המוצר"><div class="signal-track"><span>AI כותב</span><i>•</i><span>אתם עורכים</span><i>•</i><span>Page DNA ממיתג</span><i>•</i><span>מובייל נבדק</span><i>•</i><span>HTML יורד אליכם</span></div></section>
+  <section class="section" id="how"><div class="page-shell">
+    <div class="section-head" data-reveal><span class="section-kicker">איך זה עובד</span><h2>מדף ריק לדף שאפשר להראות ללקוח</h2><p>בלי ללמוד מערכת מורכבת ובלי להתחיל מכותרת לבנה מהבהבת.</p></div>
+    <div class="steps-grid">
+      <article class="step-card" data-reveal style="--delay:0"><span class="step-number">01</span><div class="step-icon">✎</div><h3>מכניסים את חומרי העסק</h3><p>שם, תחום, תיאור קצר, לוגו ותמונות. אפשר גם להדביק את המסר של מודעה קיימת.</p></article>
+      <article class="step-card" data-reveal style="--delay:1"><span class="step-number">02</span><div class="step-icon">✦</div><h3>דפדף בונה את המסר והמבנה</h3><p>המערכת מנסחת כותרות, יתרונות, תהליך, קריאה לפעולה ומבנה שמתאים למטרה שבחרתם.</p></article>
+      <article class="step-card" data-reveal style="--delay:2"><span class="step-number">03</span><div class="step-icon">↗</div><h3>עוברים על הדף ומורידים</h3><p>עורכים טקסטים, מחליפים סגנון, מסדרים מקטעים ובודקים מובייל לפני הורדת הקובץ.</p></article>
     </div>
-  </div>
-
-  <!-- ============ HOW IT WORKS ============ -->
-  <section class="block" id="how">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <div class="eyebrow grad-text">איך זה עובד</div>
-        <h2>מרעיון לדף מפורסם, בשלושה צעדים</h2>
-        <p>אין ממשק עריכה מסובך ללמוד. יש שיחה קצרה — ודף מוכן.</p>
-      </div>
-      <div class="how-grid">
-        <div class="how-card" data-reveal style="--d:0">
-          <div class="how-num" aria-hidden="true">01</div>
-          <h3>מספרים על העסק</h3>
-          <p>ארבע שאלות קצרות: מי אתם, מה אתם מציעים, באיזה סגנון ומה מטרת הדף.</p>
-          <div class="how-viz" aria-hidden="true">
-            <div class="viz-bar w40"></div>
-            <div class="viz-bar w85"></div>
-            <div class="viz-bar w65"></div>
-          </div>
-        </div>
-        <div class="how-card" data-reveal style="--d:1">
-          <div class="how-num" aria-hidden="true">02</div>
-          <h3>ה-AI כותב ומעצב</h3>
-          <p>דפדף מנסח כותרות, יתרונות והמלצות בעברית טבעית, ובוחר פלטה שמתאימה לאופי העסק.</p>
-          <div class="how-viz" aria-hidden="true">
-            <div class="viz-typing">שעה אחת ביום שהיא רק שלך…</div>
-            <div class="viz-bar hot w65"></div>
-            <div class="viz-pill"><span>🔄 נסח מחדש</span><span>✂ קצר</span></div>
-          </div>
-        </div>
-        <div class="how-card" data-reveal style="--d:2">
-          <div class="how-num" aria-hidden="true">03</div>
-          <h3>עורכים ומפרסמים</h3>
-          <p>כל מילה ניתנת לעריכה בקליק, כל מקטע ניתן לשכתוב — ואז מורידים דף מוכן לאוויר.</p>
-          <div class="how-viz" style="justify-content: center;" aria-hidden="true">
-            <div class="viz-link">dafdaf.co.il/your-page <span class="ok">✓ LIVE</span></div>
-          </div>
-        </div>
-      </div>
+  </div></section>
+  <section class="section feature-section" id="features"><div class="page-shell">
+    <div class="section-head split-head" data-reveal><div><span class="section-kicker">מה מקבלים</span><h2>יותר ממחולל טקסט. סביבת עבודה לדף שלם.</h2></div><p>כל רכיב נועד לקצר את הדרך לדף שנראה שייך לעסק ולא לתבנית גנרית.</p></div>
+    <div class="feature-grid">
+      <article class="feature-card feature-large" data-reveal><div class="feature-copy"><span class="feature-tag">Page DNA</span><h3>המיתוג מתחיל מהחומרים שכבר יש לכם</h3><p>מעלים לוגו ותמונות, והמערכת מחלצת צבעים, בוחרת תמונת Hero ומרכיבה גלריה שמתאימה לעסק.</p></div><div class="palette-viz" aria-hidden="true"><span style="--c:#151b31"></span><span style="--c:#8b7cff"></span><span style="--c:#ff6b7a"></span><span style="--c:#ffb86b"></span><div class="image-stack"><i></i><i></i><i></i></div></div></article>
+      <article class="feature-card" data-reveal><div class="feature-icon">↻</div><h3>שכתוב לפי מקטע</h3><p>משכתבים, מקצרים או מחדדים חלק אחד בלי למחוק את העריכות שכבר עשיתם בשאר הדף.</p></article>
+      <article class="feature-card" data-reveal><div class="feature-icon">▣</div><h3>תמונות וגלריה</h3><p>לוגו, Hero ועד שמונה תמונות עבודות נכנסים לתצוגה ולייצוא, בלי מערכת מדיה מסורבלת.</p></article>
+      <article class="feature-card" data-reveal><div class="feature-icon">⌕</div><h3>תצוגת מובייל</h3><p>עוברים בין מחשב לנייד לפני ההורדה ורואים אם המסר, הכפתורים והתמונות נשארים ברורים.</p></article>
+      <article class="feature-card" data-reveal><div class="feature-icon">＋</div><h3>מקטעים גמישים</h3><p>מוסיפים FAQ, אודות, מספרים ופס אמון, ואז מזיזים, משכפלים או מסירים לפי הצורך.</p></article>
+      <article class="feature-card feature-wide" data-reveal><div><span class="feature-tag">שליטה מלאה</span><h3>הדף לא נשאר כלוא במערכת</h3><p>מורידים קובץ HTML עצמאי עם העיצוב, התמונות והכלים שבחרתם. אפשר להעביר אותו למפתח או להעלות לאחסון מתאים.</p></div><div class="code-viz" aria-hidden="true"><span>&lt;html lang="he" dir="rtl"&gt;</span><span>&nbsp;&nbsp;&lt;main&gt;הדף שלכם&lt;/main&gt;</span><span>&lt;/html&gt;</span></div></article>
     </div>
-  </section>
-
-  <!-- ============ FEATURES / BENTO ============ -->
-  <section class="block" id="features" style="padding-top: 40px;">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <div class="eyebrow grad-text">למה דפדף</div>
-        <h2>לא עוד בונה אתרים.<br>שותף שכותב איתכם.</h2>
-        <p>כלים אחרים נותנים לכם תבנית ריקה. דפדף מגיע עם הטקסט, העיצוב והרעיון.</p>
-      </div>
-
-      <div class="bento-grid">
-        <div class="b-cell span-4" data-reveal style="--d:0">
-          <div class="b-regen-viz" aria-hidden="true">
-            <div class="regen-quotes">
-              <span>"מרגישים שינוי כבר מהשיעור הראשון — גוף חזק, ראש שקט."</span>
-              <span>"שעה אחת ביום שכולה שלך: תנועה, נשימה ושקט."</span>
-            </div>
-            <div class="regen-toolbar">
-              <b>🔄 נסח מחדש</b><b>✂ קצר</b><b>🔥 מכירתי</b>
-            </div>
-          </div>
-          <h3>שכתוב חכם, לכל מקטע בנפרד</h3>
-          <p>לא אהבתם ניסוח? מבקשים מה-AI לנסח מחדש, לקצר או לחדד את המסר — רק במקטע הזה, בלי להתחיל מהתחלה. הוא ממשיך מהגרסה שערכתם, לא מאפס.</p>
-        </div>
-
-        <div class="b-cell span-2" data-reveal style="--d:1">
-          <div class="b-alef" aria-hidden="true">א</div>
-          <h3>עברית היא שפת האם</h3>
-          <p>לא תרגום של תבנית אמריקאית: כיווניות, טיפוגרפיה וניסוח שנולדו בעברית.</p>
-        </div>
-
-        <div class="b-cell span-2" data-reveal style="--d:0">
-          <div class="b-edit-viz" aria-hidden="true">
-            הטיפול <mark>שמחזיר אתכם לתנועה</mark> בלי כאבים.
-          </div>
-          <h3>עריכה בקליק אחד</h3>
-          <p>לוחצים על כל טקסט בדף ומקלידים. מה שרואים זה מה שמפרסמים.</p>
-        </div>
-
-        <div class="b-cell span-2" data-reveal style="--d:1">
-          <div class="b-vibes" aria-hidden="true">
-            <div class="b-vibe v1"></div>
-            <div class="b-vibe v2"></div>
-            <div class="b-vibe v3"></div>
-          </div>
-          <h3>סגנון שמתאים לעסק</h3>
-          <p>אמין, אנרגטי או יוקרתי — הבחירה משנה את הצבעים, הטון והשפה של כל הדף.</p>
-        </div>
-
-        <div class="b-cell span-2" data-reveal style="--d:2">
-          <div class="b-code" aria-hidden="true">&lt;/&gt;</div>
-          <h3>הדף שלכם, באמת שלכם</h3>
-          <p>מורידים קובץ HTML נקי ועצמאי. בלי נעילה לפלטפורמה, בלי דמי כופר חודשיים.</p>
-        </div>
-      </div>
+  </div></section>
+  <section class="section israel-section" id="israel"><div class="page-shell israel-grid">
+    <div class="israel-intro" data-reveal><span class="section-kicker">ישראלי מהיסוד</span><h2>כלים שמתאימים לדרך שבה עסקים עובדים כאן</h2><p>עברית ו־RTL הם הבסיס. מעליהם הוספנו פעולות קשר ותזמון שרלוונטיות במיוחד לעסקים בישראל.</p><a href="build.html" class="text-link">פתחו את הבונה <span>←</span></a></div>
+    <div class="israel-tools">
+      <article class="tool-card" data-reveal><span class="tool-icon">א</span><div><h3>עברית טבעית ו־RTL</h3><p>הניסוח, הכיווניות והטיפוגרפיה נבנו בעברית, לא כתוספת מאוחרת לתבנית באנגלית.</p></div></article>
+      <article class="tool-card" data-reveal><span class="tool-icon">💬</span><div><h3>WhatsApp, חיוג ו־Waze</h3><p>פעולות קשר ישירות נכנסות לדף כאשר הוגדר מספר או יעד אמיתי.</p></div></article>
+      <article class="tool-card" data-reveal><span class="tool-icon">🕯️</span><div><h3>הודעת שעות שבת</h3><p>כלי אופציונלי שמחשב חלון זמן לפי עיר ותאריך. מומלץ לאמת זמנים ומנהג מקומי לפני פרסום.</p></div></article>
+      <article class="tool-card" data-reveal><span class="tool-icon">♿</span><div><h3>כלי עזר לנגישות</h3><p>הגדלת טקסט, ניגודיות, הדגשת קישורים ועצירת אנימציות. אינו תחליף לבדיקת נגישות מקצועית.</p></div></article>
+      <article class="tool-card" data-reveal><span class="tool-icon">🎯</span><div><h3>ערכת קמפיין</h3><p>מודעת פייסבוק, כותרות לגוגל, WhatsApp, SMS וביו לאינסטגרם מתוך התוכן המעודכן של הדף.</p></div></article>
+      <article class="tool-card" data-reveal><span class="tool-icon">✓</span><div><h3>מבקר דף</h3><p>בדיקה מהירה של כותרת, CTA, תמונות, מבנה וערוץ פנייה. זו המלצה פנימית, לא הבטחה לביצועים.</p></div></article>
     </div>
-  </section>
-
-  <!-- ============ PLUS BOOSTERS ============ -->
-  <section class="block" id="plus">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <div class="eyebrow grad-text">דפדף פלוס</div>
-        <h2>הבוסטרים שאין באף<br>בונה דפים אחר בעולם</h2>
-        <p>כלים שנולדו מהשטח הישראלי, מובנים בכל דף בלחיצה אחת — בלי תוספים בתשלום ובלי קוד.</p>
-      </div>
-      <div class="plus-home-grid">
-        <div class="plus-home-card" data-reveal style="--d:0">
-          <span class="plus-home-tag">ראשון בעולם</span>
-          <div class="plus-home-icon" aria-hidden="true">🕯️</div>
-          <h3>מצב שבת</h3>
-          <p>הדף מזהה לבד שבת לפי שעון ישראל ומציג ללקוחות הודעה מכבדת. במוצאי שבת הכול חוזר אוטומטית — בלי לגעת בכלום.</p>
-        </div>
-        <div class="plus-home-card" data-reveal style="--d:1">
-          <span class="plus-home-tag law">דרישת חוק</span>
-          <div class="plus-home-icon" aria-hidden="true">♿</div>
-          <h3>נגישות מובנית</h3>
-          <p>תפריט נגישות מלא והצהרת נגישות בכל דף מיוצא: הגדלת טקסט, ניגודיות, הדגשת קישורים ועצירת אנימציות.</p>
-        </div>
-        <div class="plus-home-card" data-reveal style="--d:2">
-          <div class="plus-home-icon" aria-hidden="true">🎯</div>
-          <h3>ערכת קמפיין אוטומטית</h3>
-          <p>הדף מוכן? גם הפרסום: מודעת פייסבוק, כותרות לגוגל, הודעת WhatsApp, SMS וביו לאינסטגרם — נכתבים מהתוכן של הדף שלכם, מוכנים להעתקה.</p>
-        </div>
-        <div class="plus-home-card" data-reveal style="--d:0">
-          <div class="plus-home-icon" aria-hidden="true">💬</div>
-          <h3>WhatsApp, חיוג ו-Waze</h3>
-          <p>כפתור WhatsApp צף עם הודעה מוכנה, וסרגל פעולות במובייל עם חיוג וניווט ב-Waze — הלקוח מגיע אליכם בלחיצה.</p>
-        </div>
-        <div class="plus-home-card" data-reveal style="--d:1">
-          <div class="plus-home-icon" aria-hidden="true">⏳</div>
-          <h3>דחיפות והוכחה חברתית</h3>
-          <p>טיימר יומי שמתאפס בחצות לפי שעון ישראל, ובועות הוכחה חברתית עם מסרים שאתם קובעים — הדחיפה הקטנה שסוגרת לידים.</p>
-        </div>
-        <div class="plus-home-card" data-reveal style="--d:2">
-          <div class="plus-home-icon" aria-hidden="true">🧪</div>
-          <h3>מבקר המרות</h3>
-          <p>ציון 0–100 לדף עם רשימת בדיקות: כותרת, CTA, הוכחות אמון, נגישות וערוץ פנייה מיידי — ותיקון בלחיצה.</p>
-        </div>
-      </div>
+  </div></section>
+  <section class="section scenarios-section"><div class="page-shell">
+    <div class="section-head" data-reveal><span class="section-kicker">דוגמאות שימוש</span><h2>אותו מנוע, דפים שונים באמת</h2><p>הדוגמאות הבאות הן תרחישים להמחשה, לא עדויות של לקוחות.</p></div>
+    <div class="scenario-grid">
+      <article class="scenario-card" data-reveal><span class="scenario-label">קליניקה</span><h3>מסבירים את הטיפול לפני שמבקשים להשאיר פרטים</h3><p>Hero רגוע, יתרונות ברורים, תהליך קצר, שאלות נפוצות ו־WhatsApp לקביעת שיחה.</p></article>
+      <article class="scenario-card" data-reveal><span class="scenario-label">מסעדה</span><h3>התמונות מובילות, הטקסט נשאר חד וקצר</h3><p>תמונה ראשית, גלריה, שעות, מיקום ופעולות מהירות לניווט, חיוג והזמנה.</p></article>
+      <article class="scenario-card" data-reveal><span class="scenario-label">יועץ או נותן שירות</span><h3>מחדדים למי השירות מתאים ומה מקבלים</h3><p>כותרת ממוקדת, שלבי עבודה, הוכחות אמון וקריאה ברורה לשיחת היכרות.</p></article>
     </div>
-  </section>
-
-  <!-- ============ TESTIMONIALS ============ -->
-  <section class="block" id="testimonials">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <div class="eyebrow grad-text">לקוחות מספרים</div>
-        <h2>עסקים קטנים, קופירייטינג גדול</h2>
-      </div>
-      <div class="tstm-grid">
-        <div class="tstm-card" data-reveal style="--d:0">
-          <div class="tstm-mark" aria-hidden="true">„</div>
-          <blockquote>כתבתי שלושה משפטים על הסטודיו וקיבלתי דף שנשמע כאילו קופירייטרית ישבה איתי שבוע. ערכתי שתי מילים — ופרסמתי.</blockquote>
-          <div class="tstm-who">
-            <div class="tstm-avatar a1">נ</div>
-            <div>
-              <div class="tstm-name">נועה שגיא</div>
-              <div class="tstm-role">סטודיו יוגה, תל אביב</div>
-            </div>
-          </div>
-        </div>
-        <div class="tstm-card" data-reveal style="--d:1">
-          <div class="tstm-mark" aria-hidden="true">„</div>
-          <blockquote>מה ששכנע אותי זה כפתור "נסח מחדש". במקום להתעצבן על טקסט לא מדויק — לוחצים, ומקבלים גרסה טובה יותר.</blockquote>
-          <div class="tstm-who">
-            <div class="tstm-avatar a2">א</div>
-            <div>
-              <div class="tstm-name">איתי כהן</div>
-              <div class="tstm-role">קליניקת פיזיותרפיה, חיפה</div>
-            </div>
-          </div>
-        </div>
-        <div class="tstm-card" data-reveal style="--d:2">
-          <div class="tstm-mark" aria-hidden="true">„</div>
-          <blockquote>ניסיתי בוני אתרים באנגלית שמתרגמים לעברית. ההבדל אצל דפדף מורגש מהמילה הראשונה בכותרת.</blockquote>
-          <div class="tstm-who">
-            <div class="tstm-avatar a3">מ</div>
-            <div>
-              <div class="tstm-name">מיטל בר</div>
-              <div class="tstm-role">בוטיק אופנה, ירושלים</div>
-            </div>
-          </div>
-        </div>
-      </div>
+  </div></section>
+  <section class="section beta-section" id="pricing"><div class="page-shell beta-card" data-reveal>
+    <div class="beta-copy"><span class="section-kicker">בטא פתוחה</span><h2>הבונה זמין כרגע ללא תשלום</h2><p>המטרה בשלב הזה היא לבדוק את המוצר עם עסקים אמיתיים ולשפר את מה שחוסך להם זמן בפועל.</p><a href="build.html" class="button button-primary">בנו דף בבטא</a></div>
+    <div class="beta-columns"><div><h3>מה כלול עכשיו</h3><ul><li>יצירת דף עם AI ועריכה ידנית</li><li>לוגו, תמונות, Page DNA וגלריה</li><li>בוסטרים וערכת קמפיין</li><li>שמירה מקומית וייצוא HTML</li></ul></div><div class="beta-muted"><h3>מה עדיין בפיתוח</h3><ul><li>חשבונות ושמירה בענן</li><li>דומיינים ופרסום בלחיצה</li><li>טפסי backend ואנליטיקס</li><li>מסלולים מסחריים וסליקה</li></ul></div></div>
+  </div></section>
+  <section class="section faq-section" id="faq"><div class="page-shell faq-layout">
+    <div class="faq-intro" data-reveal><span class="section-kicker">שאלות נפוצות</span><h2>לפני שמתחילים</h2><p>כמה תשובות ישרות על מה שהמוצר עושה היום.</p></div>
+    <div class="faq-list" data-reveal>
+      <details><summary>צריך ידע טכני?</summary><p>לא. ממלאים ארבעה שלבים, עורכים את התוצאה ישירות בדף ומורידים קובץ. העלאה לאחסון או חיבור לדומיין עדיין דורשים שירות אחסון מתאים.</p></details>
+      <details><summary>אפשר לשנות את מה שה־AI כתב?</summary><p>כן. כל טקסט ניתן לעריכה, וכל מקטע ניתן לשכתוב, קיצור או חידוד מתוך הגרסה האחרונה ששמרתם.</p></details>
+      <details><summary>באיזה AI המערכת משתמשת?</summary><p>יצירת התוכן מתבצעת דרך OpenAI API בצד השרת. תשובות המודל עוברות בדיקת מבנה לפני שהן מוצגות בבונה.</p></details>
+      <details><summary>מה קורה לתמונות שאני מעלה?</summary><p>התמונות מעובדות ונשמרות בדפדפן לצורך התצוגה והייצוא. הן אינן נשלחות למודל ה־AI בתהליך Page DNA הנוכחי.</p></details>
+      <details><summary>האם כלי הנגישות מבטיח עמידה בחוק?</summary><p>לא. הוא מוסיף כלי עזר שימושיים, אך אינו אישור לעמידה בתקן ואינו מחליף בדיקת נגישות מקצועית או ייעוץ משפטי.</p></details>
+      <details><summary>האם דפדף יישאר חינמי?</summary><p>הבטא פתוחה כרגע ללא תשלום. מודל מסחרי עתידי טרם נקבע, והוא יוצג רק כאשר חשבונות, סליקה ויכולות הענן יהיו מוכנים.</p></details>
     </div>
-  </section>
-
-  <!-- ============ PRICING ============ -->
-  <section class="block" id="pricing">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <div class="eyebrow grad-text">מחירים</div>
-        <h2>תמחור פשוט וישר</h2>
-        <p>בלי התחייבות שנתית, בלי הפתעות בחשבונית.</p>
-      </div>
-      <div class="price-grid">
-        <div class="price-card" data-reveal style="--d:0">
-          <div class="price-tier">חינמי</div>
-          <div class="price-num">₪0</div>
-          <div class="price-for">לנסות, לבנות, להתאהב</div>
-          <a href="build.html" class="price-btn">התחילו עכשיו</a>
-          <div class="price-feats">
-            <span>דף נחיתה מלא אחד</span>
-            <span>כל יכולות הכתיבה של ה-AI</span>
-            <span>בוסטרים: נגישות, WhatsApp ומצב שבת</span>
-            <span>עריכה חופשית וייצוא HTML</span>
-          </div>
-        </div>
-        <div class="price-card popular" data-reveal style="--d:1">
-          <div class="price-flag">הכי פופולרי</div>
-          <div class="price-tier">מקצועי</div>
-          <div class="price-num">₪49<small>/חודש</small></div>
-          <div class="price-for">לעסקים שרצים קדימה</div>
-          <a href="build.html" class="price-btn hot">התחילו לבנות</a>
-          <div class="price-feats">
-            <span>עד 10 דפי נחיתה</span>
-            <span>דומיין אישי</span>
-            <span>שכתובי AI ללא הגבלה</span>
-            <span>כל הבוסטרים + ערכת קמפיין</span>
-            <span>טפסי לידים + אנליטיקס</span>
-          </div>
-        </div>
-        <div class="price-card" data-reveal style="--d:2">
-          <div class="price-tier">עסקי</div>
-          <div class="price-num">₪149<small>/חודש</small></div>
-          <div class="price-for">לצוותים ולסוכנויות</div>
-          <a href="build.html" class="price-btn">דברו איתנו</a>
-          <div class="price-feats">
-            <span>דפים ללא הגבלה</span>
-            <span>ניהול ריבוי לקוחות</span>
-            <span>תמיכה מועדפת</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ FAQ ============ -->
-  <section class="block" id="faq" style="padding-top: 30px;">
-    <div class="wrap">
-      <div class="sec-head" data-reveal>
-        <div class="eyebrow grad-text">שאלות נפוצות</div>
-        <h2>כל מה שרציתם לדעת</h2>
-      </div>
-      <div class="faq-list" data-reveal>
-        <details>
-          <summary>צריך ידע טכני כדי להשתמש בדפדף? <span class="faq-plus">+</span></summary>
-          <p>לא. עונים על ארבע שאלות קצרות בעברית, וה-AI עושה את השאר. עריכה נעשית בלחיצה ישירה על הטקסט — כמו במסמך, לא כמו בתוכנת עיצוב.</p>
-        </details>
-        <details>
-          <summary>אפשר לשנות את מה שה-AI כתב? <span class="faq-plus">+</span></summary>
-          <p>בוודאי, וזה הלב של דפדף: כל מילה ניתנת לעריכה ישירה, וכל מקטע אפשר לבקש מה-AI לשכתב, לקצר או לחדד. הוא תמיד ממשיך מהגרסה האחרונה שערכתם — לא מתחיל מאפס.</p>
-        </details>
-        <details>
-          <summary>מה עושים עם קובץ ה-HTML שמורידים? <span class="faq-plus">+</span></summary>
-          <p>הקובץ עצמאי לחלוטין: אפשר להעלות אותו לכל אחסון (Vercel, Netlify, האחסון של הדומיין שלכם) או להעביר למי שמנהל לכם את האתר. אין תלות בדפדף אחרי ההורדה.</p>
-        </details>
-        <details>
-          <summary>מה זה הבוסטרים של דפדף? <span class="faq-plus">+</span></summary>
-          <p>תוספים ייחודיים שמודלקים בלחיצה ונכנסים ישר לדף המיוצא: מצב שבת שמזהה לבד את שעון ישראל, תפריט נגישות והצהרת נגישות לפי דרישות החוק, כפתור WhatsApp צף, סרגל חיוג ו-Waze למובייל, טיימר דחיפות והוכחה חברתית. אף בונה דפים אחר לא מגיע עם הסט הזה מובנה.</p>
-        </details>
-        <details>
-          <summary>באיזה מודל AI אתם משתמשים? <span class="faq-plus">+</span></summary>
-          <p>דפדף עובד עם Claude של Anthropic — מודל שמצטיין בכתיבה בעברית טבעית ובהבנת הקשר עסקי, לא רק בתרגום.</p>
-        </details>
-        <details>
-          <summary>מה כלול במסלול החינמי? <span class="faq-plus">+</span></summary>
-          <p>דף נחיתה מלא אחד, כולל כל יכולות הכתיבה והעריכה של ה-AI וייצוא הקובץ. בלי כרטיס אשראי ובלי מגבלת זמן.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ FINAL CTA ============ -->
-  <section class="block" style="padding-top: 20px;">
-    <div class="wrap">
-      <div class="cta-panel" data-reveal>
-        <div class="cta-glow" aria-hidden="true"></div>
-        <h2>הדף הבא שלכם <span class="grad-text">כבר כתוב.</span></h2>
-        <p>צריך רק לספר לדפדף על העסק.</p>
-        <a href="build.html" class="btn-hero">בנו דף נחיתה עכשיו ✨</a>
-      </div>
-    </div>
-  </section>
-
+  </div></section>
+  <section class="final-section"><div class="page-shell final-card" data-reveal><span class="final-spark" aria-hidden="true">✦</span><h2>המסר של העסק כבר אצלכם.<br>עכשיו צריך להפוך אותו לדף.</h2><p>התחילו מארבע שאלות קצרות, ואז שפרו את התוצאה עד שהיא מרגישה שלכם.</p><a href="build.html" class="button button-light">בנו דף ראשון</a></div></section>
 </main>
-
-<footer class="site">
-  <div class="wrap foot-inner">
-    <div>
-      <div class="foot-brand">
-        <span class="brand-mark" style="width:26px;height:26px;border-radius:8px;font-size:14px;">ד</span>
-        דפדף
-      </div>
-      <div class="foot-tag">דפי נחיתה שכותבים את עצמם.</div>
-    </div>
-    <div class="foot-links">
-      <a href="build.html">בניית דף</a>
-      <a href="#pricing">מחירים</a>
-      <a href="#">פרטיות</a>
-      <a href="#">תנאי שימוש</a>
-    </div>
-    <div class="foot-tag">© 2026 דפדף. כל הזכויות שמורות.</div>
-  </div>
-</footer>
-
+<footer class="site-footer"><div class="page-shell footer-grid"><div><a href="index.html" class="brand footer-brand"><span class="brand-mark">ד</span><span>דפדף</span></a><p>בונה דפי נחיתה בעברית לעסקים קטנים ונותני שירות.</p></div><div class="footer-links"><a href="#how">איך זה עובד</a><a href="#features">מה מקבלים</a><a href="#faq">שאלות</a><a href="build.html">בניית דף</a></div><div class="footer-meta"><span>בטא פתוחה</span><span>© 2026 דפדף</span></div></div></footer>
 <script src="js/home.js"></script>
 </body>
 </html>
