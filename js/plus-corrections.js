@@ -235,9 +235,10 @@
     api.auditChecks = () => {
       const config = originalConfig();
       const enabled = config.enabled || {};
+      const publish = window.dafdafExportSettings?.() || {};
       const hasImmediateContact = Boolean(
-        (enabled.whatsapp && normalizedWhatsapp(document.getElementById("f-whatsapp")?.value)) ||
-        (enabled.actions && (document.getElementById("f-whatsapp")?.value || config.phone || config.wazeAddress))
+        (enabled.whatsapp && normalizedWhatsapp(publish.whatsapp)) ||
+        (enabled.actions && (publish.whatsapp || config.phone || config.wazeAddress))
       );
       return [
         { ok: Boolean(enabled.access), text: "נוסף כלי עזר לנגישות והסבר שאינו מחליף בדיקה מקצועית" },

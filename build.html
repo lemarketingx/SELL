@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="css/studio-design-v2.css">
 <link rel="stylesheet" href="css/page-v3.css">
 <link rel="stylesheet" href="css/product-v3.css">
+<link rel="stylesheet" href="css/studio-v4.css">
 </head>
 <body class="vibe-trust v3-builder-page">
 <div class="builder-shell v3-builder-shell">
@@ -79,23 +80,26 @@
       <a href="index.html" class="v3-brand v3-workspace-brand"><span class="v3-brand-mark">ד</span></a>
       <div class="v3-project-title"><strong id="workspace-project-name">דף חדש</strong><span><i></i> נשמר מקומית</span></div>
       <div class="v3-preview-switch" aria-label="תצוגה"><button type="button" class="active" id="studio-desktop" title="מחשב">▰</button><button type="button" id="studio-mobile" title="מובייל">▯</button></div>
-      <div class="v3-topbar-actions"><button type="button" class="v3-topbar-button" id="studio-save">שמירה</button><button type="button" class="v3-topbar-button" id="studio-load">טעינה</button><button type="button" class="v3-publish-button" id="btn-download">הורדת הדף <span>↓</span></button></div>
+      <div class="v3-topbar-actions"><button type="button" class="v3-topbar-button studio-tools-toggle" id="studio-tools-toggle" aria-expanded="false">כלים</button><button type="button" class="v3-topbar-button" id="studio-save">שמירה</button><button type="button" class="v3-topbar-button" id="studio-load">טעינה</button><button type="button" class="v3-publish-button" id="btn-download">הורדת הדף <span>↓</span></button></div>
     </header>
     <div class="v3-workspace-body">
       <aside class="v3-workspace-sidebar">
         <div class="v3-sidebar-scroll">
-          <section><h2>מבנה הדף</h2><button type="button" class="v3-section-link active" data-block-jump="hero"><span>01</span> פתיחה</button><button type="button" class="v3-section-link" data-block-jump="features"><span>02</span> ההצעה</button><button type="button" class="v3-section-link" data-block-jump="process"><span>03</span> התהליך</button><button type="button" class="v3-section-link" data-block-jump="testimonials"><span>04</span> הוכחות</button><button type="button" class="v3-section-link" data-block-jump="cta"><span>05</span> פעולה</button><button type="button" class="v3-sidebar-add" id="studio-add-section">＋ הוספת מקטע</button></section>
+          <section><h2>אזורי הדף</h2><button type="button" class="v3-section-link studio-zone-link" data-studio-zone-jump="header"><span>H</span> Header וניווט</button><button type="button" class="v3-section-link active studio-zone-link" data-studio-zone-jump="main"><span>M</span> תוכן הדף</button><button type="button" class="v3-section-link studio-zone-link" data-studio-zone-jump="footer"><span>F</span> Footer</button></section>
+          <section><h2>מבנה התוכן</h2><button type="button" class="v3-section-link active" data-block-jump="hero"><span>01</span> פתיחה</button><button type="button" class="v3-section-link" data-block-jump="features"><span>02</span> ההצעה</button><button type="button" class="v3-section-link" data-block-jump="process"><span>03</span> התהליך</button><button type="button" class="v3-section-link" data-block-jump="testimonials"><span>04</span> הוכחות</button><button type="button" class="v3-section-link" data-block-jump="cta"><span>05</span> פעולה</button><button type="button" class="v3-sidebar-add" id="studio-add-section">＋ ספריית מקטעים</button></section>
+          <section><h2>הוספה מהירה</h2><div class="studio-quick-grid"><button type="button" data-studio-tool="testimonials"><span>★</span> המלצות</button><button type="button" data-studio-tool="image"><span>▧</span> תמונה</button><button type="button" data-studio-tool="button"><span>↗</span> כפתור</button><button type="button" data-studio-tool="banner"><span>▰</span> באנר</button><button type="button" data-studio-tool="whatsapp"><span>◉</span> WhatsApp</button><button type="button" data-studio-tool="share"><span>⌁</span> שיתוף</button><button type="button" data-studio-tool="shape"><span>◆</span> צורה</button><button type="button" data-studio-tool="gallery"><span>▦</span> גלריה</button></div></section>
+          <section><h2>עיצוב</h2><button type="button" class="v3-tool-link" id="studio-style-kits"><span>◫</span><b>8 ערכות סגנון</b><em id="studio-style-name">נקי</em></button><button type="button" class="v3-tool-link" id="studio-colors"><span>●</span><b>צבעים ופלטה</b><em class="studio-color-dot" id="studio-color-dot"></em></button></section>
           <section><h2>כיוון עיצוב</h2><div class="v3-variant-list"><button type="button" class="active" data-studio-variant="classic"><i class="v3-variant-a"></i><span><b>מדויק</b><small>בהיר וממוקד</small></span></button><button type="button" data-studio-variant="bold"><i class="v3-variant-b"></i><span><b>ויזואלי</b><small>נועז ותמונתי</small></span></button><button type="button" data-studio-variant="editorial"><i class="v3-variant-c"></i><span><b>מערכתי</b><small>אלגנטי וסיפורי</small></span></button></div></section>
           <section><h2>שיפור הדף</h2><button type="button" class="v3-tool-link" id="studio-audit"><span>✓</span><b>בדיקת המרות</b><em id="studio-score">—</em></button><button type="button" class="v3-tool-link" id="plus-campaign"><span>↗</span><b>ערכת קמפיין</b></button><button type="button" class="v3-tool-link" id="plus-boosters"><span>✦</span><b>כלים ישראליים</b></button></section>
-          <section><h2>פרסום</h2><button type="button" class="v3-tool-link" id="dest-target"><span>◎</span><b>לידים ומדידה</b><em id="dest-status" class="dest-status"></em></button></section>
+          <section><h2>פרסום</h2><button type="button" class="v3-tool-link" id="dest-target"><span>◎</span><b>לידים ומדידה</b><em id="dest-status" class="dest-status"></em></button><button type="button" class="v3-tool-link" id="studio-domain-hosting"><span>⌂</span><b>דומיין ואחסון</b><em>חדש</em></button></section>
         </div>
         <button type="button" class="v3-restart" id="btn-restart">התחלה מחדש</button>
       </aside>
-      <main class="v3-preview-area"><div class="v3-canvas-toolbar"><div><i></i><i></i><i></i></div><span>dafdaf.co.il/<b id="workspace-slug">your-page</b></span><small>תצוגה מקדימה</small></div><div class="canvas-frame v3-canvas-frame"><div class="result-canvas" id="result-canvas" data-studio-variant="classic"></div></div></main>
+      <main class="v3-preview-area"><div class="v3-canvas-toolbar"><div><i></i><i></i><i></i></div><span>dafdaf.co.il/<b id="workspace-slug">your-page</b></span><small id="studio-selection-label">תצוגה מקדימה · לחצו על מקטע כדי לערוך</small></div><div class="canvas-frame v3-canvas-frame"><div class="result-canvas" id="result-canvas" data-studio-variant="classic" data-studio-theme="clean"></div></div></main>
     </div>
   </div>
 </div>
-<div id="studio-backdrop" class="studio-panel-backdrop"></div><aside id="studio-panel" class="studio-panel" aria-live="polite"></aside>
-<script src="js/builder.js"></script><script src="js/studio.js"></script><script src="js/plus.js"></script><script src="js/plus-corrections.js"></script><script src="js/design-engine-v2.js"></script>
+<div id="studio-tools-backdrop" class="studio-tools-backdrop"></div><div id="studio-backdrop" class="studio-panel-backdrop"></div><aside id="studio-panel" class="studio-panel" aria-live="polite"></aside>
+<script src="js/builder.js"></script><script src="js/studio.js"></script><script src="js/editor-v4.js"></script><script src="js/plus.js"></script><script src="js/plus-corrections.js"></script><script src="js/design-engine-v2.js"></script>
 </body>
 </html>
