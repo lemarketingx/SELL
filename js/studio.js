@@ -3,7 +3,7 @@
 
   const STORAGE_KEY = "dafdaf-studio-project-v1";
   const MAX_IMAGE_BYTES = 1_600_000;
-  const studio = { logo: "", hero: "", gallery: [], palette: [], variant: "classic", enhanced: false };
+  const studio = { logo: "", hero: "", gallery: [], palette: [], variant: "classic", enhanced: false, galleryRequested: false };
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
@@ -23,7 +23,11 @@
       if (studio.logo) analyzeBrand(studio.logo);
     });
     bindImageInput("studio-hero", false, (images) => { studio.hero = images[0] || ""; });
-    bindImageInput("studio-gallery", true, (images) => { studio.gallery = images.slice(0, 8); });
+    bindImageInput("studio-gallery", true, (images) => {
+      studio.gallery = images.slice(0, 8);
+      $(".studio-gallery", $("#result-canvas"))?.remove();
+      if (studio.gallery.length) addGallerySection();
+    });
     $("#studio-analyze")?.addEventListener("click", () => {
       const source = studio.logo || studio.hero;
       if (source) analyzeBrand(source);
@@ -198,69 +202,26 @@
     if (studio.hero && !hero.querySelector(".studio-hero-media")) {
       hero.insertAdjacentHTML("beforeend", `<div class="studio-hero-media"><img src="${studio.hero}" alt="תמונת העסק"></div>`);
     }
-    if (!$(".studio-gallery", $("#result-canvas"))) {
-      if (studio.gallery.length) {
-        addGallerySection();
-      } else {
-        await generateAutoGallery();
-      }
+    if (studio.gallery.length && !$(".studio-gallery", $("#result-canvas"))) {
+      addGallerySection();
+    } else if (!studio.gallery.length && !studio.galleryRequested && !$(".studio-gallery", $("#result-canvas"))) {
+      studio.galleryRequested = true;
+      await generateAutoGallery();
     }
   }
 
   async function generateAutoGallery() {
     const industry = document.getElementById("f-industry")?.value || "business";
-    const description = document.getElementById("f-description")?.value || "";
-
-    try {
-      const images = await fetchPicsumImages(industry);
-      if (images.length) {
-        studio.gallery = images;
-        addGallerySection();
-      }
-    } catch (e) {
-      console.log("Auto-gallery generation failed:", e);
-    }
+    const images = fetchStockPhotos(industry);
+    studio.gallery = images;
+    if (!$(".studio-gallery", $("#result-canvas"))) addGallerySection();
   }
 
-  async function fetchPicsumImages(industry) {
-    const images = [];
-    const keywords = {
-      "restaurant": "food",
-      "beauty": "beauty",
-      "fitness": "gym",
-      "photography": "photography",
-      "design": "design",
-      "technology": "technology",
-      "real-estate": "architecture",
-      "education": "student",
-      "healthcare": "health",
-      "fashion": "fashion"
-    };
-
-    const query = keywords[industry] || "business";
-    const PEXELS_KEY = "YFiYY0AvWGT2TjQfvM2VN0Pt3WZiJzUFQYm9Vf3TywPYBcMXSGZCzGmN";
-
-    try {
-      const response = await fetch(
-        `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=6&orientation=landscape`,
-        { headers: { Authorization: PEXELS_KEY } }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        return data.photos.map(photo => photo.src.medium || photo.src.large);
-      }
-    } catch (e) {
-      console.log("Pexels API failed:", e);
-    }
-
-    return generateFallbackImages();
-  }
-
-  function generateFallbackImages() {
+  function fetchStockPhotos(industry) {
+    const seed = slugify(industry || "business");
     const images = [];
     for (let i = 0; i < 6; i++) {
-      images.push(`https://images.unsplash.com/photo-${1600000000000 + i}?w=600&h=400&fit=crop`);
+      images.push(`https://picsum.photos/seed/${encodeURIComponent(seed)}-${i}/600/400`);
     }
     return images;
   }

@@ -53,7 +53,7 @@ test("export keeps layout and archetype markers", () => {
   assert.match(exportRuntime, /de-archetype-/);
   assert.match(exportRuntime, /data-block="process"/);
   assert.match(exportCss, /design-hero\[data-hero-layout="split"\]/);
-  assert.match(studio, /\(\?:studio\|plus\)\\\.css/);
+  assert.match(studio, /\(\?:studio\|plus\|page\)\\\.css/);
 });
 
 test("AI prompt demands concrete, non-generic business copy", () => {
