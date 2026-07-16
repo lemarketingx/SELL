@@ -38,6 +38,7 @@ test("builder loads the visual refresh without changing functional ids", () => {
     "btn-download",
   ].forEach((id) => assert.match(html, new RegExp(`id="${id}"`)));
   assert.match(html, /לידים ומדידה/);
+  assert.match(html, /טופס לידים.*GTM/);
   assert.match(html, /class="tool-group"/);
   assert.doesNotMatch(html, /Page DNA/);
 });
