@@ -49,7 +49,22 @@ test("export embeds plus runtime, metadata and audit checks", () => {
   assert.match(plusJs, /og:title/);
   assert.match(studioJs, /dafdafPlus/);
   assert.match(studioJs, /plusExport/);
-  assert.match(studioJs, /\(\?:studio\|plus\)\\\.css/);
+  assert.match(studioJs, /\(\?:studio\|plus\|page\)\\\.css/);
+});
+
+test("generated pages use the rich design system", () => {
+  const builderJs = fs.readFileSync("js/builder.js", "utf8");
+  const pageCss = fs.readFileSync("css/page.css", "utf8");
+  assert.match(buildHtml, /css\/page\.css/);
+  assert.match(builderJs, /pg-hero/);
+  assert.match(builderJs, /pg-testimonials/);
+  assert.match(builderJs, /dataset\.vibe/);
+  assert.match(pageCss, /--pg-grad/);
+  assert.match(pageCss, /data-vibe="luxury"/);
+  assert.match(pageCss, /data-vibe="energetic"/);
+  assert.match(pageCss, /pg-animate/);
+  assert.match(plusJs, /revealRuntime/);
+  assert.match(studioJs, /data-vibe/);
 });
 
 test("home page explains the Israel-focused tools without unsupported claims", () => {
