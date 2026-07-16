@@ -13,6 +13,8 @@ test("homepage uses the premium redesign and accurate beta copy", () => {
   assert.match(html, /css\/home-v2\.css/);
   assert.match(html, /בטא פתוחה/);
   assert.match(html, /OpenAI API/);
+  assert.match(html, /ממודעה לדף נחיתה ישראלי/);
+  assert.match(html, /GTM/);
   assert.doesNotMatch(html, /ראשון בעולם/);
   assert.doesNotMatch(html, /דרישת חוק/);
   assert.doesNotMatch(html, /₪49/);
@@ -35,6 +37,10 @@ test("builder loads the visual refresh without changing functional ids", () => {
     "result-canvas",
     "btn-download",
   ].forEach((id) => assert.match(html, new RegExp(`id="${id}"`)));
+  assert.match(html, /לידים ומדידה/);
+  assert.match(html, /טופס לידים.*GTM/);
+  assert.match(html, /class="tool-group"/);
+  assert.doesNotMatch(html, /Page DNA/);
 });
 
 test("redesign stylesheets contain responsive rules", () => {

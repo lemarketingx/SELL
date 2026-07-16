@@ -14,7 +14,7 @@ test("builder supports logo, hero and gallery uploads", () => {
   assert.match(html, /id="studio-gallery"/);
 });
 
-test("builder includes Page DNA and campaign-message inputs", () => {
+test("builder includes brand and campaign-message inputs", () => {
   assert.match(html, /id="studio-analyze"/);
   assert.match(html, /id="studio-ad-message"/);
   assert.match(script, /analyzeBrand/);
@@ -37,6 +37,8 @@ test("studio supports section management and local project persistence", () => {
   assert.match(script, /addCustomSection/);
   assert.match(script, /localStorage\.setItem/);
   assert.match(script, /localStorage\.getItem/);
+  assert.match(script, /publish: window\.dafdafExportSettings/);
+  assert.match(script, /dafdafApplyExportSettings/);
 });
 
 test("enhanced export removes editor controls and embeds assets", () => {
@@ -44,4 +46,5 @@ test("enhanced export removes editor controls and embeds assets", () => {
   assert.match(script, /\.block-toolbar/);
   assert.match(script, /new Blob/);
   assert.match(script, /studio\.gallery/);
+  assert.match(script, /googletagmanager\.com/);
 });
