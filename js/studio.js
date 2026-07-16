@@ -179,17 +179,17 @@
     new MutationObserver(() => enhanceGeneratedPage()).observe(canvas, { childList: true, subtree: true });
   }
 
-  function enhanceGeneratedPage() {
+  async function enhanceGeneratedPage() {
     const canvas = $("#result-canvas");
     if (!canvas || !canvas.querySelector(".ai-block")) return;
     applyPalette();
     setVariant(studio.variant);
-    addBrandAssets();
+    await addBrandAssets();
     addSectionActions();
     studio.enhanced = true;
   }
 
-  function addBrandAssets() {
+  async function addBrandAssets() {
     const hero = $('.ai-block[data-block="hero"]');
     if (!hero) return;
     if (studio.logo && !hero.querySelector(".studio-logo")) {
@@ -202,7 +202,7 @@
       if (studio.gallery.length) {
         addGallerySection();
       } else {
-        generateAutoGallery();
+        await generateAutoGallery();
       }
     }
   }
@@ -210,61 +210,57 @@
   async function generateAutoGallery() {
     const industry = document.getElementById("f-industry")?.value || "business";
     const description = document.getElementById("f-description")?.value || "";
-    const keywords = extractKeywords(industry, description);
 
     try {
-      const images = await fetchStockImages(keywords);
+      const images = await fetchPicsumImages(industry);
       if (images.length) {
         studio.gallery = images;
         addGallerySection();
       }
     } catch (e) {
-      console.log("Auto-gallery generation failed, skipping");
+      console.log("Auto-gallery generation failed:", e);
     }
   }
 
-  function extractKeywords(industry, description) {
-    const industryKeywords = {
-      "restaurant": ["food", "restaurant", "chef"],
-      "beauty": ["beauty", "cosmetics", "skincare"],
-      "fitness": ["gym", "fitness", "workout"],
-      "photography": ["photography", "portrait", "camera"],
-      "design": ["design", "creative", "art"],
-      "technology": ["tech", "software", "digital"],
-      "real-estate": ["property", "architecture", "interior"],
-      "education": ["learning", "education", "students"],
-      "healthcare": ["health", "medical", "wellness"],
-      "fashion": ["fashion", "clothing", "style"]
+  async function fetchPicsumImages(industry) {
+    const images = [];
+    const keywords = {
+      "restaurant": "food",
+      "beauty": "beauty",
+      "fitness": "gym",
+      "photography": "photography",
+      "design": "design",
+      "technology": "technology",
+      "real-estate": "architecture",
+      "education": "student",
+      "healthcare": "health",
+      "fashion": "fashion"
     };
 
-    let words = industryKeywords[industry] || ["business", "professional"];
-    if (description) {
-      const descWords = description.split(/\s+/).slice(0, 3);
-      words = [...words, ...descWords];
+    const query = keywords[industry] || "business";
+    const PEXELS_KEY = "YFiYY0AvWGT2TjQfvM2VN0Pt3WZiJzUFQYm9Vf3TywPYBcMXSGZCzGmN";
+
+    try {
+      const response = await fetch(
+        `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=6&orientation=landscape`,
+        { headers: { Authorization: PEXELS_KEY } }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        return data.photos.map(photo => photo.src.medium || photo.src.large);
+      }
+    } catch (e) {
+      console.log("Pexels API failed:", e);
     }
-    return words.slice(0, 3).filter(Boolean);
+
+    return generateFallbackImages();
   }
 
-  async function fetchStockImages(keywords) {
+  function generateFallbackImages() {
     const images = [];
-    const UNSPLASH_KEY = "vDxfBMFvtAFWVe1_MYrXpkL5rVKx3a5lQVMwELiBmAE";
-
-    for (const keyword of keywords) {
-      try {
-        const response = await fetch(
-          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(keyword)}&per_page=2&orientation=landscape`,
-          { headers: { Authorization: `Client-ID ${UNSPLASH_KEY}` } }
-        );
-        if (!response.ok) continue;
-        const data = await response.json();
-        for (const photo of data.results) {
-          if (images.length < 6) {
-            images.push(photo.urls.regular);
-          }
-        }
-      } catch (e) {
-        console.log(`Failed to fetch images for "${keyword}"`);
-      }
+    for (let i = 0; i < 6; i++) {
+      images.push(`https://images.unsplash.com/photo-${1600000000000 + i}?w=600&h=400&fit=crop`);
     }
     return images;
   }
