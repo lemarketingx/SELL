@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>יערית מתוקים | קייטרינג מתוקים ביתי</title>
+<meta name="description" content="עוגות, פחזניות ומגשי אירוח לשבת, לימי הולדת ולאירועים — נאפים בבית, טריים ביום המסירה.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#3A2A22">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&family=Assistant:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/yarit.css">
+</head>
+<body>
+<div class="announce">
+  <span>משלוח חינם בהזמנה מעל 250 ₪</span>
+  <span class="dot" aria-hidden="true">·</span>
+  <span>הזמנות לשישי נסגרות ביום רביעי בערב</span>
+</div>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="#top" class="brand">
+      <span class="brand-name">יערית מתוקים</span>
+      <span class="brand-tag">קייטרינג מתוקים ביתי</span>
+    </a>
+    <nav class="main-nav" aria-label="ניווט ראשי">
+      <a href="#menu">התפריט</a>
+      <a href="#events">אירועים</a>
+      <a href="#order">הזמנה</a>
+      <a href="#about">אודות</a>
+      <a href="#faq">שאלות</a>
+      <a href="#contact">צור קשר</a>
+    </nav>
+    <a href="#order" class="cart-pill">
+      <span>סל ההזמנה</span>
+      <span class="count-badge" data-bind="cartCount">0</span>
+    </a>
+  </div>
+</header>
+
+<main>
+  <section id="top" class="hero">
+    <div class="stack hero-copy">
+      <div class="eyebrow">אפייה ביתית · עבודת יד · כמות מוגבלת בכל יום</div>
+      <h1>המתוקים של<br>השולחן שלכם,<br>מהמטבח שלי</h1>
+      <p class="hero-lead">עוגות, פחזניות ומגשי אירוח לשבת, לימי הולדת ולאירועים — נאפים בבית, טריים ביום המסירה.</p>
+      <div class="hero-ctas">
+        <a href="#menu" class="btn btn--dark btn--lg">להזמנה מהתפריט</a>
+        <a href="#events" class="btn btn--outline btn--lg">שולחן מתוקים לאירוע</a>
+      </div>
+      <div class="next-free">
+        <span class="live-dot" aria-hidden="true"></span>
+        <span>התאריך הפנוי הקרוב: <strong data-bind="nextFree"></strong></span>
+      </div>
+    </div>
+    <div class="hero-gallery">
+      <img class="g1" src="https://images.unsplash.com/photo-1691052252990-4cd1fdda73dc?w=1000&q=70&auto=format&fit=crop" alt="שולחן מתוקים">
+      <img class="g2" src="https://images.unsplash.com/photo-1787385974171-41c7f247e8ab?w=700&q=70&auto=format&fit=crop" alt="פחזניות">
+      <img class="g3" src="https://images.unsplash.com/photo-1606163050754-05a6a7530815?w=700&q=70&auto=format&fit=crop" alt="עוגת שוקולד">
+    </div>
+  </section>
+
+  <section class="steps">
+    <div class="wrap">
+      <div class="step"><span class="step-num">1</span><div><strong>בוחרים מתוקים</strong><span>עוגות, מארזים או מגשי אירוח</span></div></div>
+      <div class="step"><span class="step-num">2</span><div><strong>שומרים תאריך</strong><span>הלוח מראה כמה מקום נשאר בכל יום</span></div></div>
+      <div class="step"><span class="step-num">3</span><div><strong>אוספים או מקבלים</strong><span>טרי מהתנור, תשלום ב־Bit או PayBox</span></div></div>
+    </div>
+  </section>
+
+  <section id="menu" class="band band--sand menu">
+    <div class="wrap stack">
+      <div class="section-head">
+        <div class="stack menu-intro">
+          <h2 class="h2">התפריט</h2>
+          <p>עד 10 פריטים ביום לכלל הלקוחות — מומלץ להזמין מראש.</p>
+        </div>
+        <div class="tabs" id="tabs" role="group" aria-label="סינון התפריט"></div>
+      </div>
+      <div class="products" id="products"></div>
+    </div>
+  </section>
+
+  <section id="events" class="band events">
+    <div class="wrap stack">
+      <div class="section-head">
+        <div class="stack events-intro">
+          <div class="eyebrow">קייטרינג לאירועים</div>
+          <h2 class="h2">שולחן מתוקים לאירוע</h2>
+          <p>בריתות, ימי הולדת, חינות וכנסים. אני מרכיבה מבחר בהתאמה לכמות האורחים, לאופי האירוע ולצבעים שלכם.</p>
+        </div>
+      </div>
+      <div class="packages" id="packages"></div>
+      <div class="quote stack">
+        <div class="quote-title">בקשת הצעת מחיר</div>
+        <div class="quote-fields">
+          <input id="evName" placeholder="שם" aria-label="שם">
+          <input id="evPhone" placeholder="טלפון" type="tel" aria-label="טלפון">
+          <input id="evDate" type="date" aria-label="תאריך האירוע">
+          <input id="evGuests" placeholder="מספר אורחים" type="number" min="1" aria-label="מספר אורחים">
+        </div>
+        <div class="quote-foot">
+          <span>חבילה: <strong data-bind="pkgName"></strong> · אחזור אליכם תוך 24 שעות</span>
+          <a id="evSend" class="btn btn--rose quote-send" target="_blank" rel="noopener" href="#">שליחה בוואטסאפ</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="order" class="band order">
+    <div class="wrap stack">
+      <h2 class="h2">הזמנה</h2>
+      <div class="order-grid">
+        <div class="stack order-form">
+          <div class="stack order-step">
+            <div class="step-label">1 · בחירת תאריך</div>
+            <div class="cal stack" id="mainCal"></div>
+          </div>
+
+          <div class="stack order-step">
+            <div class="step-label">2 · פרטים ומסירה</div>
+            <div class="field-pair">
+              <input class="field" id="name" placeholder="שם מלא" aria-label="שם מלא" autocomplete="name">
+              <input class="field" id="phone" placeholder="טלפון" type="tel" aria-label="טלפון" autocomplete="tel">
+            </div>
+            <div class="toggle-row">
+              <button type="button" class="toggle" data-delivery="false">איסוף עצמי</button>
+              <button type="button" class="toggle" data-delivery="true">משלוח</button>
+            </div>
+            <div class="stack address-wrap" id="addressWrap" hidden>
+              <input class="field" id="address" placeholder="כתובת למשלוח" aria-label="כתובת למשלוח" autocomplete="street-address">
+              <span class="hint" data-bind="deliveryHint"></span>
+            </div>
+          </div>
+
+          <div class="stack order-step">
+            <div class="step-label">3 · תשלום והערות</div>
+            <div class="toggle-row">
+              <button type="button" class="toggle" data-payment="bit">Bit</button>
+              <button type="button" class="toggle" data-payment="paybox">PayBox</button>
+            </div>
+            <textarea class="field" id="notes" rows="3" placeholder="ברכה על העוגה, אלרגיות, שעה מועדפת…" aria-label="הערות"></textarea>
+          </div>
+        </div>
+
+        <aside class="summary stack" aria-live="polite">
+          <div class="summary-title">סיכום הזמנה</div>
+          <div class="summary-empty" id="summaryEmpty">הסל ריק. <a href="#menu">בחרו מתוקים מהתפריט</a></div>
+          <div class="stack summary-lines" id="summaryLines"></div>
+          <div class="stack summary-meta">
+            <div><span>תאריך</span><b data-bind="dateLabel"></b></div>
+            <div><span>פריטים</span><b><span data-bind="cartCount">0</span> / <span data-bind="remainingLabel"></span></b></div>
+          </div>
+          <div class="summary-total"><span>סה״כ</span><span><span data-bind="total">0</span> ₪</span></div>
+          <div class="error" id="error" role="alert" hidden></div>
+          <button type="button" class="btn btn--rose submit-btn" id="submit">שליחת הזמנה</button>
+          <div class="pay-note">תשלום ב־<span data-bind="payLabel"></span> לאחר אישור ההזמנה</div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="band band--sand about">
+    <div class="wrap">
+      <img src="https://images.unsplash.com/photo-1519733870-f96bef9bc85f?w=900&q=70&auto=format&fit=crop" alt="יערית במטבח" loading="lazy">
+      <div class="stack about-copy">
+        <h2>נעים להכיר, יערית</h2>
+        <p>התחלתי לאפות לחברים ולמשפחה, והמטבח הביתי הפך לקייטרינג קטן. כל מה שיוצא ממנו נאפה מחמאה אמיתית, שוקולד איכותי ופירות העונה — בלי קיצורי דרך.</p>
+        <p>בגלל זה אני מגבילה את כמות ההזמנות היומית: כדי שכל פחזנית וכל עוגה יקבלו את תשומת הלב שמגיעה להן.</p>
+        <div class="signature">— יערית</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="reviews" class="band reviews">
+    <div class="wrap stack">
+      <h2 class="h2">מה אומרים עלינו</h2>
+      <div class="review-grid">
+        <figure class="review">
+          <div class="stars" aria-label="5 כוכבים">★★★★★</div>
+          <blockquote>״הזמנו שולחן מתוקים לברית — האורחים לא הפסיקו לשאול מי הכינה.״</blockquote>
+          <figcaption>מיכל, רחובות · אירוע 60 איש</figcaption>
+        </figure>
+        <figure class="review">
+          <div class="stars" aria-label="5 כוכבים">★★★★★</div>
+          <blockquote>״עוגת הגבינה הכי קרמית שאכלתי. מזמינה כבר בפעם הרביעית לשבת.״</blockquote>
+          <figcaption>רונית, נס ציונה</figcaption>
+        </figure>
+        <figure class="review">
+          <div class="stars" aria-label="5 כוכבים">★★★★★</div>
+          <blockquote>״המילפיי פריך בדיוק כמו בפריז. שירות אישי ומשלוח בזמן.״</blockquote>
+          <figcaption>דני, ראשון לציון</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="band band--sand faq">
+    <div class="wrap stack">
+      <h2 class="h2">שאלות נפוצות</h2>
+      <div class="faq-list" id="faqList"></div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <div class="stack contact-copy">
+        <h2 class="h2">יש שאלה? דברו איתי</h2>
+        <p>הזמנות מיוחדות, עוגות בעיצוב אישי ואירועים — הכי מהיר בוואטסאפ.</p>
+      </div>
+      <div class="stack contact-actions">
+        <a href="https://wa.me/972500000000" target="_blank" rel="noopener" class="btn btn--dark">שליחת הודעה בוואטסאפ</a>
+        <a href="tel:0500000000" class="btn btn--outline" dir="ltr">050-000-0000</a>
+        <div class="contact-meta">
+          <span>איסוף: א׳–ו׳ 09:00–14:00</span>
+          <span>משלוחים באזור המרכז</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="stack footer-brand">
+      <span class="serif">יערית מתוקים</span>
+      <span>קייטרינג מתוקים ביתי · כשר חלבי</span>
+    </div>
+    <div class="footer-meta">
+      <span>א׳–ו׳ · איסוף 09:00–14:00</span>
+      <span dir="ltr">050-000-0000</span>
+      <button type="button" class="reset-demo" id="resetDemo">איפוס נתוני הדגמה</button>
+    </div>
+  </div>
+</footer>
+
+<div class="floating">
+  <div class="floating-center">
+    <a href="#order" class="cart-bar" id="cartBar" hidden>
+      <span class="count-badge" data-bind="cartCount">0</span>
+      <span><span data-bind="subtotal">0</span> ₪ · לסיום ההזמנה</span>
+    </a>
+  </div>
+  <a href="https://wa.me/972500000000" target="_blank" rel="noopener" class="wa-float">וואטסאפ</a>
+</div>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<div class="overlay" id="limitModal" data-close hidden>
+  <div class="dialog dialog--limit" role="dialog" aria-modal="true" aria-labelledby="limitTitle">
+    <div class="dialog-top">
+      <div class="alert-icon" aria-hidden="true">!</div>
+      <button type="button" class="close-btn" data-close aria-label="סגירה">✕</button>
+    </div>
+    <h3 id="limitTitle">לא ניתן להזמין לתאריך זה</h3>
+    <p data-bind="limitMsg"></p>
+    <div class="stack suggest-wrap" id="suggestWrap">
+      <div class="dialog-label">התאריכים הפנויים הקרובים</div>
+      <div class="suggestions" id="suggestions"></div>
+    </div>
+    <div class="dialog-label">או בחרו מהלוח</div>
+    <div class="cal cal--compact stack" id="modalCal"></div>
+  </div>
+</div>
+
+<div class="overlay" id="successModal" data-close hidden>
+  <div class="dialog dialog--success" role="dialog" aria-modal="true" aria-labelledby="successTitle">
+    <div class="success-icon" aria-hidden="true">✓</div>
+    <h3 id="successTitle">ההזמנה התקבלה!</h3>
+    <p data-bind="successMsg"></p>
+    <button type="button" class="btn btn--dark success-close" data-close>סגירה</button>
+  </div>
+</div>
+
+<script src="js/yarit.js"></script>
+</body>
+</html>
