@@ -51,13 +51,16 @@ test("calendarCells marks past, closed, full and blocked days", () => {
   assert.equal(loose.find((c) => c.iso === "2026-09-22").state, "open");
 });
 
-test("validateOrder enforces cart, date, contact and address", () => {
+test("validateOrder enforces cart, bookable date, contact and address", () => {
   const base = { cart: { puff: 1 }, date: "2026-09-21", name: "דנה", phone: "050-1234567", delivery: false, address: "" };
-  assert.equal(yarit.validateOrder(base), "");
-  assert.match(yarit.validateOrder({ ...base, cart: { puff: 0 } }), /פריט/);
-  assert.match(yarit.validateOrder({ ...base, date: null }), /תאריך/);
-  assert.match(yarit.validateOrder({ ...base, phone: "123" }), /טלפון/);
-  assert.match(yarit.validateOrder({ ...base, delivery: true }), /כתובת/);
+  assert.equal(yarit.validateOrder(base, SUNDAY), "");
+  assert.match(yarit.validateOrder({ ...base, cart: { puff: 0 } }, SUNDAY), /פריט/);
+  assert.match(yarit.validateOrder({ ...base, date: null }, SUNDAY), /תאריך/);
+  assert.match(yarit.validateOrder({ ...base, phone: "123" }, SUNDAY), /טלפון/);
+  assert.match(yarit.validateOrder({ ...base, delivery: true }, SUNDAY), /כתובת/);
+  // Saturday is closed and yesterday has passed, even with capacity left.
+  assert.match(yarit.validateOrder({ ...base, date: "2026-09-26" }, SUNDAY), /אינו פנוי/);
+  assert.match(yarit.validateOrder({ ...base, date: "2026-09-19" }, SUNDAY), /אינו פנוי/);
 });
 
 test("escapeHtml neutralises markup", () => {

@@ -97,10 +97,11 @@
     return cells;
   }
 
-  function validateOrder(state) {
+  function validateOrder(state, today) {
     const n = countItems(state.cart);
     if (!n) return "יש להוסיף לפחות פריט אחד לסל";
     if (!state.date) return "יש לבחור תאריך";
+    if (isClosed(state.date) || fromIso(state.date) < today) return "התאריך שנבחר אינו פנוי להזמנות, יש לבחור תאריך אחר";
     if (!state.name.trim() || state.phone.replace(/\D/g, "").length < 9) return "יש למלא שם וטלפון תקין";
     if (state.delivery && !state.address.trim()) return "יש למלא כתובת למשלוח";
     return "";
@@ -117,8 +118,11 @@
       return seeded;
     };
 
+    // Default to the first bookable day, so a Saturday or full day is never preselected.
+    const firstOpen = (orders) => freeDates(orders, today(), 1, 1, 90)[0] || null;
+    const orders = load();
     const state = {
-      cart: emptyCart(), date: iso(today()), orders: load(), monthOff: 0, modal: null, limitDate: null,
+      cart: emptyCart(), date: firstOpen(orders), orders, monthOff: 0, modal: null, limitDate: null,
       name: "", phone: "", address: "", notes: "", delivery: false, payment: "bit", error: "", success: "",
       tab: "all", faq: 0, pkg: "m", evName: "", evPhone: "", evDate: "", evGuests: "", toast: ""
     };
@@ -153,7 +157,7 @@
     }
 
     function submit() {
-      const err = validateOrder(state);
+      const err = validateOrder(state, today());
       if (err) { set({ error: err }); return; }
       const n = countItems(state.cart);
       if (n > remaining(state.orders, state.date)) { set({ modal: "limit", limitDate: state.date, date: null }); return; }
@@ -314,7 +318,7 @@
       else if (el.id === "resetDemo") {
         const orders = seedOrders(today());
         save(orders);
-        set({ orders, date: iso(today()), cart: emptyCart(), modal: null });
+        set({ orders, date: firstOpen(orders), cart: emptyCart(), modal: null });
       }
     });
 
