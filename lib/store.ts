@@ -13,10 +13,33 @@ export class StoreUnavailableError extends Error {
   }
 }
 
+// סדר העדיפות: השמות שחיבור Upstash חדש ב-Vercel יוצר (KV_*), ורק אחר כך השמות הישנים של דפדף —
+// כך משתנים שנשארו ממסד שהוסר לא גוברים על מסד חדש.
+const ENV_PAIRS: [string, string][] = [
+  ["KV_REST_API_URL", "KV_REST_API_TOKEN"],
+  ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"],
+  ["UPSTASH_REDIS_REST_KV_REST_API_URL", "UPSTASH_REDIS_REST_KV_REST_API_TOKEN"],
+];
+
 function upstashConfig() {
-  const url = process.env.UPSTASH_REDIS_REST_KV_REST_API_URL || process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN || process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
-  return url && token ? { url: url.replace(/\/$/, ""), token } : null;
+  for (const [u, t] of ENV_PAIRS) {
+    const url = process.env[u];
+    const token = process.env[t];
+    if (url && token) return { url: url.replace(/\/$/, ""), token, source: u };
+  }
+  return null;
+}
+
+/** בדיקת מצב לאחסון, בלי לחשוף ערכים: האם מוגדר, ואם כן — האם עונה. */
+export async function storageHealth(): Promise<{ storage: "ok" | "missing" | "error"; source?: string }> {
+  const cfg = upstashConfig();
+  if (!cfg) return { storage: memoryAllowed() ? "ok" : "missing", source: memoryAllowed() ? "memory" : undefined };
+  try {
+    await redis([["GET", "takin:health"]]);
+    return { storage: "ok", source: cfg.source };
+  } catch {
+    return { storage: "error", source: cfg.source };
+  }
 }
 
 function memoryAllowed() {

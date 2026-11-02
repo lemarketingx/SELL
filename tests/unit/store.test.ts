@@ -24,3 +24,26 @@ describe("אחסון (זיכרון בפיתוח)", () => {
     expect(hashIp("1.2.3.4")).not.toContain("1.2.3.4");
   });
 });
+
+describe("בחירת משתני Upstash", () => {
+  it("מעדיף KV_* (חיבור חדש) על פני השמות הישנים", async () => {
+    const calls: string[] = [];
+    const orig = globalThis.fetch;
+    globalThis.fetch = (async (url: string) => {
+      calls.push(String(url));
+      return new Response(JSON.stringify([{ result: null }]), { status: 200 });
+    }) as typeof fetch;
+    process.env.UPSTASH_REDIS_REST_KV_REST_API_URL = "https://old.example";
+    process.env.UPSTASH_REDIS_REST_KV_REST_API_TOKEN = "old";
+    process.env.KV_REST_API_URL = "https://new.example";
+    process.env.KV_REST_API_TOKEN = "new";
+    try {
+      const { storageHealth } = await import("@/lib/store");
+      expect(await storageHealth()).toEqual({ storage: "ok", source: "KV_REST_API_URL" });
+      expect(calls[0]).toBe("https://new.example/pipeline");
+    } finally {
+      globalThis.fetch = orig;
+      for (const k of ["UPSTASH_REDIS_REST_KV_REST_API_URL", "UPSTASH_REDIS_REST_KV_REST_API_TOKEN", "KV_REST_API_URL", "KV_REST_API_TOKEN"]) delete process.env[k];
+    }
+  });
+});
