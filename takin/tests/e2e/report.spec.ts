@@ -154,4 +154,41 @@ test.describe("דוח מלא", () => {
     }
     await expect(dialog).toBeVisible();
   });
+
+  test("הדפסה / PDF כוללת את כל הממצאים, גם סגורים וגם מסוננים", async ({ page }) => {
+    await page.getByRole("button", { name: "חמור (2)" }).click();
+    await page.evaluate(() => window.dispatchEvent(new Event("beforeprint")));
+    await expect(page.locator('[role="region"]:not([hidden])')).toHaveCount(7);
+    await expect(page.getByText("לאף תמונה בגלריה אין תיאור.")).toBeVisible();
+    await page.evaluate(() => window.dispatchEvent(new Event("afterprint")));
+    await expect(page.locator('[role="region"]:not([hidden])')).toHaveCount(1);
+    await expect(page.getByRole("heading", { name: /^בינוניים/ })).toHaveCount(0);
+  });
+
+  test("גיבוי העתקה בתוך מודאל: ה-textarea בתוך הדיאלוג, ו'הועתק' רק כשהצליח", async ({ page }) => {
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, "clipboard", {
+        value: { writeText: () => Promise.reject(new Error("blocked")) },
+        configurable: true,
+      });
+      (window as unknown as { __copyOk: boolean }).__copyOk = true;
+      document.execCommand = ((cmd: string) => {
+        const el = document.activeElement;
+        (window as unknown as { __insideDialog: boolean }).__insideDialog = !!el?.closest("dialog[open]") && el.tagName === "TEXTAREA";
+        return cmd === "copy" && (window as unknown as { __copyOk: boolean }).__copyOk;
+      }) as typeof document.execCommand;
+    });
+    await page.goto("/report/demo-62/full");
+    await page.getByRole("button", { name: /תקן לי: הטופס אוסף/ }).click();
+    const dialog = page.getByRole("dialog");
+    await dialog.getByRole("button", { name: "העתק" }).click();
+    await expect(dialog.getByRole("button", { name: "הועתק" })).toBeVisible();
+    expect(await page.evaluate(() => (window as unknown as { __insideDialog: boolean }).__insideDialog)).toBe(true);
+    await expect(dialog.getByRole("button", { name: "העתק" })).toBeVisible({ timeout: 6000 });
+
+    await page.evaluate(() => ((window as unknown as { __copyOk: boolean }).__copyOk = false));
+    await dialog.getByRole("button", { name: "העתק" }).click();
+    await expect(dialog.getByText("לא הצלחנו להעתיק אוטומטית.", { exact: false })).toBeVisible();
+    await expect(dialog.getByRole("button", { name: "הועתק" })).toHaveCount(0);
+  });
 });

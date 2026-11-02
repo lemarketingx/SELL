@@ -3,7 +3,7 @@
 import { Check, Copy, Info, Wrench } from "lucide-react";
 import { ModalHeader } from "@/components/ui/Modal";
 import { CodeBlock } from "@/components/ui/CodeBlock";
-import { useCopy } from "@/components/ui/useCopy";
+import { useCopy, COPY_FAILED_MESSAGE } from "@/components/ui/useCopy";
 import { fixCopyFor } from "@/content/fix-copy";
 import { AREA_LABELS } from "@/lib/areas";
 import type { Finding } from "@/lib/types";
@@ -30,7 +30,7 @@ type Props = { finding: Finding; onClose: () => void; onResolve: () => void };
 
 export function FixSnippetModal({ finding, onClose, onResolve }: Props) {
   const copyText = fixCopyFor(finding.ruleId, finding.fix.summary);
-  const { copied, copy } = useCopy();
+  const { copied, failed, copy } = useCopy();
   const snippet = finding.fix.snippet ?? "";
   const mailBody = `שלום,\n\nבסריקה של האתר עלה שכדאי לטפל בזה: ${finding.title}\n\n${snippet}\n\nתודה!`;
   const titleId = `fix-title-${finding.id}`;
@@ -82,7 +82,7 @@ export function FixSnippetModal({ finding, onClose, onResolve }: Props) {
           </div>
           <CodeBlock code={snippet} />
           <p aria-live="polite" className="m-0 min-h-6 text-[15px] font-semibold text-primary">
-            {copied ? copyText.copiedMessage : ""}
+            {copied ? copyText.copiedMessage : failed ? COPY_FAILED_MESSAGE : ""}
           </p>
         </div>
 

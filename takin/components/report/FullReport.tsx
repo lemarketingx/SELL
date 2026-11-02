@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { flushSync } from "react-dom";
 import { ChevronDown, Download } from "lucide-react";
 import { SeverityBadge, SeverityShape } from "@/components/ui/SeverityBadge";
 import { AREA_LABELS } from "@/lib/areas";
@@ -23,6 +24,20 @@ export function FullReport({ findings }: { findings: Finding[] }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [openIds, setOpenIds] = useState<Set<string>>(() => new Set(findings[0] ? [findings[0].id] : []));
   const [resolved, setResolved] = useState<Set<string>>(() => new Set(findings.filter((f) => f.status === "resolved").map((f) => f.id)));
+
+  // בהדפסה / שמירה כ-PDF: כל הקבוצות וכל הממצאים פתוחים, בלי קשר לסינון ולמצב ה-accordion.
+  const [printing, setPrinting] = useState(false);
+  useEffect(() => {
+    const before = () => flushSync(() => setPrinting(true));
+    const after = () => setPrinting(false);
+    window.addEventListener("beforeprint", before);
+    window.addEventListener("afterprint", after);
+    return () => {
+      window.removeEventListener("beforeprint", before);
+      window.removeEventListener("afterprint", after);
+    };
+  }, []);
+  const activeFilter: Filter = printing ? "all" : filter;
 
   const count = (f: Filter) => (f === "all" ? findings.length : findings.filter((x) => x.severity === f).length);
   const toggle = (id: string) =>
@@ -54,7 +69,10 @@ export function FullReport({ findings }: { findings: Finding[] }) {
         </div>
         <button
           type="button"
-          onClick={() => window.print()}
+          onClick={() => {
+            flushSync(() => setPrinting(true));
+            window.print();
+          }}
           className="btn-ghost inline-flex min-h-tap items-center gap-2 rounded-btn px-[18px] text-base font-semibold"
         >
           <Download aria-hidden size={18} strokeWidth={1.9} />
@@ -62,7 +80,7 @@ export function FullReport({ findings }: { findings: Finding[] }) {
         </button>
       </div>
 
-      {GROUPS.filter((g) => filter === "all" || filter === g.severity).map((group) => {
+      {GROUPS.filter((g) => activeFilter === "all" || activeFilter === g.severity).map((group) => {
         const items = findings.filter((f) => f.severity === group.severity);
         if (items.length === 0) return null;
         return (
@@ -73,7 +91,7 @@ export function FullReport({ findings }: { findings: Finding[] }) {
             </h2>
             <ul className="m-0 flex list-none flex-col gap-3 p-0">
               {items.map((f) => {
-                const isOpen = openIds.has(f.id);
+                const isOpen = printing || openIds.has(f.id);
                 const isResolved = resolved.has(f.id);
                 return (
                   <li key={f.id} id={f.id} className="rounded-[20px] border border-border bg-bg">

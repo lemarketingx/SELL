@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Copy, Wrench } from "lucide-react";
 import { ModalHeader } from "@/components/ui/Modal";
-import { useCopy } from "@/components/ui/useCopy";
+import { useCopy, COPY_FAILED_MESSAGE } from "@/components/ui/useCopy";
 import { fixCopyFor } from "@/content/fix-copy";
 import { AREA_LABELS } from "@/lib/areas";
 import type { Finding } from "@/lib/types";
@@ -14,7 +14,7 @@ export function FixClaimModal({ finding, onClose }: Props) {
   const copyText = fixCopyFor(finding.ruleId, finding.fix.summary);
   const alternatives = finding.fix.alternatives ?? [];
   const [picked, setPicked] = useState(0);
-  const { copied, copy, reset } = useCopy();
+  const { copied, failed, copy, reset } = useCopy();
   const titleId = `claim-title-${finding.id}`;
   const before = finding.fix.before ?? finding.evidence.quote;
 
@@ -73,7 +73,7 @@ export function FixClaimModal({ finding, onClose }: Props) {
         </fieldset>
 
         <p aria-live="polite" className="m-0 min-h-6 text-[15px] font-semibold text-primary">
-          {copied ? copyText.copiedMessage : ""}
+          {copied ? copyText.copiedMessage : failed ? COPY_FAILED_MESSAGE : ""}
         </p>
       </div>
       <div className="flex flex-wrap items-center justify-end gap-2.5 border-t border-border px-5 pb-6 pt-[18px] sm:px-7">
