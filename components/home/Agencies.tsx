@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Check } from "lucide-react";
 
 const POINTS = [
@@ -36,12 +35,7 @@ export function Agencies() {
               </li>
             ))}
           </ul>
-          <Link
-            href="/agency"
-            className="inline-flex min-h-12 items-center self-start rounded-btn bg-white px-6 font-bold text-ink no-underline hover:bg-primary-tint hover:text-ink"
-          >
-            לראות את לוח הניהול
-          </Link>
+          <p className="m-0 self-start rounded-pill bg-white/10 px-4 py-2 font-semibold text-white">המסלול למשרדים יושק בקרוב</p>
         </div>
 
         <section

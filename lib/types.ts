@@ -37,6 +37,12 @@ export interface Scan {
   counts: { high: number; mid: number; low: number; total: number };
   findings: Finding[];
   unlocked: boolean;
+  /** פרטים על הכיסוי של הסריקה, כדי להציג בדוח בשקיפות מה נבדק ומה לא. */
+  meta?: {
+    pagesScanned: { url: string; label: string }[];
+    skippedChecks: string[];
+    likelyClientRendered: boolean;
+  };
 }
 
 export interface Site {

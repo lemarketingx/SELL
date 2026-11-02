@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Logo } from "./Logo";
 import { ScanFocusLink } from "@/components/ui/ScanFocusLink";
 
@@ -23,9 +22,6 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <Link className="navlink inline-flex min-h-tap items-center px-1 text-base font-medium" href="/agency">
-            כניסה
-          </Link>
           <ScanFocusLink className="btn-primary inline-flex min-h-tap items-center rounded-btn px-5 text-base font-semibold">
             סריקה חינם
           </ScanFocusLink>

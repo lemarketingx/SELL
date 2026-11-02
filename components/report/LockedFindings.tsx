@@ -7,7 +7,7 @@ import type { LockedFinding } from "@/lib/report";
  * הממצאים הנעולים בדוח החינמי. השרת שולח רק כותרת וחומרה.
  * הרשימה המטושטשת מוסתרת מקוראי מסך; הכרטיס שמעליה מסביר במילים מה נעול.
  */
-export function LockedFindings({ items, unlockHref }: { items: LockedFinding[]; unlockHref: string }) {
+export function LockedFindings({ items, unlockHref, paywall }: { items: LockedFinding[]; unlockHref: string; paywall: boolean }) {
   if (items.length === 0) return null;
   return (
     <section aria-labelledby="locked-title" className="relative">
@@ -29,9 +29,12 @@ export function LockedFindings({ items, unlockHref }: { items: LockedFinding[]; 
           <h2 id="locked-title" className="m-0 text-h3 font-bold text-ink">
             עוד {items.length} ממצאים מחכים בדוח המלא
           </h2>
-          <p className="m-0 text-muted">כל ממצא עם הסבר מלא ותיקון מוכן, ודוח להורדה כ-PDF.</p>
+          <p className="m-0 text-muted">
+            כל ממצא עם הסבר מלא ותיקון מוכן, ודוח להורדה כ-PDF.
+            {!paywall && " בתקופת ההרצה הדוח המלא פתוח בחינם."}
+          </p>
           <Link href={unlockHref} className="btn-primary inline-flex min-h-12 items-center rounded-btn px-6 text-[17px] font-bold">
-            פתח את הדוח המלא · 79 ₪
+            {paywall ? "פתח את הדוח המלא · 79 ₪" : "פתח את הדוח המלא"}
           </Link>
         </div>
       </div>

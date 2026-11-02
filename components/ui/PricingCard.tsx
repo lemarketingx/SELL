@@ -6,10 +6,12 @@ type Props = {
   period?: string;
   features: string[];
   highlight?: string;
-  cta: ReactNode;
+  /** מסלול שעוד לא זמין: מוצג עם תגית "בקרוב" ובלי כפתור פעולה. */
+  soon?: boolean;
+  cta?: ReactNode;
 };
 
-export function PricingCard({ title, price, period, features, highlight, cta }: Props) {
+export function PricingCard({ title, price, period, features, highlight, soon, cta }: Props) {
   return (
     <article
       className={`relative flex flex-col gap-[18px] rounded-card bg-bg p-7 ${
@@ -21,7 +23,10 @@ export function PricingCard({ title, price, period, features, highlight, cta }: 
           {highlight}
         </span>
       )}
-      <h3 className="m-0 text-xl font-bold text-ink">{title}</h3>
+      <h3 className="m-0 flex items-center gap-2 text-xl font-bold text-ink">
+        {title}
+        {soon && <span className="rounded-pill bg-primary-tint px-2.5 py-0.5 text-caption font-semibold text-primary-hover">בקרוב</span>}
+      </h3>
       <div className="flex items-baseline gap-1.5">
         <span className="text-[44px] font-extrabold text-ink">{price}</span>
         {period && <span className="text-muted">{period}</span>}
@@ -31,7 +36,13 @@ export function PricingCard({ title, price, period, features, highlight, cta }: 
           <li key={f}>{f}</li>
         ))}
       </ul>
-      {cta}
+      {soon ? (
+        <p className="m-0 flex min-h-12 items-center justify-center rounded-btn border border-dashed border-border-strong text-center font-semibold text-muted">
+          יושק בקרוב
+        </p>
+      ) : (
+        cta
+      )}
     </article>
   );
 }

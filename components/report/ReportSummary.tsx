@@ -17,7 +17,7 @@ export function ReportSummary({ url, score, counts, title }: { url: string; scor
           </span>
         </div>
         <h1 id="report-title" className="m-0 text-[clamp(24px,3vw,32px)] font-extrabold leading-[1.25] text-ink">
-          {scoreHeadline(score)}
+          {scoreHeadline(score, counts.total)}
         </h1>
         <p className="m-0 text-lg text-text">{summaryLine(counts)}</p>
         <div className="flex flex-wrap gap-2">

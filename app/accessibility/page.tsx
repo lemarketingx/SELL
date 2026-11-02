@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { PlaceholderPage } from "@/components/site/PlaceholderPage";
+import { LegalPage } from "@/components/site/LegalPage";
+import { ACCESSIBILITY } from "@/content/legal";
 
 export const metadata: Metadata = { title: "הצהרת נגישות · תקין" };
 
 export default function Page() {
-  return <PlaceholderPage title="הצהרת נגישות" body="[טקסט משפטי יתווסף כאן]" />;
+  return <LegalPage doc={ACCESSIBILITY} />;
 }
