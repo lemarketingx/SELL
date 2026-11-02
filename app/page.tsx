@@ -18,8 +18,8 @@ export default function HomePage() {
         <HowItWorks />
         <Areas />
         <ReportSample />
-        <Agencies />
         <Pricing />
+        <Agencies />
         <Faq />
         <FinalCta />
       </main>

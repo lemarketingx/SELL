@@ -13,7 +13,7 @@ test.describe("סריקה", () => {
   test("סריקה אמיתית: מהדף הראשי, דרך מסך הסריקה, לדוח עם ממצאים מהאתר", async ({ page }) => {
     await page.goto("/");
     await page.getByLabel("כתובת האתר שלך").fill("http://localhost:3199/");
-    await page.getByRole("button", { name: "סרוק את האתר שלי בחינם" }).click();
+    await page.getByRole("button", { name: "סרקו את האתר" }).click();
     await expect(page.getByRole("heading", { name: "סורקים את האתר שלכם" })).toBeVisible();
     await expect(page.getByRole("progressbar", { name: "התקדמות הסריקה" })).toHaveAttribute("aria-valuemin", "0");
     await expect(page).toHaveURL(/\/report\/[A-Za-z0-9]{16}$/, { timeout: 30_000 });

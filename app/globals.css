@@ -8,6 +8,8 @@
   --color-primary-hover: var(--primary-hover);
   --color-primary-tint: var(--primary-tint);
   --color-primary-tint-strong: var(--primary-tint-strong);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
   --color-on-dark-accent: var(--on-dark-accent);
   --color-on-dark-muted: var(--on-dark-muted);
 
@@ -52,6 +54,7 @@
 
   --spacing-tap: var(--tap);
   --spacing-section: var(--section-y);
+  --spacing-header: var(--header-h);
   --container-site: var(--container);
   --container-app: 960px;
 
@@ -63,6 +66,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* הכותרת דביקה: קפיצה לעוגן לא תסתיר את כותרת המקטע */
+    scroll-padding-top: calc(var(--header-h) + 16px);
   }
   @media (prefers-reduced-motion: reduce) {
     html {
@@ -103,6 +108,8 @@
     text-decoration: none;
     border: 0;
     cursor: pointer;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    transition: background-color 150ms ease, box-shadow 150ms ease;
   }
   .btn-primary:hover {
     background: var(--primary-hover);
@@ -114,6 +121,7 @@
     text-decoration: none;
     border: 1.5px solid var(--primary);
     cursor: pointer;
+    transition: background-color 150ms ease, color 150ms ease;
   }
   .btn-ghost:hover {
     background: var(--primary-tint);

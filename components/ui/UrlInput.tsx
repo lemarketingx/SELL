@@ -11,12 +11,12 @@ type Props = {
 };
 
 const ERRORS = {
-  empty: "כדאי להדביק כאן את כתובת האתר שלכם, למשל www.your-business.co.il",
-  invalid: "נראה שהכתובת לא תקינה. נסו למשל: www.your-business.co.il",
+  empty: "כדאי להדביק כאן את כתובת האתר שלכם, למשל www.example.co.il",
+  invalid: "נראה שהכתובת לא תקינה. נסו למשל: www.example.co.il",
 } as const;
 
 /** שדה URL ב-Hero. מקבל כתובת בלי https:// ומשלים אוטומטית, ואז שולח ל-/scan?url= */
-export function UrlInput({ inputId, submitLabel = "סרוק את האתר שלי בחינם" }: Props) {
+export function UrlInput({ inputId, submitLabel = "סרקו את האתר" }: Props) {
   const router = useRouter();
   const errorId = useId();
   const [value, setValue] = useState("");
@@ -35,20 +35,20 @@ export function UrlInput({ inputId, submitLabel = "סרוק את האתר שלי
   }
 
   return (
-    <div className="flex max-w-[640px] flex-col gap-2">
+    <div className="flex w-full max-w-[600px] flex-col gap-2">
       <form
         action="/scan"
         method="get"
         noValidate
         onSubmit={onSubmit}
-        className={`flex flex-wrap gap-2.5 rounded-[20px] border bg-bg p-2.5 shadow-card ${
+        className={`flex flex-wrap gap-2 rounded-[16px] border bg-bg p-2 shadow-float transition-colors focus-within:border-primary ${
           error ? "border-sev-high" : "border-border-strong"
         }`}
       >
         <label htmlFor={inputId} className="sr-only">
           כתובת האתר שלך
         </label>
-        <div className="flex min-h-[60px] flex-[1_1_260px] items-center gap-2.5 px-3.5 text-muted">
+        <div className="flex min-h-14 flex-[1_1_240px] items-center gap-2.5 px-3 text-muted">
           <Link2 aria-hidden size={22} strokeWidth={1.8} className="shrink-0" />
           <input
             id={inputId}
@@ -56,7 +56,7 @@ export function UrlInput({ inputId, submitLabel = "סרוק את האתר שלי
             type="text"
             inputMode="url"
             dir="ltr"
-            placeholder="www.your-business.co.il"
+            placeholder="www.example.co.il"
             autoComplete="url"
             autoCapitalize="none"
             spellCheck={false}
@@ -67,12 +67,12 @@ export function UrlInput({ inputId, submitLabel = "סרוק את האתר שלי
             }}
             aria-invalid={error ? true : undefined}
             aria-describedby={error ? errorId : undefined}
-            className="min-h-12 min-w-0 flex-1 border-0 bg-transparent text-right text-[19px] text-text placeholder:text-muted focus-visible:outline-offset-[6px]"
+            className="min-h-12 min-w-0 flex-1 border-0 bg-transparent text-right text-[18px] text-text placeholder:text-muted focus-visible:outline-offset-[6px]"
           />
         </div>
         <button
           type="submit"
-          className="btn-primary inline-flex min-h-[60px] flex-[1_1_auto] items-center justify-center gap-2.5 rounded-[14px] px-7 text-[19px] font-bold sm:flex-[0_1_auto]"
+          className="btn-primary inline-flex min-h-14 flex-[1_1_auto] items-center justify-center gap-2 rounded-[12px] px-7 text-[18px] font-bold sm:flex-[0_1_auto]"
         >
           {submitLabel}
           <ArrowLeft aria-hidden size={20} strokeWidth={2} />

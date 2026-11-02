@@ -8,9 +8,7 @@ import { DemoNotice } from "./DemoNotice";
 export function ReportShell({ demo, children }: { demo: boolean; children: ReactNode }) {
   return (
     <>
-      <div className="no-print">
-        <SiteHeader />
-      </div>
+      <SiteHeader />
       <main id="main" className="bg-surface px-4 py-10 sm:px-6 sm:py-14">
         <div className="mx-auto flex max-w-app flex-col gap-6">
           {demo && <DemoNotice />}
@@ -18,9 +16,7 @@ export function ReportShell({ demo, children }: { demo: boolean; children: React
           <Disclaimer tone="light" />
         </div>
       </main>
-      <div className="no-print">
-        <SiteFooter />
-      </div>
+      <SiteFooter />
     </>
   );
 }
