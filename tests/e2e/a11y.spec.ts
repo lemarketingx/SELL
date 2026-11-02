@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
-const PAGES = ["/", "/terms", "/privacy", "/accessibility", "/contact", "/scan", "/scan?url=example.co.il", "/agency", "/report/demo-62", "/report/demo-62/full"];
+const PAGES = ["/", "/terms", "/privacy", "/accessibility", "/cancellation", "/contact", "/scan", "/scan?url=not%20a%20url", "/agency", "/report/demo-62", "/report/demo-62/full"];
 
 for (const path of PAGES) {
   test(`axe: אין הפרות ב-${path}`, async ({ page }) => {

@@ -5,6 +5,7 @@ import { Disclaimer } from "@/components/ui/Disclaimer";
 const LINKS = [
   { href: "/terms", label: "תנאי שימוש" },
   { href: "/privacy", label: "מדיניות פרטיות" },
+  { href: "/cancellation", label: "מדיניות ביטולים" },
   { href: "/accessibility", label: "הצהרת נגישות" },
   { href: "/contact", label: "צור קשר" },
 ];

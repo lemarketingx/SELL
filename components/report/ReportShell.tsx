@@ -4,7 +4,7 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { Disclaimer } from "@/components/ui/Disclaimer";
 import { DemoNotice } from "./DemoNotice";
 
-/** מעטפת לדפי הדוח: רקע surface, רוחב 960, הודעת הדגמה והסרת אחריות בתחתית (CLAUDE.md). */
+/** מעטפת לדפי הדוח: רקע surface, רוחב 960, הודעת דוגמה והסרת אחריות בתחתית (CLAUDE.md). */
 export function ReportShell({ demo, children }: { demo: boolean; children: ReactNode }) {
   return (
     <>

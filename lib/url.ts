@@ -4,6 +4,11 @@ export type NormalizeResult = { ok: true; url: string } | { ok: false; reason: "
 
 const HOSTNAME_RE = /^(?=.{1,253}$)(?:[a-z0-9א-ת](?:[a-z0-9א-ת-]{0,61}[a-z0-9א-ת])?\.)+[a-zא-ת]{2,63}$/i;
 
+/** בדיקות בלבד: מאפשר localhost כדי לסרוק אתר דמה מקומי. */
+function allowLocalhost() {
+  return process.env.NEXT_PUBLIC_TAKIN_TEST === "1";
+}
+
 export function normalizeUrl(input: string): NormalizeResult {
   const trimmed = input.trim();
   if (!trimmed) return { ok: false, reason: "empty" };
@@ -22,6 +27,10 @@ export function normalizeUrl(input: string): NormalizeResult {
 
   // URL ממיר דומיינים בעברית ל-punycode; בודקים את הצורה המקורית וגם את המקודדת.
   const host = parsed.hostname;
+  if (allowLocalhost() && host === "localhost") {
+    parsed.hash = "";
+    return { ok: true, url: parsed.toString() };
+  }
   if (!HOSTNAME_RE.test(host) && !/^(?:xn--[a-z0-9-]+\.)*(?:[a-z0-9-]+\.)+(?:[a-z]{2,63}|xn--[a-z0-9-]+)$/i.test(host)) {
     return { ok: false, reason: "invalid" };
   }

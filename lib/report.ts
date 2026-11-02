@@ -7,9 +7,22 @@ export function sortFindings(findings: Finding[]): Finding[] {
   return [...findings].sort((a, b) => SEVERITY_ORDER[a.severity] - SEVERITY_ORDER[b.severity]);
 }
 
-/** דוח ה-mock. בשלב 3 יוחלף בקריאה ל-API. */
+/** דוח הדוגמה (לדף הבית). */
 export function getScan(id: string): Scan | null {
   return id === sample.id ? (sample as Scan) : null;
+}
+
+/** דוח לפי מזהה: דוח הדוגמה, או סריקה אמיתית מהאחסון. */
+export async function getScanById(id: string): Promise<Scan | null> {
+  const demo = getScan(id);
+  if (demo) return demo;
+  const { loadScan } = await import("./store");
+  return loadScan(id);
+}
+
+/** תשלום עדיין לא פעיל (שלב 4). כל עוד הדגל כבוי, הדוח המלא פתוח לכולם בתקופת ההרצה. */
+export function paywallEnabled(): boolean {
+  return process.env.REPORT_PAYWALL_ENABLED === "1";
 }
 
 export const DEMO_SCAN_ID = sample.id;

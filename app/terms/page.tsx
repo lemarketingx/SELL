@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { PlaceholderPage } from "@/components/site/PlaceholderPage";
+import { LegalPage } from "@/components/site/LegalPage";
+import { TERMS } from "@/content/legal";
 
 export const metadata: Metadata = { title: "תנאי שימוש · תקין" };
 
 export default function Page() {
-  return <PlaceholderPage title="תנאי שימוש" body="[טקסט משפטי יתווסף כאן]" />;
+  return <LegalPage doc={TERMS} />;
 }

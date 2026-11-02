@@ -10,27 +10,50 @@ async function axe(page: import("@playwright/test").Page) {
 }
 
 test.describe("סריקה", () => {
-  test("מהדף הראשי, דרך מסך הסריקה, לדוח", async ({ page }) => {
+  test("סריקה אמיתית: מהדף הראשי, דרך מסך הסריקה, לדוח עם ממצאים מהאתר", async ({ page }) => {
     await page.goto("/");
-    await page.getByLabel("כתובת האתר שלך").fill("my-site.co.il");
+    await page.getByLabel("כתובת האתר שלך").fill("http://localhost:3199/");
     await page.getByRole("button", { name: "סרוק את האתר שלי בחינם" }).click();
     await expect(page.getByRole("heading", { name: "סורקים את האתר שלכם" })).toBeVisible();
-    await expect(page.getByText("my-site.co.il")).toBeVisible();
-    const bar = page.getByRole("progressbar", { name: "התקדמות הסריקה" });
-    await expect(bar).toHaveAttribute("aria-valuemin", "0");
-    await expect(page).toHaveURL(/\/report\/demo-62$/, { timeout: 15_000 });
+    await expect(page.getByRole("progressbar", { name: "התקדמות הסריקה" })).toHaveAttribute("aria-valuemin", "0");
+    await expect(page).toHaveURL(/\/report\/[A-Za-z0-9]{16}$/, { timeout: 30_000 });
+
+    // ממצא אמיתי מהאתר, עם ציטוט ומיקום
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("יש כמה דברים שדחוף לטפל בהם");
+    await expect(page.getByText("תיבת ההסכמה לדיוור כבר מסומנת מראש")).toBeVisible();
+    await expect(page.getByRole("heading", { name: "מה בדקנו" })).toBeVisible();
+    await expect(page.getByText("זה דוח לדוגמה")).toHaveCount(0);
+
+    // בתקופת ההרצה הדוח המלא פתוח
+    await page.getByRole("link", { name: "פתח את הדוח המלא" }).click();
+    await expect(page.getByRole("button", { name: /^הכול \(\d+\)$/ })).toBeVisible();
+    await expect(page.getByText('"תוצאות מובטחות ב-100% כבר מהטיפול הראשון"').first()).toBeAttached();
+    expect(await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze().then((r) => r.violations.map((v) => v.id))).toEqual([]);
+  });
+
+  test("אתר בלי ממצאים: 'ללא ממצא חמור', בלי הבטחה לעמידה בחוק", async ({ page }) => {
+    await page.goto("/scan?url=http%3A%2F%2Flocalhost%3A3199%2Fgood%2F");
+    await expect(page).toHaveURL(/\/report\/[A-Za-z0-9]{16}$/, { timeout: 30_000 });
+    await expect(page.getByRole("heading", { name: "ללא ממצא חמור" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("לא מצאנו בעיות בבדיקות שהרצנו");
+    await expect(page.locator("body")).not.toContainText("עומד בחוק");
   });
 
   test("כתובת לא תקינה: הודעה בגוף שני וכפתור ניסיון חוזר", async ({ page }) => {
     await page.goto("/scan?url=not%20a%20url");
-    await expect(page.getByRole("heading", { name: "לא הצלחנו להגיע לאתר" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "לא הצלחנו לסרוק את האתר" })).toBeVisible();
     await expect(page.getByText("כדאי לוודא שהכתובת נכונה ולנסות שוב.")).toBeVisible();
     await expect(page.getByRole("link", { name: "לנסות שוב" })).toBeVisible();
   });
 
-  test("מוצגת הודעת הדגמה, כדי שלא ייראה כאילו הדוח הוא של האתר שהוזן", async ({ page }) => {
-    await page.goto("/scan?url=my-site.co.il");
-    await expect(page.getByText("זו הדגמה.")).toBeVisible();
+  test("אתר שלא קיים: הודעה ברורה", async ({ page }) => {
+    await page.goto("/scan?url=http%3A%2F%2Flocalhost%3A3199%2Fmissing");
+    await expect(page.getByRole("main").getByRole("alert")).toContainText("לא הצלחנו להגיע לאתר");
+  });
+
+  test("דוח לא קיים: 404", async ({ page }) => {
+    const res = await page.goto("/report/doesNotExist12345");
+    expect(res?.status()).toBe(404);
   });
 });
 
@@ -45,10 +68,11 @@ test.describe("דוח חינמי", () => {
     await expect(page.getByText("נמצאו 7 בעיות: 2 חמורות, 3 בינוניות, 2 קלות")).toBeVisible();
   });
 
-  test("ממצא אחד פתוח במלואו, השאר נעולים", async ({ page }) => {
+  test("ממצא אחד פתוח במלואו, השאר נעולים, והודעת דוח לדוגמה", async ({ page }) => {
+    await expect(page.getByText("זה דוח לדוגמה")).toBeVisible();
     await expect(page.getByRole("heading", { name: "הטופס אוסף מספר טלפון בלי לבקש הסכמה לקבל הודעות שיווקיות" })).toBeVisible();
     await expect(page.getByRole("heading", { name: "עוד 6 ממצאים מחכים בדוח המלא" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "פתח את הדוח המלא · 79 ₪" })).toHaveAttribute("href", "/report/demo-62/full");
+    await expect(page.getByRole("link", { name: "פתח את הדוח המלא" })).toHaveAttribute("href", "/report/demo-62/full");
   });
 
   test("התוכן המלא של ממצאים נעולים לא נשלח לדפדפן", async ({ page }) => {
