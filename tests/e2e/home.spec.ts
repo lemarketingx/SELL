@@ -7,20 +7,21 @@ test("RTL ועברית", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator("html")).toHaveAttribute("lang", "he");
   await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
-  await expect(page.getByRole("heading", { level: 1 })).toContainText("תדעו מה באתר שלכם");
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("גלו סיכונים משפטיים אפשריים באתר שלכם");
 });
 
 test("סדר המקטעים כמו בעיצוב", async ({ page }) => {
   await page.goto("/");
   const headings = await page.locator("main h2").allTextContents();
   expect(headings).toEqual([
-    "איך זה עובד",
-    "ארבעה תחומים שבודקים בכל סריקה",
-    "ככה נראה דוח",
-    "סורקים את כל האתרים של הלקוחות מלוח אחד, עם דוח ממותג",
-    "מחירים",
-    "שאלות נפוצות",
-    "דקה אחת, ותדעו איפה אתם עומדים",
+    "תצוגה מקדימה של דוח לדוגמה",
+    "שלושה שלבים, בלי ידע משפטי ובלי ידע טכני",
+    "מה תקין בודק באתר שלכם?",
+    "לא רק מזהים בעיה. מבינים מה צריך לתקן.",
+    "מתחילים בחינם. בלי הפתעות.",
+    "מנהלים אתרים ללקוחות? תקין יכול לעזור גם לכם.",
+    "מה כדאי לדעת לפני שסורקים",
+    "רוצים לדעת מה כדאי לבדוק באתר שלכם?",
   ]);
 });
 
@@ -31,7 +32,12 @@ test("הסרת האחריות בפוטר, מילה במילה", async ({ page })
 
 test("אין הבטחות לעמידה בחוק ואין המלצות מומצאות", async ({ page }) => {
   await page.goto("/");
-  const text = await page.locator("body").innerText();
+  // בלי קטעי קוד לדוגמה (הם כוללים בכוונה שדות למילוי כמו [שם העסק])
+  const text = await page.evaluate(() => {
+    const clone = document.body.cloneNode(true) as HTMLElement;
+    clone.querySelectorAll("pre, script, style, noscript, template").forEach((el) => el.remove());
+    return clone.innerText;
+  });
   for (const phrase of ["האתר שלך עומד בחוק", "תקין לגמרי מבחינה משפטית", "הגנה מלאה מתביעות"]) {
     expect(text).not.toContain(phrase);
   }
@@ -42,7 +48,7 @@ test("אין הבטחות לעמידה בחוק ואין המלצות מומצא
 test("כתובת בלי https משלימה ושולחת ל-/scan", async ({ page }) => {
   await page.goto("/");
   await page.getByLabel("כתובת האתר שלך").fill("www.your-business.co.il");
-  await page.getByRole("button", { name: "סרוק את האתר שלי בחינם" }).click();
+  await page.getByRole("button", { name: "סרקו את האתר" }).click();
   await expect(page).toHaveURL(/\/scan\?url=https%3A%2F%2Fwww\.your-business\.co\.il$/);
 });
 
@@ -57,9 +63,14 @@ test("כתובת לא תקינה מציגה שגיאה ונשארת בעמוד",
   await expect(input).toBeFocused();
 });
 
-test("'סריקה חינם' בכותרת מעביר פוקוס לשדה הכתובת", async ({ page }) => {
+test("'סרקו את האתר' בכותרת מעביר פוקוס לשדה הכתובת (במובייל דרך התפריט)", async ({ page, isMobile }) => {
   await page.goto("/");
-  await page.getByRole("banner").getByRole("link", { name: "סריקה חינם" }).click();
+  if (isMobile) {
+    const toggle = page.getByRole("button", { name: "תפריט" });
+    await toggle.click();
+    await expect(toggle).toHaveAttribute("aria-expanded", "true");
+  }
+  await page.getByRole("banner").getByRole("link", { name: "סרקו את האתר" }).click();
   await expect(page.getByLabel("כתובת האתר שלך")).toBeFocused();
 });
 
@@ -78,4 +89,40 @@ test("שאלות נפוצות: הראשונה פתוחה, האחרות נפתח�
   await details.nth(1).locator("summary").focus();
   await page.keyboard.press("Enter");
   await expect(details.nth(1)).toHaveAttribute("open", "");
+});
+
+test("תפריט מובייל: נפתח, נסגר ב-Esc ומחזיר פוקוס", async ({ page, isMobile }) => {
+  test.skip(!isMobile, "מובייל בלבד");
+  await page.goto("/");
+  const toggle = page.getByRole("button", { name: "תפריט" });
+  await toggle.click();
+  const menu = page.getByRole("navigation", { name: "ניווט ראשי במובייל" });
+  await expect(menu).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(menu).toBeHidden();
+  await expect(toggle).toBeFocused();
+});
+
+test("הכותרת דביקה בגלילה", async ({ page }) => {
+  await page.goto("/");
+  await page.evaluate(() => window.scrollTo(0, 2000));
+  const box = await page.getByRole("banner").boundingBox();
+  expect(box?.y).toBe(0);
+});
+
+test("אזור הבדיקות מציג רק בדיקות שממומשות", async ({ page }) => {
+  await page.goto("/");
+  const areas = page.locator("#areas");
+  for (const t of ["כלי מעקב", "תיבת הסכמה שמסומנת מראש", "תמונות בלי טקסט חלופי", "כוכבית ליד מחיר"]) await expect(areas).toContainText(t);
+  await expect(areas).not.toContainText("ניגודיות");
+});
+
+test("ניווט פנימי פותח את הדף החדש בראשו (למרות הכותרת הדביקה)", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("link", { name: "לצפייה בדוח לדוגמה" }).click();
+  await expect(page).toHaveURL(/\/report\/demo-62$/);
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  await page.getByRole("link", { name: "פתח את הדוח המלא" }).click();
+  await expect(page).toHaveURL(/\/full$/);
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
 });

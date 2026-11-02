@@ -3,12 +3,14 @@ import type { ReactNode } from "react";
 
 export function FaqItem({ question, children, defaultOpen = false }: { question: string; children: ReactNode; defaultOpen?: boolean }) {
   return (
-    <details open={defaultOpen} className="rounded-[18px] border border-border-strong bg-bg px-6">
-      <summary className="flex min-h-[68px] items-center justify-between gap-4 text-[19px] font-semibold text-ink">
+    <details open={defaultOpen} className="group rounded-card border border-border bg-bg shadow-card transition-colors open:border-border-strong">
+      <summary className="flex min-h-[64px] items-center justify-between gap-4 rounded-card px-5 text-[18px] font-semibold text-ink hover:bg-surface sm:px-6">
         {question}
-        <ChevronDown aria-hidden size={22} strokeWidth={2} className="chev shrink-0 transition-transform" />
+        <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-surface text-muted group-open:bg-primary-tint group-open:text-primary">
+          <ChevronDown aria-hidden size={18} strokeWidth={2} className="chev transition-transform" />
+        </span>
       </summary>
-      <p className="m-0 mb-[22px] text-muted">{children}</p>
+      <p className="m-0 px-5 pb-5 text-muted sm:px-6">{children}</p>
     </details>
   );
 }

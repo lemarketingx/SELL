@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Heebo } from "next/font/google";
 import "./globals.css";
+import { ScrollToTop } from "@/components/site/ScrollToTop";
 
 const heebo = Heebo({
   subsets: ["hebrew", "latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <a href="#main" className="skip-link">
           דלגו לתוכן הראשי
         </a>
+        <ScrollToTop />
         {children}
       </body>
     </html>
