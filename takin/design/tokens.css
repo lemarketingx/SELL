@@ -1,0 +1,70 @@
+/* תקין — design tokens. מקור אמת לצבעים, טיפוגרפיה ומידות.
+   כל צמדי הטקסט/רקע כאן עומדים ב-WCAG AA (4.5:1 לפחות). */
+
+:root {
+  /* Brand */
+  --ink: #0B2230;            /* כחול לילה: כותרות, פוטר, אזור משרדים */
+  --primary: #0E5A63;        /* כחול-ירוק עמוק: כפתורים, קישורים, מד הציון */
+  --primary-hover: #0A464D;
+  --primary-tint: #E6F2F1;   /* רקע אייקונים, תגיות */
+  --primary-tint-strong: #F3F9F8;
+  --on-dark-accent: #7CCFC6; /* וי על רקע כהה */
+  --on-dark-muted: #C9D6DB;
+
+  /* Neutrals */
+  --bg: #FFFFFF;
+  --surface: #F5F8F8;        /* רקע מקטעים מתחלפים ורקע אפליקציה */
+  --text: #10242E;
+  --text-muted: #475B64;     /* 7:1 על לבן */
+  --border: #E3EAEB;
+  --border-strong: #D5E0E1;
+  --border-input: #C3D1D4;
+  --placeholder-dash: #B9C8CB;
+
+  /* Severity — תמיד בליווי צורה + טקסט */
+  --sev-high: #B42318;       --sev-high-bg: #FDEDEB;  --sev-high-border: #F3C7C1;  /* עיגול */
+  --sev-mid:  #A34A06;       --sev-mid-bg:  #FFF3E5;  --sev-mid-note-bg: #FFF8EC; /* ריבוע */
+  --sev-low:  #1B6B45;       --sev-low-bg:  #E8F4EE;                             /* משולש */
+
+  /* Focus */
+  --focus: #E0A100;          /* outline 3px, offset 3px */
+
+  /* Overlay */
+  --overlay: rgba(11, 34, 48, 0.55);
+
+  /* Type — Heebo */
+  --font: 'Heebo', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --fs-body: 17px;           --lh-body: 1.6;
+  --fs-small: 15px;
+  --fs-caption: 14px;
+  --fs-h1-hero: clamp(36px, 5vw, 58px);   /* 800, letter-spacing -1px, lh 1.12 */
+  --fs-h2: clamp(30px, 3.6vw, 42px);      /* 800, letter-spacing -0.5px */
+  --fs-h3: 22px;                          /* 700 */
+  --fs-lead: 19px;                        /* תת-כותרות, צבע muted */
+
+  /* Radii */
+  --r-pill: 999px;
+  --r-btn: 12px;             /* כפתור גדול: 14px */
+  --r-card: 22px;
+  --r-panel: 24px;
+  --r-modal: 28px;
+  --r-icon: 16px;
+
+  /* Spacing */
+  --section-y: 96px;
+  --container: 1200px;       /* דפי אפליקציה/דוח: 960px */
+  --gutter: 24px;
+  --tap: 44px;               /* גובה מינימלי לכל רכיב לחיץ */
+
+  /* Shadows */
+  --shadow-card: 0 8px 30px rgba(11, 34, 48, 0.07);
+  --shadow-float: 0 20px 50px rgba(11, 34, 48, 0.08);
+  --shadow-modal: 0 30px 80px rgba(11, 34, 48, 0.3);
+}
+
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>תקין · לוח ניהול למשרדים</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F8F8}
+*{box-sizing:border-box}
+a{color:#0E5A63}a:hover{color:#0A464D}
+:focus-visible{outline:3px solid #E0A100;outline-offset:3px;border-radius:8px}
+.btn-primary{background:#0E5A63;color:#FFFFFF;text-decoration:none;border:0;cursor:pointer;font-family:inherit}
+.btn-primary:hover{background:#0A464D;color:#FFFFFF}
+.side-link{color:#C9D6DB;text-decoration:none}
+.side-link:hover{background:rgba(255,255,255,0.08);color:#FFFFFF}
+.row-link{color:#0E5A63;font-weight:600}
+tbody tr:hover{background:#F5F8F8}
+</style>
+</helmet>
+<div dir="rtl" style="font-family: 'Heebo', system-ui, sans-serif; color: #10242E; background: #F5F8F8; font-size: 16px; line-height: 1.55; min-height: 100vh; display: flex; flex-wrap: wrap">
+
+<aside style="flex: 1 1 240px; max-width: 100%; background: #0B2230; color: #FFFFFF; padding: 22px 16px; display: flex; flex-direction: column; gap: 22px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #FFFFFF; padding: 0 8px">
+<span style="width: 36px; height: 36px; border-radius: 11px; background: #0E5A63; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg></span>
+<span style="display: flex; flex-direction: column; line-height: 1.2"><span style="font-size: 22px; font-weight: 800">תקין</span><span style="font-size: 13px; color: #A9BCC3">[שם המשרד]</span></span>
+</a>
+<nav aria-label="תפריט ניהול" style="display: flex; flex-wrap: wrap; flex-direction: column; gap: 4px">
+<a href="#sites" aria-current="page" style="display: flex; align-items: center; gap: 12px; min-height: 46px; padding: 0 12px; border-radius: 12px; background: rgba(255,255,255,0.12); color: #FFFFFF; text-decoration: none; font-weight: 600"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"></rect><path d="M3 9h18"></path><path d="M8 21h8"></path></svg>אתרי לקוחות</a>
+<a class="side-link" href="#reports" style="display: flex; align-items: center; gap: 12px; min-height: 46px; padding: 0 12px; border-radius: 12px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8l-5-5z"></path><path d="M14 3v5h5"></path></svg>דוחות ממותגים</a>
+<a class="side-link" href="#alerts" style="display: flex; align-items: center; gap: 12px; min-height: 46px; padding: 0 12px; border-radius: 12px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>התראות</a>
+<a class="side-link" href="#branding" style="display: flex; align-items: center; gap: 12px; min-height: 46px; padding: 0 12px; border-radius: 12px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="8.5" cy="10" r="1.2"></circle><circle cx="12" cy="7.5" r="1.2"></circle><circle cx="15.5" cy="10" r="1.2"></circle><path d="M12 21a3 3 0 0 1 0-6h2"></path></svg>מיתוג הדוחות</a>
+<a class="side-link" href="#billing" style="display: flex; align-items: center; gap: 12px; min-height: 46px; padding: 0 12px; border-radius: 12px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M3 10h18"></path></svg>חיוב</a>
+</nav>
+</aside>
+
+<main id="sites" style="flex: 999 1 560px; min-width: 0; padding: 28px 24px 48px; display: flex; flex-direction: column; gap: 22px">
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 14px">
+<div>
+<h1 style="margin: 0; font-size: 30px; font-weight: 800; color: #0B2230">אתרי לקוחות</h1>
+<p style="margin: 0; color: #475B64">כל האתרים שאתם מנהלים, במקום אחד.</p>
+</div>
+<button class="btn-primary" type="button" style="min-height: 48px; padding: 0 20px; border-radius: 12px; font-size: 17px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>הוסף אתר</button>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px">
+<div style="background: #FFFFFF; border: 1px solid #E3EAEB; border-radius: 18px; padding: 18px 20px"><div style="font-size: 15px; color: #475B64">אתרים במעקב</div><div style="font-size: 34px; font-weight: 800; color: #0B2230">6</div></div>
+<div style="background: #FFFFFF; border: 1px solid #E3EAEB; border-radius: 18px; padding: 18px 20px"><div style="font-size: 15px; color: #475B64">בעיות חמורות פתוחות</div><div style="font-size: 34px; font-weight: 800; color: #B42318">5</div></div>
+<div style="background: #FFFFFF; border: 1px solid #E3EAEB; border-radius: 18px; padding: 18px 20px"><div style="font-size: 15px; color: #475B64">ציון ממוצע</div><div style="font-size: 34px; font-weight: 800; color: #0B2230">71</div></div>
+<div style="background: #FFFFFF; border: 1px solid #E3EAEB; border-radius: 18px; padding: 18px 20px"><div style="font-size: 15px; color: #475B64">אתרים בלי ממצא חמור</div><div style="font-size: 34px; font-weight: 800; color: #1B6B45">4</div></div>
+</div>
+
+<section aria-labelledby="table-title" style="background: #FFFFFF; border: 1px solid #E3EAEB; border-radius: 20px; display: flex; flex-direction: column">
+<div style="padding: 16px 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; border-bottom: 1px solid #E3EAEB">
+<h2 id="table-title" style="margin: 0; font-size: 19px; font-weight: 700; color: #0B2230">כל האתרים</h2>
+<div style="display: flex; align-items: center; gap: 8px; border: 1px solid #C3D1D4; border-radius: 12px; padding: 0 12px; min-height: 44px; flex: 0 1 280px">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#475B64" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+<label for="site-search" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">חיפוש אתר</label>
+<input id="site-search" type="search" placeholder="חיפוש לפי שם לקוח או כתובת" style="border: 0; flex: 1; min-width: 0; font-family: inherit; font-size: 16px; color: #10242E; background: transparent; min-height: 40px">
+</div>
+</div>
+<div style="overflow-x: auto">
+<table style="width: 100%; border-collapse: collapse; min-width: 760px; text-align: right">
+<thead>
+<tr style="font-size: 14px; color: #475B64">
+<th scope="col" style="padding: 12px 20px; font-weight: 600">לקוח</th>
+<th scope="col" style="padding: 12px 12px; font-weight: 600">ציון</th>
+<th scope="col" style="padding: 12px 12px; font-weight: 600">בעיות</th>
+<th scope="col" style="padding: 12px 12px; font-weight: 600">סריקה אחרונה</th>
+<th scope="col" style="padding: 12px 12px; font-weight: 600">סטטוס</th>
+<th scope="col" style="padding: 12px 20px; font-weight: 600"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">פעולות</span></th>
+</tr>
+</thead>
+<tbody>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<tr style="border-top: 1px solid #EEF2F3">
+<td style="padding: 14px 20px"><div style="display: flex; flex-direction: column; line-height: 1.35"><span style="font-weight: 700; color: #0B2230">{{r.name}}</span><span dir="ltr" style="font-size: 14px; color: #475B64; text-align: right">{{r.url}}</span></div></td>
+<td style="padding: 14px 12px"><div style="display: flex; align-items: center; gap: 10px"><span style="font-weight: 800; font-size: 18px; min-width: 28px">{{r.score}}</span><span aria-hidden="true" style="width: 64px; height: 6px; border-radius: 999px; background: #E3EAEB; overflow: hidden; display: block"><span style="display: block; height: 100%; width: {{r.scoreW}}; background: #0E5A63; border-radius: 999px"></span></span></div></td>
+<td style="padding: 14px 12px"><div style="display: flex; gap: 6px; font-size: 14px; font-weight: 600; flex-wrap: wrap"><span style="background: #FDEDEB; color: #B42318; padding: 2px 9px; border-radius: 999px">{{r.high}} חמורות</span><span style="color: #475B64; padding: 2px 4px">· {{r.total}} סה"כ</span></div></td>
+<td style="padding: 14px 12px; color: #10242E">{{r.date}}</td>
+<td style="padding: 14px 12px"><span style="display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; padding: 4px 12px; border-radius: 999px; background: {{r.stBg}}; color: {{r.stColor}}"><span style="width: 8px; height: 8px; border-radius: {{r.stShape}}; background: {{r.stColor}}"></span>{{r.status}}</span></td>
+<td style="padding: 14px 20px"><a class="row-link" href="Report-Full.dc.html">לדוח<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)"> של {{r.name}}</span></a></td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</section>
+
+<p style="margin: 0; font-size: 14px; color: #475B64">שמות הלקוחות והנתונים בטבלה הם לדוגמה בלבד.</p>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1250}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = {
+      open: { status: 'דורש טיפול', stBg: '#FDEDEB', stColor: '#B42318', stShape: '50%' },
+      work: { status: 'בטיפול', stBg: '#FFF3E5', stColor: '#A34A06', stShape: '2px' },
+      ok:   { status: 'ללא ממצא חמור', stBg: '#E8F4EE', stColor: '#1B6B45', stShape: '0' }
+    };
+    const data = [
+      { name: 'סטודיו לדוגמה', url: 'studio-example.co.il', score: 62, high: 2, total: 7, date: '2 בנוב׳ 2026', s: 'open' },
+      { name: 'אינסטלציה לדוגמה', url: 'plumber-example.co.il', score: 48, high: 3, total: 9, date: '1 בנוב׳ 2026', s: 'open' },
+      { name: 'מאמן כושר לדוגמה', url: 'fitness-example.co.il', score: 74, high: 0, total: 4, date: '30 באוק׳ 2026', s: 'work' },
+      { name: 'חנות אונליין לדוגמה', url: 'shop-example.co.il', score: 69, high: 0, total: 5, date: '29 באוק׳ 2026', s: 'work' },
+      { name: 'קליניקה לדוגמה', url: 'clinic-example.co.il', score: 88, high: 0, total: 2, date: '28 באוק׳ 2026', s: 'ok' },
+      { name: 'משרד רו״ח לדוגמה', url: 'cpa-example.co.il', score: 85, high: 0, total: 3, date: '27 באוק׳ 2026', s: 'ok' }
+    ];
+    const rows = data.map((d) => Object.assign({}, d, st[d.s], { scoreW: d.score + '%' }));
+    return { rows: rows };
+  }
+}
+</script>
+</body>
+</html>
