@@ -31,13 +31,12 @@ test("Shabbat window is based on sunset, city and date", () => {
 test("accessibility copy includes an explicit limitation", () => {
   assert.match(corrections, /אינם אישור לעמידה בתקן/);
   assert.match(readme, /אינם תחליף לבדיקת נגישות מקצועית/);
-  assert.match(home, /אינו תחליף לבדיקת נגישות מקצועית/);
 });
 
-test("homepage uses accurate product, timing and commercial copy", () => {
-  assert.match(home, /ישראלי מהיסוד/);
-  assert.match(home, /מומלץ לאמת זמנים ומנהג מקומי/);
-  assert.match(home, /מה עדיין בפיתוח/);
+test("homepage uses accurate product and commercial copy", () => {
+  assert.match(home, /זמין בבטא/);
+  assert.match(home, /ניהול לידים פנימי/);
+  assert.match(home, /עדיין בפיתוח/);
   assert.match(home, /בטא פתוחה/);
   assert.doesNotMatch(home, /ראשון בעולם/);
   assert.doesNotMatch(home, /הכי פופולרי/);

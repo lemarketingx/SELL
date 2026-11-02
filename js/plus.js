@@ -14,7 +14,7 @@
       id: "whatsapp",
       icon: "💬",
       name: "כפתור WhatsApp צף",
-      desc: "כפתור ירוק קבוע שפותח שיחה עם הודעה מוכנה. משתמש במספר משלב 4.",
+      desc: "כפתור ירוק קבוע שפותח שיחה עם הודעה מוכנה. משתמש במספר מאזור לידים ומדידה.",
     },
     {
       id: "actions",
@@ -105,7 +105,7 @@
   }
 
   function waNumber() {
-    return normalizedWhatsapp($("#f-whatsapp")?.value);
+    return normalizedWhatsapp(exportSettings().whatsapp);
   }
 
   function waLink() {
@@ -116,7 +116,7 @@
   }
 
   function telLink() {
-    const digits = String(plus.phone || $("#f-whatsapp")?.value || "").replace(/[^\d+]/g, "");
+    const digits = String(plus.phone || exportSettings().whatsapp || "").replace(/[^\d+]/g, "");
     return digits.length >= 8 ? `tel:${digits}` : "";
   }
 
@@ -137,7 +137,11 @@
   }
 
   function destinationLink() {
-    return safeExternalUrl($("#f-cta-url")?.value.trim()) || waLink() || "";
+    return safeExternalUrl(exportSettings().ctaUrl) || waLink() || "";
+  }
+
+  function exportSettings() {
+    return window.dafdafExportSettings?.() || {};
   }
 
   function proofMessages() {
@@ -187,7 +191,7 @@
         plus.enabled[id] = checkbox.checked;
         checkbox.closest(".plus-toggle").classList.toggle("on", checkbox.checked);
         if (id === "whatsapp" && checkbox.checked && !waNumber()) {
-          showToast("הוסיפו מספר WhatsApp בשלב 4 כדי שהכפתור יעבוד");
+          showToast("הוסיפו מספר WhatsApp באזור לידים ומדידה כדי שהכפתור יעבוד");
         }
         saveConfig();
         applyPreview();
@@ -200,12 +204,12 @@
         saveConfig();
         applyPreview();
       });
-      field.addEventListener("click", (event) => event.preventDefault());
+      field.addEventListener("click", (event) => event.stopPropagation());
     });
   }
 
   function boosterExtraField(id) {
-    const stop = `onclick="event.preventDefault()"`;
+    const stop = `onclick="event.stopPropagation()"`;
     if (id === "actions") {
       return `<input class="plus-field" data-plus-field="phone" ${stop} type="tel" maxlength="30" placeholder="טלפון לחיוג (אם שונה מהווטסאפ)" value="${escapeHtml(plus.phone)}">
         <input class="plus-field" data-plus-field="wazeAddress" ${stop} type="text" maxlength="120" placeholder="כתובת לניווט ב-Waze, לדוגמה: הרצל 12 תל אביב" value="${escapeHtml(plus.wazeAddress)}">`;
@@ -322,7 +326,7 @@
       sub: text('[data-block="hero"] [data-path="hero.subheadline"]') || text('[data-block="hero"] p'),
       cta: text('[data-path="hero.ctaPrimary"]') || "דברו איתנו",
       features: $$('[data-block="features"] h3', canvas).map((node) => node.textContent.trim()).filter(Boolean).slice(0, 4),
-      link: destinationLink() || "(הוסיפו קישור או WhatsApp בשלב 4)",
+      link: destinationLink() || "(הוסיפו קישור או WhatsApp באזור לידים ומדידה)",
     };
   }
 

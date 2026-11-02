@@ -34,7 +34,11 @@ module.exports = async function handler(req, res) {
 <DATA>
 שם העסק: ${input.context.businessName}
 תחום: ${input.context.industry}
+הצעה: ${input.context.offer || "לא נמסרה"}
+קהל יעד: ${input.context.audience || "לא נמסר"}
 תיאור העסק: ${input.context.description}
+הוכחות אמיתיות: ${input.context.proof || "לא נמסרו"}
+מסר קמפיין: ${input.context.adMessage || "לא נמסר"}
 </DATA>
 טון מבוקש: ${VIBE_HINTS[input.context.vibe]}
 מטרת הדף: ${GOAL_HINTS[input.context.goal]}
@@ -43,6 +47,7 @@ module.exports = async function handler(req, res) {
 ${JSON.stringify(input.current, null, 2)}
 
 המשימה: ${INSTRUCTION_TEXT[input.instruction]}
+אסור להמציא לקוחות, עדויות, מספרים, הסמכות או תוצאות שלא מופיעים ב-DATA.
 
 החזר JSON יחיד בדיוק במבנה הבא:
 ${blockSchema(input.blockType)}`;

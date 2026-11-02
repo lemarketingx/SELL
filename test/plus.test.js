@@ -49,7 +49,7 @@ test("export embeds plus runtime, metadata and audit checks", () => {
   assert.match(plusJs, /og:title/);
   assert.match(studioJs, /dafdafPlus/);
   assert.match(studioJs, /plusExport/);
-  assert.match(studioJs, /\(\?:studio\|plus\|page\)\\\.css/);
+  assert.match(studioJs, /page\(\?:-v3\)\?/);
 });
 
 test("generated pages use the rich design system", () => {
@@ -67,11 +67,11 @@ test("generated pages use the rich design system", () => {
   assert.match(studioJs, /data-vibe/);
 });
 
-test("home page explains the Israel-focused tools without unsupported claims", () => {
-  assert.match(homeHtml, /id="israel"/);
-  assert.match(homeHtml, /הודעת שעות שבת/);
-  assert.match(homeHtml, /כלי עזר לנגישות/);
-  assert.match(homeHtml, /ערכת קמפיין/);
+test("home page explains the available product without unsupported claims", () => {
+  assert.match(homeHtml, /טופס, WhatsApp ומדידה/);
+  assert.match(homeHtml, /GTM וייצוא HTML/);
+  assert.match(homeHtml, /זמין בבטא/);
+  assert.match(homeHtml, /ניהול לידים פנימי/);
   assert.doesNotMatch(homeHtml, /ראשון בעולם/);
   assert.doesNotMatch(homeHtml, /דרישת חוק/);
 });

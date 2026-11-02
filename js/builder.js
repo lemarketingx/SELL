@@ -2,28 +2,35 @@
   "use strict";
 
   const VIBE_HUES = { trust: 230, energetic: 25, luxury: 290 };
+  const VIBE_VARIANTS = { trust: "classic", energetic: "bold", luxury: "editorial" };
   const BLOCK_ORDER = ["hero", "features", "process", "testimonials", "cta"];
   const LOADING_MESSAGES = [
-    "מנתח את העסק שלכם...",
-    "מנסח כותרת שתמשוך תשומת לב...",
-    "בונה טיעוני מכירה...",
-    "כותב עדויות לקוחות...",
-    "מסדר את הדף לפי הסגנון שבחרתם...",
+    "מנתח את ההצעה והקהל...",
+    "מחדד את ההבטחה המרכזית...",
+    "בונה את סדר הטיעונים...",
+    "מחבר הוכחות ומסיר חששות...",
+    "מתאים את הקומפוזיציה לתחום...",
     "כמעט מוכן...",
   ];
 
   const emptyData = () => ({
     businessName: "",
     industry: "",
+    offer: "",
+    audience: "",
     description: "",
+    proof: "",
+    adMessage: "",
     vibe: "",
     goal: "",
     whatsapp: "",
     leadEmail: "",
     ctaUrl: "",
+    formEndpoint: "",
+    gtmId: "",
   });
 
-  const state = { step: 1, totalSteps: 4, data: emptyData(), page: null, submitting: false };
+  const state = { step: 1, totalSteps: 3, data: emptyData(), page: null, submitting: false };
   const els = {};
   let loadingInterval = null;
   let retryButton = null;
@@ -43,8 +50,8 @@
       btnDownload: document.getElementById("btn-download"),
     });
 
-    ["f-name", "f-industry", "f-description"].forEach((id) => {
-      document.getElementById(id).addEventListener("input", updateNextState);
+    ["f-name", "f-industry", "f-offer", "f-audience", "f-description", "f-proof", "studio-ad-message"].forEach((id) => {
+      document.getElementById(id)?.addEventListener("input", updateNextState);
     });
 
     document.getElementById("industry-chips").addEventListener("click", (event) => {
@@ -89,11 +96,80 @@
     els.canvas.addEventListener("submit", (event) => {
       if (!event.target.matches(".lead-form")) return;
       event.preventDefault();
-      toast("זו תצוגה מקדימה. בקובץ המיוצא הטופס יפתח הודעת אימייל מוכנה.");
+      toast("זו תצוגה מקדימה. בקובץ המיוצא הטופס יישלח ליעד שהגדרתם.");
+    });
+
+    document.getElementById("dest-target")?.addEventListener("click", openDestinationPanel);
+    document.getElementById("studio-backdrop")?.addEventListener("click", closeDestinationPanel);
+    document.querySelectorAll("[data-block-jump]").forEach((button) => {
+      button.addEventListener("click", () => jumpToBlock(button));
     });
 
     updateProgress();
     updateNextState();
+  }
+
+  function refreshDestination() {
+    if (!state.page) return;
+    const heroCtas = els.canvas.querySelector(".pg-hero .pg-ctas");
+    if (heroCtas) heroCtas.innerHTML = buildHeroCtas(state.page.hero || {});
+    const zone = els.canvas.querySelector("#cta-action-zone");
+    if (zone) zone.innerHTML = buildCtaAction(state.page.cta || {});
+    updateDestStatus();
+  }
+
+  function updateDestStatus() {
+    const statusEl = document.getElementById("dest-status");
+    if (!statusEl) return;
+    const configured = Boolean(contactTarget() || safeFormEndpoint(state.data.formEndpoint));
+    statusEl.textContent = configured ? "✓ מוגדר" : "⚠ לא הוגדר";
+    statusEl.classList.toggle("ok", configured);
+    statusEl.classList.toggle("warn", !configured);
+  }
+
+  function openDestinationPanel() {
+    const panel = document.getElementById("studio-panel");
+    const backdrop = document.getElementById("studio-backdrop");
+    if (!panel || !backdrop) return;
+    panel.innerHTML = `<button type="button" class="btn btn-ghost btn-sm" id="dest-panel-close" style="float:left">סגירה</button><h3>פרסום ולידים</h3><p>חברו ערוץ פנייה, קליטת טופס ומדידה לפני הורדת הדף.</p><div class="publish-panel-section"><h4>פעולה ראשית</h4><label class="field-label" for="dest-whatsapp">WhatsApp</label><input id="dest-whatsapp" class="field-input" type="tel" maxlength="30" autocomplete="tel" placeholder="050-1234567" value="${escapeHtml(state.data.whatsapp)}"><label class="field-label" for="dest-cta-url">קישור להזמנה או לקביעת תור</label><input id="dest-cta-url" class="field-input" type="url" maxlength="500" inputmode="url" placeholder="https://example.com/order" value="${escapeHtml(state.data.ctaUrl)}"></div><div class="publish-panel-section"><h4>קליטת טופס</h4><label class="field-label" for="dest-form-endpoint">כתובת מאובטחת לקבלת לידים</label><input id="dest-form-endpoint" class="field-input" type="url" maxlength="500" inputmode="url" placeholder="https://formspree.io/f/…" value="${escapeHtml(state.data.formEndpoint)}"><p class="field-help">מתאים ל־Formspree או לשירות טפסים שמקבל POST רגיל. אם אין כתובת כזאת, אפשר להשתמש זמנית באימייל.</p><label class="field-label" for="dest-email">אימייל חלופי</label><input id="dest-email" class="field-input" type="email" maxlength="254" autocomplete="email" placeholder="hello@example.com" value="${escapeHtml(state.data.leadEmail)}"></div><div class="publish-panel-section"><h4>מדידת קמפיין</h4><label class="field-label" for="dest-gtm">Google Tag Manager</label><input id="dest-gtm" class="field-input" type="text" maxlength="20" autocomplete="off" placeholder="GTM-XXXXXXX" value="${escapeHtml(state.data.gtmId)}"><p class="field-help">הקוד יוטמע רק בקובץ המיוצא. אפשר לנהל דרכו GA4, Meta Pixel ותגי פרסום.</p></div><button type="button" class="btn btn-primary btn-sm publish-save" id="dest-save">שמירת הגדרות</button>`;
+    panel.classList.add("open");
+    backdrop.classList.add("open");
+    document.getElementById("dest-panel-close").addEventListener("click", closeDestinationPanel);
+    document.getElementById("dest-save").addEventListener("click", () => {
+      const next = {
+        whatsapp: document.getElementById("dest-whatsapp").value.trim(),
+        leadEmail: document.getElementById("dest-email").value.trim(),
+        ctaUrl: document.getElementById("dest-cta-url").value.trim(),
+        formEndpoint: document.getElementById("dest-form-endpoint").value.trim(),
+        gtmId: document.getElementById("dest-gtm").value.trim().toUpperCase(),
+      };
+      if (next.formEndpoint && !safeFormEndpoint(next.formEndpoint)) {
+        toast("כתובת קליטת הלידים חייבת להתחיל ב־https://");
+        return;
+      }
+      if (next.gtmId && !validGtmId(next.gtmId)) {
+        toast("מזהה GTM אינו תקין. לדוגמה: GTM-XXXXXXX");
+        return;
+      }
+      Object.assign(state.data, next);
+      refreshDestination();
+      closeDestinationPanel();
+      toast("יעד הפעולה עודכן בדף");
+    });
+  }
+
+  function closeDestinationPanel() {
+    document.getElementById("studio-panel")?.classList.remove("open");
+    document.getElementById("studio-backdrop")?.classList.remove("open");
+  }
+
+  function jumpToBlock(button) {
+    const type = button.dataset.blockJump;
+    const block = els.canvas.querySelector(`[data-block="${type}"]`);
+    if (!block) return;
+    document.querySelectorAll("[data-block-jump]").forEach((item) => item.classList.remove("active"));
+    button.classList.add("active");
+    block.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   function persistEditableText(event) {
@@ -109,23 +185,25 @@
   }
 
   function applyVibe(vibe) {
-    document.body.className = `vibe-${vibe || "trust"}`;
+    document.body.classList.remove("vibe-trust", "vibe-energetic", "vibe-luxury");
+    document.body.classList.add(`vibe-${vibe || "trust"}`);
   }
 
   function currentStepValid() {
     if (state.step === 1) {
       return document.getElementById("f-name").value.trim().length > 0 &&
-        document.getElementById("f-industry").value.trim().length > 0;
+        document.getElementById("f-industry").value.trim().length > 0 &&
+        document.getElementById("f-offer").value.trim().length >= 6 &&
+        document.getElementById("f-audience").value.trim().length >= 5;
     }
     if (state.step === 2) return document.getElementById("f-description").value.trim().length >= 10;
-    if (state.step === 3) return Boolean(state.data.vibe);
-    if (state.step === 4) return Boolean(state.data.goal);
+    if (state.step === 3) return Boolean(state.data.vibe && state.data.goal);
     return false;
   }
 
   function updateNextState() {
     els.btnNext.disabled = state.submitting || !currentStepValid();
-    els.btnNext.textContent = state.step === state.totalSteps ? "בנו לי דף נחיתה עם AI ✨" : "המשך";
+    els.btnNext.textContent = state.step === state.totalSteps ? "צרו את הדף" : "המשך";
     els.btnBack.style.visibility = state.step === 1 ? "hidden" : "visible";
     els.btnBack.disabled = state.submitting;
   }
@@ -137,15 +215,23 @@
     document.querySelectorAll(".wizard-step").forEach((section) => {
       section.classList.toggle("active", Number(section.dataset.step) === state.step);
     });
+    document.querySelectorAll("[data-brief-step]").forEach((item) => {
+      const itemStep = Number(item.dataset.briefStep);
+      item.classList.toggle("active", itemStep === state.step);
+      item.classList.toggle("completed", itemStep < state.step);
+    });
+    const label = document.getElementById("wizard-step-label");
+    if (label) label.textContent = `שלב ${state.step} מתוך ${state.totalSteps}`;
   }
 
   function collectData() {
     state.data.businessName = document.getElementById("f-name").value.trim();
     state.data.industry = document.getElementById("f-industry").value.trim();
+    state.data.offer = document.getElementById("f-offer").value.trim();
+    state.data.audience = document.getElementById("f-audience").value.trim();
     state.data.description = document.getElementById("f-description").value.trim();
-    state.data.whatsapp = document.getElementById("f-whatsapp").value.trim();
-    state.data.leadEmail = document.getElementById("f-email").value.trim();
-    state.data.ctaUrl = document.getElementById("f-cta-url").value.trim();
+    state.data.proof = document.getElementById("f-proof").value.trim();
+    state.data.adMessage = document.getElementById("studio-ad-message").value.trim();
   }
 
   function onNext() {
@@ -180,8 +266,9 @@
     state.page = null;
     state.data = emptyData();
     state.submitting = false;
-    ["f-name", "f-industry", "f-description", "f-whatsapp", "f-email", "f-cta-url"].forEach((id) => {
-      document.getElementById(id).value = "";
+    ["f-name", "f-industry", "f-offer", "f-audience", "f-description", "f-proof", "studio-ad-message"].forEach((id) => {
+      const input = document.getElementById(id);
+      if (input) input.value = "";
     });
     document.querySelectorAll(".chip.selected, .vibe-card.selected").forEach((element) => {
       element.classList.remove("selected");
@@ -275,7 +362,19 @@
     state.page = page;
     els.canvas.style.setProperty("--hue", VIBE_HUES[state.data.vibe] || 290);
     els.canvas.dataset.vibe = state.data.vibe || "trust";
+    const suggestedVariant = VIBE_VARIANTS[state.data.vibe] || "classic";
+    els.canvas.dataset.studioVariant = suggestedVariant;
+    window.dispatchEvent(new CustomEvent("dafdaf:page-created", { detail: { variant: suggestedVariant } }));
+    if (Array.isArray(page.photoQueries) && page.photoQueries.length) {
+      els.canvas.dataset.photoQueries = JSON.stringify(page.photoQueries);
+    } else {
+      delete els.canvas.dataset.photoQueries;
+    }
     els.canvas.innerHTML = "";
+    const projectName = document.getElementById("workspace-project-name");
+    const projectSlug = document.getElementById("workspace-slug");
+    if (projectName) projectName.textContent = state.data.businessName || "דף חדש";
+    if (projectSlug) projectSlug.textContent = slugify(state.data.businessName || "your-page");
     BLOCK_ORDER.forEach((type) => {
       const slot = document.createElement("div");
       slot.className = "block-slot";
@@ -289,6 +388,7 @@
     BLOCK_ORDER.forEach((type, index) => {
       setTimeout(() => revealBlock(type, page[type]), index * 450);
     });
+    updateDestStatus();
   }
 
   function revealBlock(type, data) {
@@ -307,9 +407,10 @@
   async function onCanvasClick(event) {
     const button = event.target.closest(".block-toolbar button");
     if (!button || button.dataset.busy === "true") return;
+    const action = button.dataset.action;
+    if (!["rewrite", "shorten", "sales"].includes(action)) return;
     const blockElement = button.closest(".ai-block");
     const blockType = blockElement.dataset.block;
-    const action = button.dataset.action;
     const toolbar = blockElement.querySelector(".block-toolbar");
     toolbar.querySelectorAll("button").forEach((item) => {
       item.disabled = true;
@@ -388,6 +489,49 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : "";
   }
 
+  function safeFormEndpoint(raw) {
+    try {
+      const url = new URL(String(raw || "").trim());
+      return url.protocol === "https:" ? url.href : "";
+    } catch {
+      return "";
+    }
+  }
+
+  function validGtmId(raw) {
+    const value = String(raw || "").trim().toUpperCase();
+    return /^GTM-[A-Z0-9]{4,15}$/.test(value) ? value : "";
+  }
+
+  function trackingTags() {
+    const id = validGtmId(state.data.gtmId);
+    if (!id) return { head: "", body: "" };
+    return {
+      head: `<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${id}');<\/script>`,
+      body: `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${id}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`,
+    };
+  }
+
+  window.dafdafExportSettings = () => ({
+    whatsapp: state.data.whatsapp,
+    leadEmail: validEmail(state.data.leadEmail),
+    ctaUrl: safeExternalUrl(state.data.ctaUrl),
+    formEndpoint: safeFormEndpoint(state.data.formEndpoint),
+    gtmId: validGtmId(state.data.gtmId),
+  });
+
+  window.dafdafApplyExportSettings = (settings = {}) => {
+    const next = {
+      whatsapp: String(settings.whatsapp || "").trim(),
+      leadEmail: validEmail(settings.leadEmail),
+      ctaUrl: safeExternalUrl(settings.ctaUrl),
+      formEndpoint: safeFormEndpoint(settings.formEndpoint),
+      gtmId: validGtmId(settings.gtmId),
+    };
+    Object.assign(state.data, next);
+    refreshDestination();
+  };
+
   function contactTarget() {
     const url = safeExternalUrl(state.data.ctaUrl);
     if (url) return { href: url, external: true, type: "url" };
@@ -407,18 +551,25 @@
       : `href="${escapeHtml(target?.href || "#")}"`;
   }
 
-  function heroTemplate(data) {
-    const points = (data.trustPoints || []).map((point, index) => `<span class="pg-point"><b>✓</b><span ${ed(`hero.trustPoints.${index}`, point)}</span></span>`).join("");
+  function buildHeroCtas(data) {
     const target = contactTarget();
+    const hasLeadForm = Boolean(safeFormEndpoint(state.data.formEndpoint) || validEmail(state.data.leadEmail));
     const primaryInner = `<span ${ed("hero.ctaPrimary", data.ctaPrimary)}</span>`;
     const primary = target
       ? `<a class="pg-btn pg-btn-primary" ${linkAttrs(target)}>${primaryInner}</a>`
-      : `<span class="pg-btn pg-btn-primary" data-export-remove="true">${primaryInner}</span>`;
+      : hasLeadForm
+        ? `<a class="pg-btn pg-btn-primary" href="#lead-action">${primaryInner}</a>`
+        : `<span class="pg-btn pg-btn-primary" data-export-remove="true">${primaryInner}</span>`;
     const secondaryInner = `<span ${ed("hero.ctaSecondary", data.ctaSecondary)}</span>`;
-    const secondary = target
+    const secondary = target || hasLeadForm
       ? `<a class="pg-btn pg-btn-ghost" href="#lead-action">${secondaryInner}</a>`
       : `<span class="pg-btn pg-btn-ghost" data-export-remove="true">${secondaryInner}</span>`;
-    return `<section class="ai-block pg-hero" data-block="hero"><div class="pg-hero-bg" aria-hidden="true"><span class="pg-blob pg-blob-1"></span><span class="pg-blob pg-blob-2"></span><span class="pg-hero-grid"></span></div><div class="pg-hero-inner"><div class="pg-badge"><span class="pg-badge-dot" aria-hidden="true"></span><span ${ed("hero.badge", data.badge)}</span></div><h1 class="pg-h1"><span ${ed("hero.headline", data.headline)}</span><br><span class="pg-highlight" ${ed("hero.highlight", data.highlight)}</span></h1><p class="pg-sub" ${ed("hero.subheadline", data.subheadline)}</p><div class="pg-ctas">${primary}${secondary}</div><div class="pg-points">${points}</div></div>${toolbarHtml()}</section>`;
+    return primary + secondary;
+  }
+
+  function heroTemplate(data) {
+    const points = (data.trustPoints || []).map((point, index) => `<span class="pg-point"><b>✓</b><span ${ed(`hero.trustPoints.${index}`, point)}</span></span>`).join("");
+    return `<section class="ai-block pg-hero" data-block="hero"><div class="pg-hero-bg" aria-hidden="true"><span class="pg-blob pg-blob-1"></span><span class="pg-blob pg-blob-2"></span><span class="pg-hero-grid"></span></div><div class="pg-hero-inner"><div class="pg-badge"><span class="pg-badge-dot" aria-hidden="true"></span><span ${ed("hero.badge", data.badge)}</span></div><h1 class="pg-h1"><span ${ed("hero.headline", data.headline)}</span><br><span class="pg-highlight" ${ed("hero.highlight", data.highlight)}</span></h1><p class="pg-sub" ${ed("hero.subheadline", data.subheadline)}</p><div class="pg-ctas">${buildHeroCtas(data)}</div><div class="pg-points">${points}</div></div>${toolbarHtml()}</section>`;
   }
 
   function featuresTemplate(data) {
@@ -433,24 +584,29 @@
 
   function testimonialsTemplate(data) {
     const items = (data.items || []).map((item, index) => {
-      const initial = escapeHtml(String(item.name || "•").trim().charAt(0));
-      return `<figure class="pg-quote"><div class="pg-stars" aria-hidden="true">★★★★★</div><blockquote ${ed(`testimonials.items.${index}.quote`, item.quote)}</blockquote><figcaption><span class="pg-avatar" aria-hidden="true">${initial}</span><span><b ${ed(`testimonials.items.${index}.name`, item.name)}</b><small ${ed(`testimonials.items.${index}.role`, item.role)}</small></span></figcaption></figure>`;
+      return `<article class="pg-proof-card"><span class="pg-proof-index" aria-hidden="true">0${index + 1}</span><h3 ${ed(`testimonials.items.${index}.name`, item.name)}</h3><p ${ed(`testimonials.items.${index}.quote`, item.quote)}</p><small ${ed(`testimonials.items.${index}.role`, item.role)}</small></article>`;
     }).join("");
     return `<section class="ai-block pg-testimonials" data-block="testimonials"><div class="pg-wrap"><div class="pg-head"><div class="pg-eyebrow" ${ed("testimonials.eyebrow", data.eyebrow)}</div><h2 class="pg-h2" ${ed("testimonials.title", data.title)}</h2></div><div class="pg-quotes">${items}</div></div>${toolbarHtml()}</section>`;
   }
 
-  function ctaTemplate(data) {
+  function buildCtaAction(data) {
     const target = contactTarget();
+    const endpoint = safeFormEndpoint(state.data.formEndpoint);
     const email = validEmail(state.data.leadEmail);
-    let action;
-    if (email) {
-      action = `<form id="lead-action" class="lead-form pg-form" action="mailto:${escapeHtml(email)}" method="post" enctype="text/plain"><div class="pg-form-title" ${ed("cta.formTitle", data.formTitle)}</div><input class="pg-input" name="name" type="text" placeholder="שם מלא" required><input class="pg-input" name="phone" type="tel" placeholder="טלפון" required><button class="pg-btn pg-btn-primary" type="submit"><span ${ed("cta.buttonText", data.buttonText)}</span></button></form><p class="no-export" style="font-size:12px;color:oklch(0.5 0.01 80);">בייצוא, השליחה תפתח הודעת אימייל דרך תוכנת הדואר של המשתמש.</p>`;
-    } else if (target) {
-      action = `<div id="lead-action" class="pg-cta-action"><a class="pg-btn pg-btn-primary" ${linkAttrs(target)}><span ${ed("cta.buttonText", data.buttonText)}</span></a></div>`;
-    } else {
-      action = `<div data-export-remove="true" class="no-export pg-empty">לא הוגדר יעד פעיל. הוסיפו WhatsApp, אימייל או קישור לפני הייצוא.</div>`;
+    if (endpoint) {
+      return `<form id="lead-action" class="lead-form pg-form" action="${escapeHtml(endpoint)}" method="post"><div class="pg-form-title" ${ed("cta.formTitle", data.formTitle)}</div><input type="hidden" name="source" value="דף הנחיתה של ${escapeHtml(state.data.businessName)}"><input class="pg-input" name="name" type="text" autocomplete="name" placeholder="שם מלא" required><input class="pg-input" name="phone" type="tel" autocomplete="tel" placeholder="טלפון" required><input class="pg-input" name="email" type="email" autocomplete="email" placeholder="אימייל, לא חובה"><button class="pg-btn pg-btn-primary" type="submit"><span ${ed("cta.buttonText", data.buttonText)}</span></button></form><p class="no-export" style="font-size:12px;color:oklch(0.5 0.01 80);">הטופס מחובר לכתובת קליטת הלידים שהגדרתם.</p>`;
     }
-    return `<section class="ai-block pg-cta" data-block="cta"><div class="pg-cta-panel"><span class="pg-cta-glow" aria-hidden="true"></span><h2 class="pg-h2" ${ed("cta.title", data.title)}</h2><p class="pg-cta-sub" ${ed("cta.subtitle", data.subtitle)}</p>${action}</div>${toolbarHtml()}</section>`;
+    if (email) {
+      return `<form id="lead-action" class="lead-form pg-form" action="mailto:${escapeHtml(email)}" method="post" enctype="text/plain"><div class="pg-form-title" ${ed("cta.formTitle", data.formTitle)}</div><input class="pg-input" name="name" type="text" placeholder="שם מלא" required><input class="pg-input" name="phone" type="tel" placeholder="טלפון" required><button class="pg-btn pg-btn-primary" type="submit"><span ${ed("cta.buttonText", data.buttonText)}</span></button></form><p class="no-export" style="font-size:12px;color:oklch(0.5 0.01 80);">בייצוא, השליחה תפתח הודעת אימייל דרך תוכנת הדואר של המשתמש.</p>`;
+    }
+    if (target) {
+      return `<div id="lead-action" class="pg-cta-action"><a class="pg-btn pg-btn-primary" ${linkAttrs(target)}><span ${ed("cta.buttonText", data.buttonText)}</span></a></div>`;
+    }
+    return `<div data-export-remove="true" class="no-export pg-empty">עדיין לא הוגדר יעד. פתחו "לידים ומדידה" בסרגל הצד וחברו WhatsApp, טופס או קישור.</div>`;
+  }
+
+  function ctaTemplate(data) {
+    return `<section class="ai-block pg-cta" data-block="cta"><div class="pg-cta-panel"><span class="pg-cta-glow" aria-hidden="true"></span><h2 class="pg-h2" ${ed("cta.title", data.title)}</h2><p class="pg-cta-sub" ${ed("cta.subtitle", data.subtitle)}</p><div id="cta-action-zone">${buildCtaAction(data)}</div></div>${toolbarHtml()}</section>`;
   }
 
   function footerHtml(businessName) {
@@ -473,20 +629,22 @@
 
     const hue = VIBE_HUES[state.data.vibe] || 290;
     const pageCss = [...document.styleSheets]
-      .filter((sheet) => /page\.css/.test(sheet.href || ""))
+      .filter((sheet) => /page(?:-v3)?\.css/.test(sheet.href || ""))
       .map((sheet) => { try { return [...sheet.cssRules].map((rule) => rule.cssText).join("\n"); } catch { return ""; } })
       .join("\n");
+    const tracking = trackingTags();
     const html = `<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
 <meta charset="utf-8">
 <title>${escapeHtml(state.data.businessName || "דף נחיתה")}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+${tracking.head}
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Suez+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Rubik:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>*{box-sizing:border-box}body{margin:0;font-family:'Heebo',sans-serif;line-height:1.5;overflow-x:hidden}a{color:inherit}${pageCss}</style>
 </head>
-<body><main class="result-canvas" data-vibe="${escapeHtml(state.data.vibe || "trust")}" style="--hue:${hue}">${clone.innerHTML}</main></body>
+<body>${tracking.body}<main class="result-canvas" data-vibe="${escapeHtml(state.data.vibe || "trust")}" style="--hue:${hue}">${clone.innerHTML}</main></body>
 </html>`;
     const blob = new Blob([html], { type: "text/html" });
     const url = URL.createObjectURL(blob);
@@ -496,7 +654,7 @@
     document.body.appendChild(anchor);
     anchor.click();
     anchor.remove();
-    URL.revokeObjectURL(url);
+    setTimeout(() => URL.revokeObjectURL(url), 1_000);
   }
 
   function toast(message) {

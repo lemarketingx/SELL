@@ -92,12 +92,35 @@ function validateContext(body) {
   return {
     businessName: text(body.businessName, "businessName", 1, 100),
     industry: text(body.industry, "industry", 1, 100),
+    offer: text(body.offer, "offer", 0, 350, true),
+    audience: text(body.audience, "audience", 0, 250, true),
     description: text(body.description, "description", 10, 2_000),
+    proof: text(body.proof, "proof", 0, 700, true),
+    adMessage: text(body.adMessage, "adMessage", 0, 600, true),
     vibe: enumValue(body.vibe, "vibe", VIBES),
     goal: enumValue(body.goal, "goal", GOALS),
     whatsapp: normalizeWhatsapp(body.whatsapp),
     leadEmail: normalizeEmail(body.leadEmail),
     ctaUrl: normalizeUrl(body.ctaUrl),
+  };
+}
+
+function validateStockPhotoQueries(value) {
+  if (value == null) return null;
+  if (!Array.isArray(value) || !value.length || value.length > 4) return null;
+  try {
+    return value.map((item, index) => text(item, `queries.${index}`, 1, 80));
+  } catch {
+    return null;
+  }
+}
+
+function validateStockPhotoInput(body) {
+  if (!isPlainObject(body)) throw new ValidationError("גוף הבקשה חייב להיות אובייקט JSON");
+  return {
+    industry: text(body.industry, "industry", 1, 100),
+    description: text(body.description, "description", 0, 2_000, true),
+    queries: validateStockPhotoQueries(body.queries),
   };
 }
 
@@ -197,6 +220,10 @@ function validateGeneratedPage(value) {
   for (const blockType of BLOCK_TYPES) {
     result[blockType] = validateBlock(blockType, value[blockType]);
   }
+  if (!Array.isArray(value.photoQueries) || value.photoQueries.length < 2 || value.photoQueries.length > 3) {
+    throw new ValidationError("photoQueries חייב להכיל בין 2 ל-3 פריטים");
+  }
+  result.photoQueries = value.photoQueries.map((item, index) => text(item, `photoQueries.${index}`, 1, 60));
   return result;
 }
 
@@ -232,4 +259,5 @@ module.exports = {
   validateGeneratedPage,
   validateGenerateInput,
   validateRegenerateInput,
+  validateStockPhotoInput,
 };
