@@ -143,3 +143,17 @@
     color: #fff;
   }
 }
+
+/* מודאל */
+dialog.modal {
+  max-height: calc(100dvh - 96px);
+  overflow-y: auto;
+}
+dialog.modal::backdrop {
+  background: var(--overlay);
+}
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
