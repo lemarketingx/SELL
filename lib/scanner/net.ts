@@ -168,15 +168,22 @@ export async function fetchPage(rawUrl: string, timeoutMs = 10_000): Promise<Fet
     const chunks: Uint8Array[] = [];
     let total = 0;
     if (reader) {
-      for (;;) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        total += value.byteLength;
-        if (total > MAX_BYTES) {
-          await reader.cancel().catch(() => {});
-          throw new ScanFetchError("too large", "too_large");
+      try {
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          total += value.byteLength;
+          if (total > MAX_BYTES) {
+            await reader.cancel().catch(() => {});
+            throw new ScanFetchError("too large", "too_large");
+          }
+          chunks.push(value);
         }
-        chunks.push(value);
+      } catch (err) {
+        // דף שנתקע או שהחיבור נפל באמצע ההורדה — שגיאת סריקה רגילה, כדי שעמוד פנימי שנכשל ידולג בלבד
+        if (err instanceof ScanFetchError) throw err;
+        const name = (err as { name?: string }).name;
+        throw new ScanFetchError("body read failed", name === "TimeoutError" || name === "AbortError" ? "timeout" : "network");
       }
     }
     const html = new TextDecoder("utf-8", { fatal: false }).decode(Buffer.concat(chunks));

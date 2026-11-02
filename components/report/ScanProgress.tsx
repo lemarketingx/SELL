@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Check, LoaderCircle } from "lucide-react";
@@ -19,15 +19,14 @@ export function ScanProgress({ rawUrl }: { rawUrl: string | null }) {
   const router = useRouter();
   const normalized = rawUrl ? normalizeUrl(rawUrl) : null;
   const url = normalized?.ok ? normalized.url : null;
-  const started = useRef(false);
   const [pages, setPages] = useState(0);
   const [areas, setAreas] = useState<Record<Area, AreaState>>({ spam: "pending", privacy: "pending", accessibility: "pending", consumer: "pending" });
   const [error, setError] = useState<string | null>(url ? null : INVALID);
   const [finished, setFinished] = useState(false);
 
   useEffect(() => {
-    if (!url || started.current) return;
-    started.current = true;
+    // אין דגל "כבר התחיל": במצב Strict האפקט רץ, מתבטל (abort) ורץ שוב — והבקשה השנייה היא זו שממשיכה.
+    if (!url) return;
     const ctrl = new AbortController();
 
     (async () => {

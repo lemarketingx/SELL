@@ -214,11 +214,34 @@ const ABSOLUTE_CLAIMS = [
 const HUNDRED = /100\s?%/;
 const HUNDRED_CONTEXT = /(הצלחה|שביעות רצון|תוצאות|תוצאה|מובטח|אחריות|החזר|יעיל|יעילות|בטוח)/;
 
-function sentences(text: string): string[] {
-  return text
-    .split(/(?<=[.!?])\s+|\n+/)
-    .map((s) => s.trim())
-    .filter((s) => s.length >= 4 && s.length <= 400);
+const MAX_SEGMENT = 400;
+
+/** מפרק טקסט למשפטים. קטע ארוך מדי לא נזרק — הוא מפורק לחתיכות לפי פסיקים או לפי אורך. */
+export function sentences(text: string): string[] {
+  const out: string[] = [];
+  for (const raw of text.split(/(?<=[.!?])\s+|\n+/)) {
+    const s = raw.trim();
+    if (s.length < 4) continue;
+    if (s.length <= MAX_SEGMENT) {
+      out.push(s);
+      continue;
+    }
+    let buf = "";
+    for (const part of s.split(/(?<=[,;:،])\s+/)) {
+      if (part.length > MAX_SEGMENT) {
+        if (buf) {
+          out.push(buf);
+          buf = "";
+        }
+        for (let i = 0; i < part.length; i += MAX_SEGMENT) out.push(part.slice(i, i + MAX_SEGMENT));
+      } else if ((buf + " " + part).trim().length > MAX_SEGMENT) {
+        out.push(buf);
+        buf = part;
+      } else buf = (buf + " " + part).trim();
+    }
+    if (buf) out.push(buf);
+  }
+  return out;
 }
 
 export function cons01(site: SiteData) {

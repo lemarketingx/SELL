@@ -15,6 +15,14 @@ const PRIORITY: [RegExp, number][] = [
 
 export const PRIVACY_LINK = /(privacy|פרטיות)/i;
 
+function safeDecode(s: string) {
+  try {
+    return decodeURIComponent(s);
+  } catch {
+    return s;
+  }
+}
+
 function sameSite(a: URL, b: URL) {
   return a.hostname.replace(/^www\./, "") === b.hostname.replace(/^www\./, "");
 }
@@ -34,7 +42,7 @@ export function pickInternalLinks(home: PageData, max = MAX_EXTRA_PAGES): string
     u.hash = "";
     const key = u.toString();
     if (key === base.toString() || u.pathname === base.pathname) continue;
-    const hay = `${decodeURIComponent(u.pathname)} ${link.text}`;
+    const hay = `${safeDecode(u.pathname)} ${link.text}`;
     const score = PRIORITY.reduce((s, [re, w]) => (re.test(hay) ? Math.max(s, w) : s), 0);
     scored.set(key, Math.max(scored.get(key) ?? -1, score));
   }
@@ -69,7 +77,7 @@ export async function collectSite(startUrl: string, onPage?: (count: number) => 
   await Promise.all(workers);
 
   const privacyPage =
-    pages.find((p) => p !== homeData && (PRIVACY_LINK.test(decodeURIComponent(new URL(p.url).pathname)) || /מדיניות פרטיות|privacy policy/i.test(p.label))) ?? null;
+    pages.find((p) => p !== homeData && (PRIVACY_LINK.test(safeDecode(new URL(p.url).pathname)) || /מדיניות פרטיות|privacy policy/i.test(p.label))) ?? null;
 
   // דף שכמעט אין בו טקסט אבל יש בו הרבה סקריפטים כנראה נבנה בדפדפן — הבדיקה שלנו חלקית שם
   const likelyClientRendered = homeData.text.length < 200 && homeData.scripts.length > 2_000;

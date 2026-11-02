@@ -99,6 +99,11 @@ export function parsePage(html: string, url: string, isHome: boolean): PageData 
   });
 
   $("script, style, noscript, template, svg").remove();
+  // ב-HTML מכווץ אין שורות חדשות בין בלוקים, ו-.text() מדביק אותם. מוסיפים גבול בין בלוקים.
+  $("br").replaceWith("\n");
+  $("p, div, li, h1, h2, h3, h4, h5, h6, section, article, header, footer, td, th, tr, dt, dd, blockquote, figcaption, label, button, option").each((_, el) => {
+    $(el).append("\n");
+  });
   const text = $("body")
     .text()
     .replace(/[ \t ]+/g, " ")

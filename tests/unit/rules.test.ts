@@ -112,3 +112,25 @@ describe("חוקים — מקרים חיוביים ושליליים", () => {
     expect(runRules(good)).toEqual([]);
   });
 });
+
+describe("עמידות (הערות review)", () => {
+  it("HTML מכווץ: בלוקים לא מודבקים, וטענה בתוך טקסט ארוך עדיין נמצאת", () => {
+    const filler = "טקסט ארוך על השירותים שלנו ועל הצוות המקצועי ".repeat(12);
+    const html = `<html><body><h1>ברוכים הבאים</h1><p>${filler}</p><p>אצלנו תוצאות מובטחות לכל לקוח</p><div>${filler}</div></body></html>`;
+    const s = site(html);
+    expect(s.pages[0].text).toContain("ברוכים הבאים\n");
+    expect(cons01(s)).toHaveLength(1);
+  });
+
+  it("משפט ארוך בלי נקודות מפורק לחתיכות ולא נזרק", async () => {
+    const { sentences } = await import("@/lib/scanner/rules");
+    const long = `${"מילה ".repeat(150)}, הכי זול בישראל`;
+    expect(sentences(long).some((x) => x.includes("הכי זול בישראל"))).toBe(true);
+  });
+
+  it("קישור פנימי עם % לא תקין לא מפיל את בחירת העמודים", () => {
+    const home = parsePage('<a href="/sale/50%off">מבצע</a><a href="/privacy">פרטיות</a>', "https://example.co.il/", true);
+    expect(() => pickInternalLinks(home)).not.toThrow();
+    expect(pickInternalLinks(home)).toContain("https://example.co.il/privacy");
+  });
+});
