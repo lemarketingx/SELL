@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>תקין · תקן לי: ניסוח חלופי</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F8F8}
+*{box-sizing:border-box}
+a{color:#0E5A63}a:hover{color:#0A464D}
+:focus-visible{outline:3px solid #E0A100;outline-offset:3px;border-radius:8px}
+.btn-primary{background:#0E5A63;color:#FFFFFF;text-decoration:none;border:0;cursor:pointer;font-family:inherit}
+.btn-primary:hover{background:#0A464D;color:#FFFFFF}
+.btn-ghost{background:#FFFFFF;color:#0E5A63;text-decoration:none;border:1.5px solid #0E5A63;cursor:pointer;font-family:inherit}
+.btn-ghost:hover{background:#E6F2F1;color:#0A464D}
+.icon-btn{background:#FFFFFF;border:1px solid #D5E0E1;color:#10242E;cursor:pointer;text-decoration:none}
+.icon-btn:hover{background:#F5F8F8;color:#10242E}
+.opt{cursor:pointer}
+.opt input{accent-color:#0E5A63}
+</style>
+</helmet>
+<div dir="rtl" style="font-family: 'Heebo', system-ui, sans-serif; color: #10242E; font-size: 17px; line-height: 1.6; min-height: 100vh; position: relative; background: #F5F8F8">
+
+<div aria-hidden="true" style="max-width: 960px; margin: 0 auto; padding: 100px 20px; display: flex; flex-direction: column; gap: 14px; filter: blur(3px)">
+<div style="height: 120px; background: #FFFFFF; border-radius: 24px"></div>
+<div style="height: 80px; background: #FFFFFF; border-radius: 20px"></div>
+<div style="height: 80px; background: #FFFFFF; border-radius: 20px"></div>
+<div style="height: 80px; background: #FFFFFF; border-radius: 20px"></div>
+</div>
+
+<div style="position: absolute; inset: 0; background: rgba(11,34,48,0.55); display: flex; align-items: flex-start; justify-content: center; padding: 48px 16px">
+<section role="dialog" aria-modal="true" aria-labelledby="claim-title" style="width: 100%; max-width: 760px; background: #FFFFFF; border-radius: 28px; box-shadow: 0 30px 80px rgba(11,34,48,0.3); display: flex; flex-direction: column; overflow: hidden">
+
+<div style="padding: 24px 28px 18px; display: flex; align-items: flex-start; gap: 16px; border-bottom: 1px solid #E3EAEB">
+<div style="flex: 1; display: flex; flex-direction: column; gap: 4px">
+<span style="display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: #0E5A63"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.6 2.6-2.4-.6-.6-2.4 2.6-2.6z"></path></svg>תקן לי · הגנת הצרכן</span>
+<h1 id="claim-title" style="margin: 0; font-size: 24px; font-weight: 800; color: #0B2230; line-height: 1.3">ניסוח שמוכר, בלי הבטחה שקשה לעמוד בה</h1>
+</div>
+<a class="icon-btn" href="Report-Full.dc.html" aria-label="סגירה" style="width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></a>
+</div>
+
+<div style="padding: 24px 28px; display: flex; flex-direction: column; gap: 20px">
+
+<figure style="margin: 0; border: 1px solid #F3C7C1; background: #FFF8F7; border-radius: 18px; padding: 16px 18px; display: flex; flex-direction: column; gap: 6px">
+<figcaption style="display: flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; color: #B42318"><span style="width: 9px; height: 9px; border-radius: 2px; background: #B42318"></span>מה כתוב היום · עמוד השירותים</figcaption>
+<blockquote style="margin: 0; font-size: 20px; font-weight: 600; color: #0B2230">"תוצאות מובטחות ב-100% כבר מהטיפול הראשון"</blockquote>
+<p style="margin: 0; font-size: 15px; color: #475B64">"מובטח" ו-"100%" הן מילים שקשה מאוד להוכיח, ולקוח מאוכזב יכול לטעון שהוטעה.</p>
+</figure>
+
+<fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 10px">
+<legend style="font-size: 18px; font-weight: 700; color: #0B2230; margin-bottom: 10px">בחרו ניסוח חלופי</legend>
+<sc-for list="{{options}}" as="o" hint-placeholder-count="3">
+<label class="opt" style="display: flex; gap: 14px; align-items: flex-start; padding: 16px 18px; border-radius: 16px; border: {{o.border}}; background: {{o.bg}}">
+<input type="radio" name="claim-alt" checked="{{o.checked}}" onChange="{{o.pick}}" style="width: 22px; height: 22px; margin: 3px 0 0; flex: none">
+<span style="display: flex; flex-direction: column; gap: 4px">
+<span style="font-size: 14px; font-weight: 700; color: #0E5A63">{{o.tag}}</span>
+<span style="font-size: 18px; font-weight: 600; color: #0B2230">{{o.text}}</span>
+<span style="font-size: 15px; color: #475B64">{{o.note}}</span>
+</span>
+</label>
+</sc-for>
+</fieldset>
+
+<p aria-live="polite" style="margin: 0; font-size: 15px; color: #0E5A63; font-weight: 600; min-height: 24px">{{liveMsg}}</p>
+</div>
+
+<div style="padding: 18px 28px 24px; border-top: 1px solid #E3EAEB; display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; align-items: center">
+<a class="btn-ghost" href="Report-Full.dc.html" style="min-height: 48px; padding: 0 20px; border-radius: 12px; font-weight: 600; display: inline-flex; align-items: center">אחר כך</a>
+<button class="btn-primary" type="button" onClick="{{copy}}" style="min-height: 48px; padding: 0 22px; border-radius: 12px; font-size: 17px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px">
+<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V5a2 2 0 0 1 2-2h8"></path></svg>{{copyLabel}}</button>
+</div>
+
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { picked: 0, copied: false };
+  }
+  componentWillUnmount() { if (this.t) clearTimeout(this.t); }
+  renderVals() {
+    const picked = this.state.picked || 0;
+    const defs = [
+      { tag: 'זהיר וחם', text: 'טיפול מקצועי ואישי, שמכוון לתוצאות שתרגישו', note: 'שומר על התחושה הטובה, בלי להבטיח תוצאה.' },
+      { tag: 'מבוסס על לקוחות', text: 'לקוחות רבים מספרים על שינוי כבר מהטיפול הראשון', note: 'מתאים רק אם זה באמת מה שלקוחות מספרים לכם.' },
+      { tag: 'ממוקד בתהליך', text: 'נבנה יחד תוכנית טיפול שמתאימה לך, ונעקוב אחרי ההתקדמות מפגישה לפגישה', note: 'מדגיש את היחס האישי במקום הבטחה.' }
+    ];
+    const options = defs.map((d, i) => Object.assign({}, d, {
+      checked: i === picked,
+      border: i === picked ? '2px solid #0E5A63' : '1px solid #D5E0E1',
+      bg: i === picked ? '#F3F9F8' : '#FFFFFF',
+      pick: () => this.setState({ picked: i, copied: false })
+    }));
+    const copied = !!this.state.copied;
+    return {
+      options: options,
+      copyLabel: copied ? 'הועתק' : 'העתק את הניסוח',
+      liveMsg: copied ? 'הניסוח הועתק. מחליפים בו את המשפט הישן בעמוד השירותים.' : '',
+      copy: () => {
+        const txt = defs[picked].text;
+        try { if (navigator.clipboard) navigator.clipboard.writeText(txt).catch(() => {}); } catch (e) {}
+        this.setState({ copied: true });
+        if (this.t) clearTimeout(this.t);
+        this.t = setTimeout(() => this.setState({ copied: false }), 4000);
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

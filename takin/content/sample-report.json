@@ -1,0 +1,86 @@
+{
+  "_note": "דוח לדוגמה לשלבי ה-mock. כל טקסטי הממצאים טעונים בדיקת עורך דין לפני השקה.",
+  "id": "demo-62",
+  "url": "https://studio-example.co.il",
+  "createdAt": "2026-11-02T08:30:00+02:00",
+  "status": "done",
+  "progress": [
+    { "area": "spam", "state": "done" },
+    { "area": "privacy", "state": "done" },
+    { "area": "accessibility", "state": "done" },
+    { "area": "consumer", "state": "done" }
+  ],
+  "score": 62,
+  "counts": { "high": 2, "mid": 3, "low": 2, "total": 7 },
+  "unlocked": false,
+  "findings": [
+    {
+      "id": "f1", "ruleId": "SPAM-01", "area": "spam", "severity": "high", "status": "open",
+      "title": "הטופס אוסף מספר טלפון בלי לבקש הסכמה לקבל הודעות שיווקיות",
+      "evidence": { "pageUrl": "https://studio-example.co.il/", "location": "דף הבית, טופס \"קבעו תור\"", "quote": "שדות שם וטלפון, ואין תיבת סימון להסכמה לדיוור לפני כפתור השליחה." },
+      "meaning": "אם תשלחו לנרשמים הודעות שיווקיות, כמו מבצעים או תזכורות בוואטסאפ ובמסרונים, בלי שהם הסכימו לכך במפורש, אתם עלולים להיות חשופים לתביעה. הפתרון פשוט: תיבת הסכמה אחת, שהגולש מסמן בעצמו.",
+      "fix": {
+        "type": "snippet",
+        "summary": "מוסיף תיבת הסכמה מוכנה לטופס",
+        "snippet": "<label class=\"consent\">\n  <input type=\"checkbox\" name=\"marketing_consent\" value=\"yes\">\n  אני מאשר/ת לקבל מ[שם העסק] עדכונים ומבצעים\n  במסרונים, בוואטסאפ ובמייל. אפשר להסיר את ההרשמה בכל עת.\n</label>",
+        "note": "התיבה לא מסומנת מראש. הגולש צריך לסמן אותה בעצמו, ושליחת דיוור רק למי שסימן."
+      }
+    },
+    {
+      "id": "f2", "ruleId": "PRIV-02", "area": "privacy", "severity": "high", "status": "open",
+      "title": "באתר פועל פיקסל פרסום, אבל מדיניות הפרטיות לא מזכירה כלי מעקב",
+      "evidence": { "pageUrl": "https://studio-example.co.il/", "location": "קוד הדף ומדיניות הפרטיות", "quote": "בקוד הדף נטען Meta Pixel. במדיניות הפרטיות אין אזכור לכלי מעקב או לפרסום ממוקד." },
+      "meaning": "גולשים אמורים לדעת שאוספים עליהם מידע לצורכי פרסום. כשהמדיניות שותקת על זה, זה עלול להיראות כמו איסוף מידע בלי ידיעתם.",
+      "fix": { "type": "template", "summary": "פסקה מוכנה להוספה למדיניות הפרטיות", "snippet": "[טקסט פסקת כלי מעקב — טעון ניסוח ובדיקה משפטית]" }
+    },
+    {
+      "id": "f3", "ruleId": "A11Y-01", "area": "accessibility", "severity": "mid", "status": "open",
+      "title": "לא מצאנו הצהרת נגישות באתר",
+      "evidence": { "pageUrl": "https://studio-example.co.il/", "location": "תפריט ותחתית כל הדפים", "quote": "לא נמצא קישור להצהרת נגישות." },
+      "meaning": "עסק שנותן שירות לציבור נדרש בדרך כלל לפרסם הצהרת נגישות. בלעדיה, קל יותר לטעון נגדכם שהאתר לא נגיש.",
+      "fix": { "type": "template", "summary": "תבנית הצהרה מוכנה למילוי", "snippet": "[תבנית הצהרת נגישות — טעונה ניסוח ובדיקה משפטית]" }
+    },
+    {
+      "id": "f4", "ruleId": "CONS-01", "area": "consumer", "severity": "mid", "status": "open",
+      "title": "טענה שיווקית שקשה להוכיח",
+      "evidence": { "pageUrl": "https://studio-example.co.il/services", "location": "עמוד השירותים", "quote": "\"תוצאות מובטחות ב-100% כבר מהטיפול הראשון\"" },
+      "meaning": "הבטחה מוחלטת עלולה להיחשב הטעיה אם לקוח לא קיבל את התוצאה. ניסוח זהיר שומר על הכוח השיווקי בלי ההבטחה.",
+      "fix": {
+        "type": "rewrite", "summary": "3 ניסוחים חלופיים לבחירה",
+        "before": "תוצאות מובטחות ב-100% כבר מהטיפול הראשון",
+        "alternatives": [
+          { "tag": "זהיר וחם", "text": "טיפול מקצועי ואישי, שמכוון לתוצאות שתרגישו", "note": "שומר על התחושה הטובה, בלי להבטיח תוצאה." },
+          { "tag": "מבוסס על לקוחות", "text": "לקוחות רבים מספרים על שינוי כבר מהטיפול הראשון", "note": "מתאים רק אם זה באמת מה שלקוחות מספרים לכם." },
+          { "tag": "ממוקד בתהליך", "text": "נבנה יחד תוכנית טיפול שמתאימה לך, ונעקוב אחרי ההתקדמות מפגישה לפגישה", "note": "מדגיש את היחס האישי במקום הבטחה." }
+        ]
+      }
+    },
+    {
+      "id": "f5", "ruleId": "CONS-02", "area": "consumer", "severity": "mid", "status": "open",
+      "title": "שעון ספירה לאחור שמתאפס בכל כניסה",
+      "evidence": { "pageUrl": "https://studio-example.co.il/", "location": "באנר עליון, דף הבית", "quote": "\"המבצע נגמר בעוד 02:59:41\". אחרי רענון של הדף, השעון מתחיל מההתחלה." },
+      "meaning": "דחיפות שלא באמת קיימת עלולה להיחשב לחץ לא הוגן על הקונה. אם יש מבצע, עדיף לציין תאריך סיום אמיתי.",
+      "fix": { "type": "rewrite", "summary": "ניסוח עם תאריך סיום אמיתי", "before": "המבצע נגמר בעוד 02:59:41",
+        "alternatives": [
+          { "tag": "תאריך ברור", "text": "המבצע בתוקף עד [תאריך]", "note": "פשוט ושקוף." },
+          { "tag": "כמות מוגבלת", "text": "נשארו [מספר אמיתי] מקומות במחיר המבצע", "note": "רק אם המספר אמיתי ומתעדכן." },
+          { "tag": "בלי לחץ", "text": "מחיר מיוחד לחודש [חודש]", "note": "מעביר הזדמנות בלי שעון." }
+        ]
+      }
+    },
+    {
+      "id": "f6", "ruleId": "A11Y-02", "area": "accessibility", "severity": "low", "status": "open",
+      "title": "12 תמונות בלי טקסט חלופי",
+      "evidence": { "pageUrl": "https://studio-example.co.il/", "location": "גלריית העבודות, דף הבית", "quote": "לאף תמונה בגלריה אין תיאור." },
+      "meaning": "קוראי מסך לא יכולים לספר לגולשים עיוורים או לקויי ראייה מה רואים בתמונה.",
+      "fix": { "type": "instructions", "summary": "הצעה לתיאור קצר לכל תמונה", "snippet": "<img src=\"...\" alt=\"תיאור קצר של מה שרואים בתמונה\">" }
+    },
+    {
+      "id": "f7", "ruleId": "A11Y-03", "area": "accessibility", "severity": "low", "status": "open",
+      "title": "3 שדות בטופס בלי תווית",
+      "evidence": { "pageUrl": "https://studio-example.co.il/contact", "location": "טופס צור קשר", "quote": "השדות \"שם\", \"טלפון\" ו\"הודעה\" מסומנים רק בטקסט אפור בתוך השדה." },
+      "meaning": "כשהטקסט האפור נעלם בזמן ההקלדה, חלק מהגולשים כבר לא יודעים מה למלא, וקוראי מסך לא מקריאים את שם השדה.",
+      "fix": { "type": "snippet", "summary": "קוד מתוקן לשדות, להעתקה", "snippet": "<label for=\"name\">שם</label>\n<input id=\"name\" name=\"name\" autocomplete=\"name\">\n\n<label for=\"phone\">טלפון</label>\n<input id=\"phone\" name=\"phone\" type=\"tel\" autocomplete=\"tel\">\n\n<label for=\"msg\">הודעה</label>\n<textarea id=\"msg\" name=\"message\"></textarea>" }
+    }
+  ]
+}

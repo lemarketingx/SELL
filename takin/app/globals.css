@@ -1,0 +1,145 @@
+@import "tailwindcss";
+@import "../design/tokens.css";
+
+/* מיפוי tokens.css ל-theme של Tailwind. אין להוסיף כאן צבעים שלא קיימים ב-tokens. */
+@theme inline {
+  --color-ink: var(--ink);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-tint: var(--primary-tint);
+  --color-primary-tint-strong: var(--primary-tint-strong);
+  --color-on-dark-accent: var(--on-dark-accent);
+  --color-on-dark-muted: var(--on-dark-muted);
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-border-input: var(--border-input);
+  --color-placeholder-dash: var(--placeholder-dash);
+
+  --color-sev-high: var(--sev-high);
+  --color-sev-high-bg: var(--sev-high-bg);
+  --color-sev-high-border: var(--sev-high-border);
+  --color-sev-mid: var(--sev-mid);
+  --color-sev-mid-bg: var(--sev-mid-bg);
+  --color-sev-mid-note-bg: var(--sev-mid-note-bg);
+  --color-sev-low: var(--sev-low);
+  --color-sev-low-bg: var(--sev-low-bg);
+
+  --color-focus: var(--focus);
+  --color-overlay: var(--overlay);
+
+  --font-sans: var(--font-heebo), var(--font);
+  --font-mono: var(--font-mono);
+
+  --text-body: var(--fs-body);
+  --text-small: var(--fs-small);
+  --text-caption: var(--fs-caption);
+  --text-hero: var(--fs-h1-hero);
+  --text-h2: var(--fs-h2);
+  --text-h3: var(--fs-h3);
+  --text-lead: var(--fs-lead);
+
+  --radius-pill: var(--r-pill);
+  --radius-btn: var(--r-btn);
+  --radius-card: var(--r-card);
+  --radius-panel: var(--r-panel);
+  --radius-modal: var(--r-modal);
+  --radius-icon: var(--r-icon);
+
+  --spacing-tap: var(--tap);
+  --spacing-section: var(--section-y);
+  --container-site: var(--container);
+  --container-app: 960px;
+
+  --shadow-card: var(--shadow-card);
+  --shadow-float: var(--shadow-float);
+  --shadow-modal: var(--shadow-modal);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-heebo), var(--font);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+  a {
+    color: var(--primary);
+  }
+  a:hover {
+    color: var(--primary-hover);
+  }
+  summary {
+    list-style: none;
+    cursor: pointer;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  details[open] .chev {
+    transform: rotate(180deg);
+  }
+}
+
+/* כפתורים — מבוסס על .btn-primary / .btn-ghost מקובץ העיצוב */
+@layer components {
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .btn-primary:hover {
+    background: var(--primary-hover);
+    color: #fff;
+  }
+  .btn-ghost {
+    background: var(--bg);
+    color: var(--primary);
+    text-decoration: none;
+    border: 1.5px solid var(--primary);
+    cursor: pointer;
+  }
+  .btn-ghost:hover {
+    background: var(--primary-tint);
+    color: var(--primary-hover);
+  }
+  .navlink {
+    color: var(--text);
+    text-decoration: none;
+  }
+  .navlink:hover {
+    color: var(--primary);
+    text-decoration: underline;
+  }
+  .skip-link {
+    position: absolute;
+    inset-inline-start: 16px;
+    top: -100px;
+    z-index: 50;
+    background: var(--ink);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: var(--r-btn);
+    font-weight: 600;
+  }
+  .skip-link:focus {
+    top: 16px;
+    color: #fff;
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "takin",
+  "version": "0.1.0",
+  "description": "תקין — סורק סיכונים משפטיים אפשריים לאתרים של עסקים קטנים",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "check": "pnpm lint && pnpm typecheck && pnpm test"
+  },
+  "packageManager": "pnpm@10.28.0",
+  "dependencies": {
+    "lucide-react": "^1.66.0",
+    "next": "^16.4.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.63.0",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "eslint": "^10.14.0",
+    "eslint-config-next": "^16.4.3",
+    "playwright-core": "1.63.0",
+    "postcss": "^8.5.32",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.5"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "pnpm": {
+    "overrides": {
+      "playwright-core": "1.63.0",
+      "playwright": "1.63.0"
+    }
+  }
+}
