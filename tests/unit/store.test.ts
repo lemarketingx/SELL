@@ -47,3 +47,21 @@ describe("בחירת משתני Upstash", () => {
     }
   });
 });
+
+describe("שגיאת פקודה בתוך תשובה תקינה", () => {
+  it("NOPERM מדווח כשגיאה ולא כ-ok", async () => {
+    const orig = globalThis.fetch;
+    globalThis.fetch = (async () => new Response(JSON.stringify([{ error: "NOPERM this user has no permissions" }]), { status: 200 })) as typeof fetch;
+    process.env.KV_REST_API_URL = "https://ro.example";
+    process.env.KV_REST_API_TOKEN = "readonly";
+    try {
+      const { storageHealth, saveScan, StoreUnavailableError } = await import("@/lib/store");
+      expect(await storageHealth()).toEqual({ storage: "error", source: "KV_REST_API_URL" });
+      await expect(saveScan({ id: "AbCdEfGh12345678" } as never)).rejects.toBeInstanceOf(StoreUnavailableError);
+    } finally {
+      globalThis.fetch = orig;
+      delete process.env.KV_REST_API_URL;
+      delete process.env.KV_REST_API_TOKEN;
+    }
+  });
+});

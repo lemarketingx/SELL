@@ -35,7 +35,8 @@ export async function storageHealth(): Promise<{ storage: "ok" | "missing" | "er
   const cfg = upstashConfig();
   if (!cfg) return { storage: memoryAllowed() ? "ok" : "missing", source: memoryAllowed() ? "memory" : undefined };
   try {
-    await redis([["GET", "takin:health"]]);
+    // כתיבה ולא רק קריאה: הסורק צריך לשמור דוחות ולספור סריקות
+    await redis([["SET", "takin:health", String(Date.now()), "EX", 60]]);
     return { storage: "ok", source: cfg.source };
   } catch {
     return { storage: "error", source: cfg.source };
@@ -95,6 +96,12 @@ async function redis(commands: (string | number)[][]): Promise<unknown[]> {
     throw new StoreUnavailableError();
   }
   const json = (await res.json()) as { result?: unknown; error?: string }[];
+  // Upstash מחזיר 200 גם כשפקודה נכשלה (למשל NOPERM בטוקן לקריאה בלבד) — בודקים כל תשובה.
+  const failed = Array.isArray(json) ? json.find((r) => r && typeof r.error === "string") : { error: "bad response" };
+  if (failed) {
+    console.error("Upstash command error", String(failed.error).slice(0, 200));
+    throw new StoreUnavailableError();
+  }
   return json.map((r) => r.result ?? null);
 }
 
