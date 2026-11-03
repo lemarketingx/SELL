@@ -1,28 +1,30 @@
 /* תקין — design tokens. מקור אמת לצבעים, טיפוגרפיה ומידות.
-   כיוון עיצובי: Light Premium SaaS (נובמבר 2026).
+   כיוון עיצובי: Light Premium SaaS (נובמבר 2026), בפלטת "ירוק-ים" (פטרול עמוק + מנטה).
+   למה: ירוק-כחלחל משדר "תקין" ושקט בלי להלחיץ, נבדל מהכחול הגנרי של SaaS,
+   ולא מתנגש בצבעי החומרה (אדום / כתום).
    כל צמדי הטקסט/רקע כאן עומדים ב-WCAG AA (4.5:1 לפחות). צבעים שמסומנים "דקורטיבי" אסורים לטקסט. */
 
 :root {
   /* Brand */
-  --ink: #0F172A;            /* כותרות, פוטר */
-  --primary: #1D4ED8;        /* כחול ראשי: כפתורים, קישורים, מד הציון — 6.7:1 על לבן */
-  --primary-hover: #1E3A8A;  /* כחול כהה: hover, טקסט על רקע tint — 10:1 על לבן */
-  --primary-tint: #EFF4FF;   /* רקע אייקונים, תגיות */
-  --primary-tint-strong: #F5F8FF;
-  --accent: #0EA5A4;         /* טורקיז — דקורטיבי בלבד (2.9:1), לא לטקסט */
-  --accent-text: #0F766E;    /* טורקיז לטקסט — 5.4:1 על לבן */
-  --on-dark-accent: #5EEAD4; /* וי / הדגשה על רקע כהה */
-  --on-dark-muted: #CBD5E1;
+  --ink: #0F2A2E;            /* כותרות, פוטר */
+  --primary: #0E5E63;        /* פטרול ראשי: כפתורים, קישורים, מד הציון — 7.5:1 על לבן */
+  --primary-hover: #0A4549;  /* פטרול כהה: hover, טקסט על רקע tint — 10.7:1 על לבן */
+  --primary-tint: #E7F3F1;   /* רקע אייקונים, תגיות */
+  --primary-tint-strong: #F3F9F8;
+  --accent: #2FB59F;         /* מנטה — דקורטיבי בלבד (2.6:1), לא לטקסט */
+  --accent-text: #0F6E5C;    /* מנטה לטקסט ולאייקוני וי — 6.2:1 על לבן */
+  --on-dark-accent: #7EE0CC; /* וי / הדגשה על רקע כהה */
+  --on-dark-muted: #C6D5D6; /* 10:1 על ink, 7:1 על primary-hover */
 
   /* Neutrals */
   --bg: #FFFFFF;             /* כרטיסים */
-  --surface: #F7FAFC;        /* רקע ראשי של מקטעים */
-  --text: #0F172A;
-  --text-muted: #475569;     /* 7.4:1 על לבן, 7:1 על surface */
-  --border: #E2E8F0;
-  --border-strong: #D5DEE9;
-  --border-input: #94A3B8;
-  --placeholder-dash: #B8C4D3;
+  --surface: #F5F8F7;        /* רקע ראשי של מקטעים */
+  --text: #0F2A2E;
+  --text-muted: #4A5B5E;     /* 7.1:1 על לבן, 6.7:1 על surface */
+  --border: #E1E8E7;
+  --border-strong: #D2DCDB;
+  --border-input: #7F9496;   /* 3.2:1 על לבן (גבול שדה) */
+  --placeholder-dash: #B5C4C3;
 
   /* Severity — תמיד בליווי צורה + טקסט.
      גרסאות כהות של צבעי ההצלחה/אזהרה/שגיאה, כדי שיעמדו ב-AA גם כטקסט על הרקע הבהיר שלהם. */
@@ -34,7 +36,7 @@
   --focus: #E0A100;          /* outline 3px, offset 3px */
 
   /* Overlay */
-  --overlay: rgba(15, 23, 42, 0.55);
+  --overlay: rgba(15, 42, 46, 0.55);
 
   /* Type — Heebo */
   --font: 'Heebo', system-ui, sans-serif;
@@ -63,9 +65,9 @@
   --header-h: 68px;
 
   /* Shadows — רכים ושכבתיים, בלי צל כבד */
-  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.05);
-  --shadow-float: 0 1px 3px rgba(15, 23, 42, 0.06), 0 24px 48px -16px rgba(15, 23, 42, 0.18);
-  --shadow-modal: 0 30px 80px rgba(15, 23, 42, 0.3);
+  --shadow-card: 0 1px 2px rgba(15, 42, 46, 0.04), 0 4px 16px rgba(15, 42, 46, 0.05);
+  --shadow-float: 0 1px 3px rgba(15, 42, 46, 0.06), 0 24px 48px -16px rgba(15, 42, 46, 0.18);
+  --shadow-modal: 0 30px 80px rgba(15, 42, 46, 0.3);
 }
 
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 8px; }

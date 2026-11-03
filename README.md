@@ -6,7 +6,6 @@
 - אפיון ושלבי עבודה: [`SPEC.md`](SPEC.md)
 - עיצוב: [`design/tokens.css`](design/tokens.css), [`design/reference/`](design/reference/)
 - חבילת ההעברה המקורית: [`docs/handoff/`](docs/handoff/)
-- הקוד של דפדף (המוצר הקודם בריפו) נשמר בתיקייה [`dafdaf/`](dafdaf/). הוא לא נבנה ולא עולה לאוויר.
 
 ## סטאק
 Next.js (App Router) · TypeScript · Tailwind CSS 4 · pnpm · Vitest · Playwright + axe-core
