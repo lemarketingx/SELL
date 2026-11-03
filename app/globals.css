@@ -64,6 +64,12 @@
 }
 
 @layer base {
+  /* צבע ה-outline הוא צהוב מראש, כדי ש-transition-colors לא ידהה את טבעת המיקוד מאפור לצהוב */
+  *,
+  ::before,
+  ::after {
+    outline-color: var(--focus);
+  }
   html {
     scroll-behavior: smooth;
     /* הכותרת דביקה: קפיצה לעוגן לא תסתיר את כותרת המקטע */

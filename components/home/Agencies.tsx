@@ -42,7 +42,7 @@ export function Agencies() {
           </div>
           <div className="flex items-baseline gap-1.5">
             <span className="text-[34px] font-extrabold leading-none tracking-[-1px] text-ink">299 ₪</span>
-            <span className="text-muted">לחודש · עד 20 אתרים</span>
+            <span className="text-muted">לחודש</span>
           </div>
           <ul className="m-0 flex list-none flex-col gap-2.5 border-t border-border p-0 pt-5 text-[15px] text-text">
             {SOON.map((s) => (

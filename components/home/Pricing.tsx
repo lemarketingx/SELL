@@ -40,7 +40,7 @@ export function Pricing() {
             soon
           />
         </div>
-        <p className="m-0 text-center text-small text-muted">המחירים כוללים מע&quot;מ. בתקופת הבטא ייתכנו שינויים בתכונות ובמחירים.</p>
+        <p className="m-0 text-center text-small text-muted">בתקופת הבטא ייתכנו שינויים בתכונות ובמחירים.</p>
       </div>
     </section>
   );
